@@ -36,8 +36,8 @@ const IMChatScreen = memo(props => {
   const dispatch = useDispatch()
 
   const { navigation, route } = props
-  const openedFromPushNotification = route.params.openedFromPushNotification
-  const isChatUserItemPress = route.params.isChatUserItemPress
+  const openedFromPushNotification = route?.params?.openedFromPushNotification
+  const isChatUserItemPress = route?.params?.isChatUserItemPress
 
   const {
     messages,
@@ -136,12 +136,12 @@ const IMChatScreen = memo(props => {
   useLayoutEffect(() => {
     if (!openedFromPushNotification) {
       configureNavigation(
-        channelWithHydratedOtherParticipants(route.params.channel),
+        channelWithHydratedOtherParticipants(route?.params?.channel),
       )
     } else {
       navigation.setOptions({ headerTitle: '' })
     }
-  }, [navigation, route.params.channel])
+  }, [navigation, route?.params?.channel])
 
   useEffect(() => {
     configureNavigation(remoteChannel || channel)
@@ -157,7 +157,7 @@ const IMChatScreen = memo(props => {
 
   useEffect(() => {
     const hydratedChannel = channelWithHydratedOtherParticipants(
-      route.params.channel,
+      route?.params?.channel,
     )
     if (!hydratedChannel) {
       return
@@ -203,7 +203,7 @@ const IMChatScreen = memo(props => {
     }
 
     navigation.setOptions({
-      headerTitle: title || route.params.title || localized('Chat'),
+      headerTitle: title || route?.params?.title || localized('Chat'),
       headerStyle: {
         backgroundColor: theme.colors[appearance].primaryBackground,
       },

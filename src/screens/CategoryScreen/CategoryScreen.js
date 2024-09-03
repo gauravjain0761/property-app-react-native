@@ -74,7 +74,11 @@ function CategoryScreen(props) {
   }
 
   const onPress = item => {
-    props.navigation.navigate('ListingsList', { item: item })
+    if (item.name == 'Real Estate') {
+      props.navigation.navigate('SubCategoriesScreen', { item: item })
+    } else {
+      props.navigation.navigate('ListingsList', { item: item })
+    }
   }
 
   const renderItem = ({ item }) => (

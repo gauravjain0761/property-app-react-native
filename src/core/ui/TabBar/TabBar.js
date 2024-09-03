@@ -30,14 +30,14 @@ export function TabBarBuilder({ tabIcons, state, navigation, descriptors }) {
   if (focusedOptions === undefined) {
     return (
       <View style={[styles.tabBarContainer, containerStyle]}>
-        {state.routes.map((route, index) => {
+        {state?.routes.map((route, index) => {
           return (
             <Tab
               key={index + ''}
-              route={state.routes[index]}
+              route={state?.routes[index]}
               tabIcons={tabIcons}
               focus={state.index === index}
-              onPress={() => navigation.navigate(route.name)}
+              onPress={() => navigation.navigate(route?.name)}
             />
           )
         })}

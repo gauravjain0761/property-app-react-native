@@ -112,7 +112,7 @@ export const ConfigProvider = ({ children }) => {
         unFocus: theme.icons.search,
       },
     },
-    reverseGeoCodingAPIKey: 'AIzaSyCDeWXVrJxUCRQlpcWK2JJQSB-kFVjCqlM',
+    reverseGeoCodingAPIKey: 'AIzaSyAEvaTaqsXyI5ozkcPTB9KY0Y-DNEwoHsc',
     tosLink: 'https://www.instamobile.io/eula-instachatty/',
     isUsernameFieldEnabled: false,
     smsSignupFields: [

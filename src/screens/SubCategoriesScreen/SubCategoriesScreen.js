@@ -18,7 +18,7 @@ import ListingView from '../../components/ListingView/ListingView'
 import { IMAdMobBanner } from '../../core/ads/google'
 import { useConfig } from '../../config'
 
-function ListingsListScreen(props) {
+function SubCategoriesScreen(props) {
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
@@ -38,7 +38,9 @@ function ListingsListScreen(props) {
   const [mapMode, setMapMode] = useState(false)
   const [filterModalVisible, setFilterModalVisible] = useState(false)
   const [latitude, setLatitude] = useState(Configuration?.map?.origin?.latitude)
-  const [longitude, setLongitude] = useState(Configuration?.map?.origin?.longitude)
+  const [longitude, setLongitude] = useState(
+    Configuration?.map?.origin?.longitude,
+  )
   const [latitudeDelta, setLatitudeDelta] = useState(
     Configuration?.map?.delta?.latitude,
   )
@@ -204,9 +206,9 @@ function ListingsListScreen(props) {
   }
   useEffect(() => {
     unsubscribe.current = listingsAPI.subscribeListings(
-      { categoryId: category.id },
+      { categoryId: category.id, isSubcategory: true },
       favorites,
-      config.serverConfig.collections.listings,
+      config.serverConfig.collections.categories,
       onListingsUpdate,
     )
 
@@ -315,4 +317,4 @@ function ListingsListScreen(props) {
   )
 }
 
-export default ListingsListScreen
+export default SubCategoriesScreen

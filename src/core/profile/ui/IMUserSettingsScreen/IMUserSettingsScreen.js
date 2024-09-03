@@ -10,14 +10,14 @@ import { useCurrentUser } from '../../../onboarding'
 
 export default function IMUserSettingsScreen(props) {
   const { navigation, route } = props
-  let screenTitle = route.params.screenTitle || localized('Settings')
+  let screenTitle = route?.params?.screenTitle || localized('Settings')
 
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
   const currentUser = useCurrentUser()
   const dispatch = useDispatch()
 
-  const form = route.params.form
+  const form = route?.params?.form
   const initialValuesDict = currentUser.settings || {}
 
   // const [form] = useState(props.form);

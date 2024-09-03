@@ -39,7 +39,7 @@ function SingleListingScreen(props) {
 
   const { navigation, route } = props
 
-  const item = route.params.item
+  const item = route?.params?.item
   const favorites = useSelector(state => state.favorites.favoriteItems)
 
   const dispatch = useDispatch()
@@ -64,8 +64,8 @@ function SingleListingScreen(props) {
   )
 
   const onBackButtonPressAndroid = () => {
-    const customLeft = props.route.params.customLeft
-    const routeName = props.route.params.routeName
+    const customLeft = props?.route?.params?.customLeft
+    const routeName = props?.route?.params?.routeName
 
     if (customLeft) {
       props.navigation.navigate(routeName)
@@ -126,8 +126,8 @@ function SingleListingScreen(props) {
   }
 
   const removeListing = () => {
-    const customLeft = props.route.params.customLeft
-    const routeName = props.route.params.routeName
+    const customLeft = props?.route?.params?.customLeft
+    const routeName = props?.route?.params?.routeName
 
     listingsAPI.removeListing(
       listing.id,

@@ -20,14 +20,14 @@ export default function IMEditProfileScreen(props) {
   const { localized } = useTranslations()
   const authManager = useAuth()
 
-  let screenTitle = route.params.screenTitle
+  let screenTitle = route?.params?.screenTitle
 
   const currentUser = useCurrentUser()
   const dispatch = useDispatch()
   const styles = dynamicStyles(theme, appearance)
 
-  const form = route.params.form
-  const onComplete = route.params.onComplete
+  const form = route?.params?.form
+  const onComplete = route?.params?.onComplete
 
   const [alteredFormDict, setAlteredFormDict] = useState({})
 
@@ -84,8 +84,8 @@ export default function IMEditProfileScreen(props) {
     var newUser = { ...currentUser }
     var allFieldsAreValid = true
 
-    form.sections.forEach(section => {
-      section.fields.forEach(field => {
+    form?.sections?.forEach(section => {
+      section?.fields?.forEach(field => {
         const newValue = alteredFormDict[field.key]?.trim()
         if (newValue != null) {
           if (field.regex && isInvalid(newValue, field.regex)) {

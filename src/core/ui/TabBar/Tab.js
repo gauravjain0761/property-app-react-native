@@ -11,7 +11,7 @@ function Tab({ route, onPress, focus, tabIcons }) {
     <TouchableOpacity style={styles.tabContainer} onPress={onPress}>
       <Image
         source={
-          focus ? tabIcons[route.name].focus : tabIcons[route.name].unFocus
+          focus ? tabIcons[route?.name].focus : tabIcons[route?.name].unFocus
         }
         style={[
           styles.tabIcon,

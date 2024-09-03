@@ -1,42 +1,41 @@
 {
   "project_info": {
-    "project_number": "730650432302",
-    "firebase_url": "https://real-estate-rn-default-rtdb.firebaseio.com",
-    "project_id": "real-estate-rn",
-    "storage_bucket": "real-estate-rn.appspot.com"
+    "project_number": "77052254171",
+    "project_id": "real-estate-rn-fb417",
+    "storage_bucket": "real-estate-rn-fb417.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:730650432302:android:a1bc26e4a81a4bf13ca0bf",
+        "mobilesdk_app_id": "1:77052254171:android:8d5f6f5ab0b1d13d8db9fe",
         "android_client_info": {
           "package_name": "io.instamobile.rnrealestate"
         }
       },
       "oauth_client": [
         {
-          "client_id": "730650432302-0a3gbj5nr0gahonjuuu42iinv8ome2fr.apps.googleusercontent.com",
+          "client_id": "77052254171-83qai2cup75nede0q89b48eb7ogoe4g7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "io.instamobile.rnrealestate",
-            "certificate_hash": "6b3bcc0e7959ebbb10b334ed38e04cd7f70d8468"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "730650432302-5lrhfr97mjth0ol37pl8nui7illir4ko.apps.googleusercontent.com",
+          "client_id": "77052254171-rskhn3sf5sban5s8kpbjsbgggdl5n2r2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDHxs68zGIntqdfewfi717kMZ1G8GoJ2X4"
+          "current_key": "AIzaSyBFp6-rn-sPtxrdNZ_ZklYVkwruo-THPuo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "730650432302-5lrhfr97mjth0ol37pl8nui7illir4ko.apps.googleusercontent.com",
+              "client_id": "77052254171-rskhn3sf5sban5s8kpbjsbgggdl5n2r2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

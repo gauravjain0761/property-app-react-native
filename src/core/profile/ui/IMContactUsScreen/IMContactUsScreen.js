@@ -8,9 +8,9 @@ function IMContactUsScreen(props) {
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
 
-  let screenTitle = props.route.params.screenTitle || localized('Contact Us')
-  const form = props.route.params.form
-  const phone = props.route.params.phone
+  let screenTitle = props?.route?.params?.screenTitle || localized('Contact Us')
+  const form = props?.route?.params?.form
+  const phone = props?.route?.params?.phone
   const initialValuesDict = {}
 
   useFocusEffect(

@@ -35,12 +35,13 @@ export const fetchListing = async (
 }
 
 export const subscribeListings = (
-  { userId, categoryId, isApproved = true },
+  { userId, categoryId, isApproved = true, isSubcategory = false },
   favorites,
   listingsCollectionName,
   callback,
 ) => {
   const listingsRef = firebase.firestore().collection(listingsCollectionName)
+  const sub_listRef = listingsRef.doc(categoryId).collection('sub_real_estate')
 
   if (userId) {
     return listingsRef
@@ -57,6 +58,20 @@ export const subscribeListings = (
         })
         callback(data)
       })
+  }
+
+  if (isSubcategory) {
+    return sub_listRef.onSnapshot(querySnapshot => {
+      const data = []
+      querySnapshot?.forEach(doc => {
+        const listing = doc.data()
+        if (favorites && favorites[doc.id] === true) {
+          listing.saved = true
+        }
+        data.push({ ...listing, id: doc.id })
+      })
+      callback(data)
+    })
   }
 
   if (categoryId) {

@@ -10,8 +10,8 @@ const IMProfileSettingsScreen = props => {
   const { theme, appearance } = useTheme()
 
   const navigation = props.navigation
-  const lastScreenTitle = props.route.params?.lastScreenTitle
-    ? props.route.params?.lastScreenTitle
+  const lastScreenTitle = props?.route?.params?.lastScreenTitle
+    ? props?.route?.params?.lastScreenTitle
     : 'Profile'
 
   const currentUser = useCurrentUser()

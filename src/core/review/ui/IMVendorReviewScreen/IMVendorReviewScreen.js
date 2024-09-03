@@ -14,7 +14,7 @@ function IMVendorReview({ navigation, route }) {
 
   const [isVisible, setVisible] = useState(false)
 
-  const id = route.params?.entityID ?? ''
+  const id = route?.params?.entityID ?? ''
 
   const { config } = useVendorConfig()
   const isVendorAdmin =

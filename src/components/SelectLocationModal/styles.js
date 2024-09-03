@@ -36,6 +36,24 @@ const styles = (theme, appearance) =>
       color: theme.colors[appearance].primaryForeground,
       fontWeight: 'normal',
     },
+    bottomBar: {
+      backgroundColor: theme.colors[appearance].primaryBackground,
+      paddingVertical: 15,
+      position: 'absolute',
+      bottom: 0,
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    locationValue: {
+      color: theme.colors[appearance].primaryText,
+      fontSize: 14,
+    },
+    locationIcon: {
+      width: 25,
+      height: 25,
+      tintColor: theme.colors[appearance].primaryText,
+    },
   })
 
 export default styles

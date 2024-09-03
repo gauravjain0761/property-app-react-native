@@ -26,7 +26,7 @@ function ListingProfileModal(props) {
 
   const config = useConfig()
 
-  const userID = props.route.params.userID
+  const userID = props?.route?.params?.userID
 
   const [user, setUser] = useState(null)
   const [listings, setListings] = useState([])

@@ -37,7 +37,7 @@ function PostModal(props) {
   const styles = dynamicStyles(theme, appearance)
   const config = useConfig()
 
-  const { selectedItem, categories } = props
+  const { selectedItem, categories } = props || {}
   const defaultState = {
     category: { name: localized('Select...') },
     title: '',
@@ -57,10 +57,10 @@ function PostModal(props) {
 
   // if (categories.length > 0) category = categories[0];
   if (selectedItem) {
-    const { title, latitude, longitude, photos, filters, place } = selectedItem
+    const { title, latitude, longitude, photos, filters, place } = selectedItem || {}
 
     defaultState.category = categories.find(
-      category => selectedItem.categoryID === category.id,
+      category => selectedItem?.categoryID === category?.id,
     )
     defaultState.title = title
     defaultState.description = selectedItem.description

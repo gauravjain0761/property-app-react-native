@@ -35,13 +35,13 @@ function MapScreen(props) {
   const item = route?.params?.item
 
   const [data, setData] = useState([])
-  const [latitude, setLatitude] = useState(Configuration.map.origin.latitude)
-  const [longitude, setLongitude] = useState(Configuration.map.origin.longitude)
+  const [latitude, setLatitude] = useState(Configuration?.map?.origin?.latitude)
+  const [longitude, setLongitude] = useState(Configuration?.map?.origin?.longitude)
   const [latitudeDelta, setLatitudeDelta] = useState(
-    Configuration.map.delta.latitude,
+    Configuration?.map?.delta?.latitude,
   )
   const [longitudeDelta, setLongitudeDelta] = useState(
-    Configuration.map.delta.longitude,
+    Configuration?.map?.delta?.longitude,
   )
 
   // Set this to false if you don't want the current user's location to be considered

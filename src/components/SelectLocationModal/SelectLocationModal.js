@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import { Modal, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ImageBackground, Modal, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
-import { useTheme, useTranslations, Button } from '../../core/dopebase'
+import { useTheme, useTranslations, Button, Text, Image } from '../../core/dopebase'
 import { Configuration } from '../../Configuration'
 import dynamicStyles from './styles'
+import * as Location from 'expo-location'
 
 function SelectLocationModal(props) {
   const { localized } = useTranslations()
@@ -20,6 +21,11 @@ function SelectLocationModal(props) {
   const [longitudeDelta, setLongitudeDelta] = useState(
     Configuration.map.delta.longitude,
   )
+  const [address, setAddress] = useState('Checking...')
+
+  useEffect(() => {
+    onChangeLocation(location)
+  }, [])
 
   const onDone = () => {
     const { onDone } = props
@@ -45,6 +51,19 @@ function SelectLocationModal(props) {
     setLongitude(region.longitude)
     setLatitudeDelta(region.latitudeDelta)
     setLongitudeDelta(region.longitudeDelta)
+    onChangeLocation(region)
+  }
+
+  const onChangeLocation = async location => {
+    try {
+      let json = await Location.reverseGeocodeAsync(location)
+      const choosenIndex = Math.floor(json.length * 0.8)
+      const formatted_address = `${json[choosenIndex].city}, ${json[choosenIndex].region}.`
+      setAddress(formatted_address)
+    } catch (error) {
+      console.log(error)
+      setAddress('Unknown')
+    }
   }
 
   return (
@@ -77,6 +96,10 @@ function SelectLocationModal(props) {
             onPress={onDone}
             text={localized('Done')}
           />
+        </View>
+        <View style={[styles.bottomBar]}>
+          <Image style={[styles.locationIcon]} source={theme.icons.pinpoint} />
+          <Text style={[styles.locationValue]}>{address}</Text>
         </View>
       </View>
     </Modal>

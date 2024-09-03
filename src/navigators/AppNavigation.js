@@ -38,6 +38,7 @@ import {
   IMBlockedUsersScreen,
 } from '../core/profile'
 import { useConfig } from '../config'
+import SubCategoriesScreen from '../screens/SubCategoriesScreen/SubCategoriesScreen'
 
 const noTransitionConfig = () => ({
   transitionSpec: {
@@ -159,6 +160,10 @@ const CollectionStack = () => {
         component={ListingProfileModal}
       />
       <Collection.Screen name="Map" component={MapScreen} />
+      <Collection.Screen
+        name="SubCategoriesScreen"
+        component={SubCategoriesScreen}
+      />
     </Collection.Navigator>
   )
 }

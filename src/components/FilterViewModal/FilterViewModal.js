@@ -13,7 +13,7 @@ function FilterViewModal(props) {
   const config = useConfig()
 
   const [data, setData] = useState([])
-  const [filter, setFilter] = useState(props.value)
+  const [filter, setFilter] = useState(props?.value)
 
   const unsubscribe = useRef(null)
 
@@ -23,7 +23,6 @@ function FilterViewModal(props) {
         updatedData.name = filter[updatedFilter.name]
       }
     })
-
     setData(updatedData)
   }
 
