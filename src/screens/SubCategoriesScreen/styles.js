@@ -7,6 +7,8 @@ const dynamicStyles = (theme, appearance) => {
     container: {
       backgroundColor: theme.colors[appearance].primaryBackground,
       flex: 1,
+      // alignItems: 'center',
+      paddingTop: 10,
     },
     mapView: {
       width: '100%',
@@ -18,6 +20,11 @@ const dynamicStyles = (theme, appearance) => {
     },
     toggleButton: {
       marginRight: 7,
+    },
+    listContainer: {
+      backgroundColor: theme.colors[appearance].primaryBackground,
+      flex: 1,
+      // padding: 15,
     },
   })
 }

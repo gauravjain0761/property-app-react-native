@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
-import { BackHandler } from 'react-native'
+import { BackHandler, Image } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { useSelector } from 'react-redux'
 import Geolocation from '@react-native-community/geolocation'
@@ -36,7 +36,9 @@ function MapScreen(props) {
 
   const [data, setData] = useState([])
   const [latitude, setLatitude] = useState(Configuration?.map?.origin?.latitude)
-  const [longitude, setLongitude] = useState(Configuration?.map?.origin?.longitude)
+  const [longitude, setLongitude] = useState(
+    Configuration?.map?.origin?.longitude,
+  )
   const [latitudeDelta, setLatitudeDelta] = useState(
     Configuration?.map?.delta?.latitude,
   )
@@ -155,8 +157,17 @@ function MapScreen(props) {
       coordinate={{
         latitude: listing.latitude,
         longitude: listing.longitude,
-      }}
-    />
+      }}>
+      <Image
+        source={
+          listing?.categoryID == 'aeqGqN6dPVzeZqwt1kIAK7'
+            ? theme?.icons?.land
+            : theme?.icons?.house
+        }
+        resizeMode="cover"
+        style={{ width: 60, height: 60 }}
+      />
+    </Marker>
   ))
 
   return (

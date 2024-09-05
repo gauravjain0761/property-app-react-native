@@ -31,6 +31,7 @@ function FilterViewModal(props) {
       config.serverConfig.collections.filters,
       props.category?.id,
       onCollectionUpdate,
+      props.subCategories?.id,
     )
     return () => {
       unsubscribe?.current && unsubscribe?.current()

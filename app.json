@@ -1,6 +1,6 @@
 {
   "name": "Instamobile",
-  "displayName": "Real Estate App",
+  "displayName": "Indoland",
   "plugins": [
     "expo-tracking-transparency",
     "@react-native-google-signin/google-signin"

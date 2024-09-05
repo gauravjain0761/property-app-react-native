@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 import ListingView from '../../components/ListingView/ListingView'
 import { IMAdMobBanner } from '../../core/ads/google'
 import { useConfig } from '../../config'
+import SubCategoriesView from '../../components/SubCategoriesView/SubCategoriesView'
 
 function SubCategoriesScreen(props) {
   const { localized } = useTranslations()
@@ -198,11 +199,7 @@ function SubCategoriesScreen(props) {
   }
 
   const onListingPress = item => {
-    props.navigation.navigate('SingleListingScreen', {
-      item: item,
-      customLeft: true,
-      routeName: 'ListingsList',
-    })
+    props.navigation.navigate('ListingsList', { item: item })
   }
   useEffect(() => {
     unsubscribe.current = listingsAPI.subscribeListings(
@@ -245,8 +242,8 @@ function SubCategoriesScreen(props) {
           onPress(listing)
         }}
         coordinate={{
-          latitude: listing.latitude,
-          longitude: listing.longitude,
+          latitude: listing?.latitude,
+          longitude: listing?.longitude,
         }}
       />
     ))
@@ -255,7 +252,11 @@ function SubCategoriesScreen(props) {
   const renderListing = ({ item, index }) => {
     return (
       <>
-        <ListingView listing={item} onPress={() => onListingPress(item)} />
+        {/* <ListingView listing={item} onPress={() => onListingPress(item)} /> */}
+        <SubCategoriesView
+          listing={item}
+          onPress={() => onListingPress(item)}
+        />
         {config.adMobConfig && (index + 1) % 3 == 0 && (
           <IMAdMobBanner
             onAdFailedToLoad={error => console.log(error)}
@@ -301,8 +302,16 @@ function SubCategoriesScreen(props) {
           renderItem={renderListing}
           keyExtractor={item => `${item.id}`}
           initialNumToRender={5}
+          numColumns={2}
           refreshing={false}
+          style={styles.listContainer}
           ListEmptyComponent={renderEmptyComponent}
+          columnWrapperStyle={{
+            columnGap: 7.5,
+            justifyContent: 'space-between',
+            marginBottom: 16,
+            paddingHorizontal: 18,
+          }}
         />
       )}
       {filterModalVisible && (

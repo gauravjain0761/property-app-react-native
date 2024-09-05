@@ -181,6 +181,10 @@ const dynamicStyles = (theme, appearance) => {
       fontSize: 21,
       color: theme.colors[appearance].primaryForeground,
     },
+    icon: {
+      width: 30,
+      height: 30,
+    },
   })
 }
 export default dynamicStyles

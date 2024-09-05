@@ -75,20 +75,23 @@ export const subscribeListings = (
   }
 
   if (categoryId) {
-    return listingsRef
-      .where('categoryID', '==', categoryId)
-      .where('isApproved', '==', isApproved)
-      .onSnapshot(querySnapshot => {
-        const data = []
-        querySnapshot?.forEach(doc => {
-          const listing = doc.data()
-          if (favorites && favorites[doc.id] === true) {
-            listing.saved = true
-          }
-          data.push({ ...listing, id: doc.id })
+    return (
+      listingsRef
+        // .where('subcategoryID', '==', subcategoryId)
+        .where('categoryID', '==', categoryId)
+        .where('isApproved', '==', isApproved)
+        .onSnapshot(querySnapshot => {
+          const data = []
+          querySnapshot?.forEach(doc => {
+            const listing = doc.data()
+            if (favorites && favorites[doc.id] === true) {
+              listing.saved = true
+            }
+            data.push({ ...listing, id: doc.id })
+          })
+          callback(data)
         })
-        callback(data)
-      })
+    )
   }
 
   // If no user or category is specified, we return either

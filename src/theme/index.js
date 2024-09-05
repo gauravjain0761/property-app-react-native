@@ -59,6 +59,8 @@ const icons = {
   logout: require('../assets/icons/logout-drawer.png'),
   delayedLogo: require('../assets/icons/delaylogo.png'),
   blockedUser: require('../assets/icons/blocked-user-64.png'),
+  land: require('../assets/icons/land.png'),
+  house: require('../assets/icons/house.png'),
 }
 
 const lightColors = {
@@ -75,6 +77,10 @@ const lightColors = {
   grey6: '#d6d6d6',
   grey9: '#939393',
   red: '#ea0606',
+  black: '#000000',
+  primaryWhite: '#ffffff',
+  primaryBlack: '#000000',
+  Text: '#151723',
 }
 
 const InstamobileTheme = {
@@ -95,6 +101,10 @@ const InstamobileTheme = {
       grey6: '#f5f5f5',
       grey9: '#eaeaea',
       red: '#ea0606',
+      white: '#ffffff',
+      primaryWhite: '#ffffff',
+      primaryBlack: '#000000',
+      Text: '#151723',
     },
   },
   spaces: {

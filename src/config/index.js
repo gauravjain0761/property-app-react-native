@@ -36,6 +36,7 @@ export const ConfigProvider = ({ children }) => {
         categories: 'real_estate_categories',
         filters: 'real_estate_filters',
         reviews: 'real_estate_reviews',
+        subrealestate: 'sub_real_estate',
       },
     },
     onboardingConfig: {

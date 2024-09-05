@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList, Image, View } from 'react-native'
 import Geolocation from '@react-native-community/geolocation'
 import {
   useTheme,
@@ -38,7 +38,9 @@ function ListingsListScreen(props) {
   const [mapMode, setMapMode] = useState(false)
   const [filterModalVisible, setFilterModalVisible] = useState(false)
   const [latitude, setLatitude] = useState(Configuration?.map?.origin?.latitude)
-  const [longitude, setLongitude] = useState(Configuration?.map?.origin?.longitude)
+  const [longitude, setLongitude] = useState(
+    Configuration?.map?.origin?.longitude,
+  )
   const [latitudeDelta, setLatitudeDelta] = useState(
     Configuration?.map?.delta?.latitude,
   )
@@ -204,7 +206,7 @@ function ListingsListScreen(props) {
   }
   useEffect(() => {
     unsubscribe.current = listingsAPI.subscribeListings(
-      { categoryId: category.id },
+      { categoryId: category?.id },
       favorites,
       config.serverConfig.collections.listings,
       onListingsUpdate,
@@ -245,8 +247,17 @@ function ListingsListScreen(props) {
         coordinate={{
           latitude: listing.latitude,
           longitude: listing.longitude,
-        }}
-      />
+        }}>
+        <Image
+          source={
+            listing?.categoryID == 'aeqGqN6dPVzeZqwt1kIAK7'
+              ? theme?.icons?.land
+              : theme?.icons?.house
+          }
+          resizeMode="cover"
+          style={{ width: 60, height: 60 }}
+        />
+      </Marker>
     ))
   }
 
@@ -288,7 +299,9 @@ function ListingsListScreen(props) {
           showsUserLocation={shouldUseOwnLocation}
           region={{
             latitude: latitude,
+            latitudeDelta: 0.0422,
             longitude: longitude,
+            longitudeDelta: 0.0221,
           }}>
           {markerArr()}
         </MapView>

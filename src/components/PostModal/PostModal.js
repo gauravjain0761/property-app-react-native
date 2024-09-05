@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Modal,
   ScrollView,
@@ -15,7 +15,7 @@ import ModalSelector from 'react-native-modal-selector'
 import { Image } from 'expo-image'
 import { Configuration } from '../../Configuration'
 import * as ImagePicker from 'expo-image-picker'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 import * as Location from 'expo-location'
 import FilterViewModal from '../FilterViewModal/FilterViewModal'
 import SelectLocationModal from '../SelectLocationModal/SelectLocationModal'
@@ -30,6 +30,7 @@ import { storageAPI } from '../../core/media'
 import { listingsAPI } from '../../core/listing/api'
 import dynamicStyles from './styles'
 import { useConfig } from '../../config'
+import { firebase } from '@react-native-firebase/firestore'
 
 function PostModal(props) {
   const { localized } = useTranslations()
@@ -53,11 +54,13 @@ function PostModal(props) {
     filter: {},
     filterValue: localized('Select...'),
     address: 'Checking...',
+    subCategories: { name: localized('Select...') },
   }
 
   // if (categories.length > 0) category = categories[0];
   if (selectedItem) {
-    const { title, latitude, longitude, photos, filters, place } = selectedItem || {}
+    const { title, latitude, longitude, photos, filters, place } =
+      selectedItem || {}
 
     defaultState.category = categories.find(
       category => selectedItem?.categoryID === category?.id,
@@ -94,6 +97,10 @@ function PostModal(props) {
   const [filterModalVisible, setFilterModalVisible] = useState(false)
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [subCategories, setSubCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState(
+    defaultState.subCategories,
+  )
 
   const { showActionSheetWithOptions } = useActionSheet()
 
@@ -147,8 +154,11 @@ function PostModal(props) {
   }
 
   const selectFilter = () => {
-    if (!category.id) {
+    if (!category?.id) {
       alert(localized('You must choose a category first.'))
+    }
+    if (category?.name == 'Real Estate' && !selectedCategory?.id) {
+      alert(localized('You must choose a subcategory first.'))
     } else {
       setFilterModalVisible(true)
     }
@@ -224,7 +234,9 @@ function PostModal(props) {
           isApproved: !config.isApprovalProcessEnabled,
           authorID: currentUser?.id,
           author: currentUser,
-          categoryID: category?.id,
+          categoryID: selectedCategory?.id
+            ? selectedCategory?.id
+            : category?.id,
           description: description,
           latitude: location.latitude,
           longitude: location.longitude,
@@ -247,12 +259,14 @@ function PostModal(props) {
               setLoading(false)
               onCancel()
             } else {
+              setLoading(false)
               alert(error)
             }
           },
         )
       })
       .catch(reason => {
+        setLoading(false)
         console.log(reason)
       })
   }
@@ -363,6 +377,34 @@ function PostModal(props) {
   }))
   categoryData.unshift({ key: 'section', label: 'Category', section: true })
 
+  var subCategoryData = subCategories.map((subcategory, index) => ({
+    key: subcategory.id,
+    label: subcategory.name,
+  }))
+  subCategoryData.unshift({
+    key: 'section',
+    label: 'Subcategory',
+    section: true,
+  })
+
+  const onPresstoGetSubcategory = props => {
+    const { key } = props || {}
+    let listingsRef = firebase
+      .firestore()
+      .collection(config.serverConfig.collections.categories)
+      .doc(key)
+      .collection(config.serverConfig.collections.subrealestate)
+
+    listingsRef.onSnapshot(querySnapshot => {
+      let Data = []
+      querySnapshot.forEach(doc => {
+        let listing = doc.data()
+        Data.push(listing)
+      })
+      setSubCategories(Data)
+    })
+  }
+
   const photos = localPhotos.map((photo, index) => (
     <TouchableOpacity
       key={index.toString()}
@@ -452,12 +494,43 @@ function PostModal(props) {
                     : localized('Select...'),
                 )
                 setFilter(category.id === option.key ? filter : {})
+                option.label == 'Real Estate'
+                  ? onPresstoGetSubcategory(option)
+                  : null
               }}>
               <View style={styles.row}>
                 <Text style={styles.title}>{localized('Category')}</Text>
                 <Text style={styles.value}>{category.name}</Text>
               </View>
             </ModalSelector>
+            {category.name == 'Real Estate' && (
+              <ModalSelector
+                touchableActiveOpacity={0.9}
+                data={subCategoryData}
+                sectionTextStyle={styles.sectionTextStyle}
+                optionTextStyle={styles.optionTextStyle}
+                optionContainerStyle={styles.optionContainerStyle}
+                cancelContainerStyle={styles.cancelContainerStyle}
+                cancelTextStyle={styles.cancelTextStyle}
+                selectedItemTextStyle={styles.selectedItemTextStyle}
+                backdropPressToClose={true}
+                cancelText={localized('Cancel')}
+                initValue={category.name}
+                onChange={option => {
+                  setSelectedCategory({ id: option.key, name: option.label })
+                  setFilterValue(
+                    category.id === option.key
+                      ? filterValue
+                      : localized('Select...'),
+                  )
+                  setFilter(category.id === option.key ? filter : {})
+                }}>
+                <View style={styles.row}>
+                  <Text style={styles.title}>{'Sub Category'}</Text>
+                  <Text style={styles.value}>{selectedCategory.name}</Text>
+                </View>
+              </ModalSelector>
+            )}
             <TouchableOpacity onPress={selectFilter}>
               <View style={styles.row}>
                 <Text style={styles.title}>{localized('Filters')}</Text>
@@ -477,7 +550,11 @@ function PostModal(props) {
               {photos}
               <TouchableOpacity onPress={showChoosePhotoActionSheet}>
                 <View style={[styles.addButton, styles.photo]}>
-                  <Icon name="camera" size={30} color="white" />
+                  <Image
+                    resizeMode="cover"
+                    source={theme.icons.cameraFilled}
+                    style={styles.icon}
+                  />
                 </View>
               </TouchableOpacity>
             </ScrollView>
@@ -488,6 +565,7 @@ function PostModal(props) {
               onCancel={onSelectFilterCancel}
               onDone={onSelectFilterDone}
               category={category}
+              subCategories={selectedCategory}
             />
           )}
           {locationModalVisible && (
