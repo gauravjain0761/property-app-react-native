@@ -9,7 +9,7 @@ import {
 } from '../../../dopebase'
 import dynamicStyles from './styles'
 import { useAuth } from '../../hooks/useAuth'
-import { localizedErrorMessage } from '../../api/ErrorCode'
+import { ErrorCode, localizedErrorMessage } from '../../api/ErrorCode'
 
 const ResetPasswordScreen = props => {
   const authManager = useAuth()
@@ -28,34 +28,41 @@ const ResetPasswordScreen = props => {
 
     if (isValidEmail) {
       setIsLoading(true)
-      authManager.sendPasswordResetEmail(email.trim()).then(response => {
-        setIsLoading(false)
-
-        if (response.error) {
-          return Alert.alert(
+      authManager
+        ?.sendPasswordResetEmail(email.trim())
+        .then(response => {
+          setIsLoading(false)
+          Alert.alert(
+            localized('Link sent successfully'),
+            localized(
+              'Kindly check your email and follow the link to reset your password.',
+            ),
+            [
+              {
+                text: localized('OK'),
+                onPress: () => props.navigation.goBack(),
+              },
+            ],
+            { cancelable: false },
+          )
+        })
+        .catch(err => {
+          setIsLoading(false)
+          Alert.alert(
             '',
-            localizedErrorMessage(response.error, localized),
+            localizedErrorMessage(
+              err?.code == 'auth/invalid-email'
+                ? ErrorCode.badEmailFormat
+                : err.message,
+              localized,
+            ),
             [{ text: localized('OK') }],
             {
               cancelable: false,
             },
           )
-        }
-
-        Alert.alert(
-          localized('Link sent successfully'),
-          localized(
-            'Kindly check your email and follow the link to reset your password.',
-          ),
-          [
-            {
-              text: localized('OK'),
-              onPress: () => props.navigation.goBack(),
-            },
-          ],
-          { cancelable: false },
-        )
-      })
+          console.log('sendPasswordResetEmail ERRRR', err)
+        })
     } else {
       Alert.alert(
         localized('Invalid email'),

@@ -212,49 +212,54 @@ function SingleListingScreen(props) {
     )
   }
 
-  const renderReviewItem = ({ item, index }) => (
-    <View style={styles.reviewItem} key={index}>
-      <View style={styles.info}>
-        <Image
-          style={styles.userPhoto}
-          contentFit={'cover'}
-          source={
-            item.profilePictureURL
-              ? { uri: item.profilePictureURL }
-              : { uri: defaultAvatar }
-          }
-        />
-        <View style={styles.detail}>
-          <Text style={styles.username}>
-            {item.firstName && item.firstName} {item.lastName && item.lastName}
-          </Text>
-          <Text style={styles.reviewTime}>{timeFormat(item.createdAt)}</Text>
+  const renderReviewItem = ({ item, index }) => {
+    return (
+      <View style={styles.reviewItem} key={index}>
+        <View style={styles.info}>
+          <Image
+            style={styles.userPhoto}
+            contentFit={'cover'}
+            source={
+              item.profilePictureURL
+                ? { uri: item.profilePictureURL }
+                : { uri: defaultAvatar }
+            }
+          />
+          <View style={styles.detail}>
+            <Text style={styles.username}>
+              {item.firstName && item.firstName}{' '}
+              {item.lastName && item.lastName}
+            </Text>
+            <Text style={styles.reviewTime}>{timeFormat(item.createdAt)}</Text>
+          </View>
+          <StarRating
+            containerStyle={styles.starRatingContainer}
+            disabled={true}
+            maxStars={5}
+            starSize={22}
+            starStyle={styles.starStyle}
+            emptyStar={theme.icons.starNoFilled}
+            fullStar={theme.icons.starFilled}
+            halfStarColor={theme.colors[appearance].primaryForeground}
+            rating={item.starCount}
+          />
         </View>
-        <StarRating
-          containerStyle={styles.starRatingContainer}
-          disabled={true}
-          maxStars={5}
-          starSize={22}
-          starStyle={styles.starStyle}
-          emptyStar={theme.icons.starNoFilled}
-          fullStar={theme.icons.starFilled}
-          halfStarColor={theme.colors[appearance].primaryForeground}
-          rating={item.starCount}
-        />
+        <Text style={styles.reviewContent}>{item.content}</Text>
       </View>
-      <Text style={styles.reviewContent}>{item.content}</Text>
-    </View>
-  )
+    )
+  }
 
   var extraInfoArr = null
-  if (listing.filters) {
+  if (listing?.filters) {
     const filters = listing.filters
     extraInfoArr = Object.keys(filters).map(function (key) {
       if (filters[key] != 'Any' && filters[key] != 'All') {
         return (
           <View style={styles.extraRow}>
             <Text style={styles.extraKey}>{key}</Text>
-            <Text style={styles.extraValue}>{filters[key]}</Text>
+            <Text style={styles.extraValue}>
+              {filters[key]} {key == 'Price Range' && `(${item?.currency})`}
+            </Text>
           </View>
         )
       }

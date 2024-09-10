@@ -79,7 +79,7 @@ function HomeScreen(props) {
         )
       },
       headerRight: () => (
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', marginTop: 12 }}>
           <HeaderButton
             customStyle={styles.composeButton}
             icon={theme.icons.compose}
@@ -133,7 +133,11 @@ function HomeScreen(props) {
   }
 
   const onPressCategoryItem = item => {
-    navigation.navigate('ListingsList', { item: item })
+    if (item?.name == 'Real Estate') {
+      navigation.navigate('SubCategoriesScreen', { item: item })
+    } else {
+      navigation.navigate('ListingsList', { item: item })
+    }
   }
 
   const onPressListingItem = item => {
@@ -341,9 +345,7 @@ function HomeScreen(props) {
             keyExtractor={item => `${item.id}`}
           />
         </View>
-        <Text style={[styles.title, styles.listingTitle]}>
-          {config.homeConfig.mainCategoryName}
-        </Text>
+        <Text style={[styles.title, styles.listingTitle]}>{'Town house'}</Text>
       </>
     )
   }

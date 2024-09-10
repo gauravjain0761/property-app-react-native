@@ -33,7 +33,16 @@ export const retrievePersistedAuthUser = () => {
 }
 
 export const sendPasswordResetEmail = email => {
-  auth().sendPasswordResetEmail(email)
+  return new Promise(async (resolve, reject) => {
+    await auth()
+      .sendPasswordResetEmail(email)
+      .then(res => {
+        resolve(res)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
 export const checkUniqueUsername = username => {
@@ -179,7 +188,6 @@ export const loginWithEmailAndPassword = async (email, password) => {
       })
   })
 }
-
 
 const signInWithCredential = (credential, appIdentifier, socialAuthType) => {
   return new Promise((resolve, _reject) => {
@@ -423,7 +431,6 @@ export const registerWithPhoneNumber = (
   })
 }
 
-
 export const updateProfilePhoto = (userID, profilePictureURL) => {
   return new Promise((resolve, _reject) => {
     usersRef
@@ -450,7 +457,6 @@ export const fetchAndStorePushTokenIfPossible = async user => {
         badgeCount: 0,
       })
     }
-
   } catch (error) {
     console.log(error)
   }

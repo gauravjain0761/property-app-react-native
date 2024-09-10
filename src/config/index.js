@@ -17,12 +17,12 @@ export const ConfigProvider = ({ children }) => {
     isFacebookAuthEnabled: true,
     forgotPasswordEnabled: true,
     isDelayedLoginEnabled: false,
-    appIdentifier: `rn-real-estate-ios${Platform.OS}`,
+    appIdentifier: `io.instamobile.rnrealestate`,
     facebookIdentifier: '1288726485109267',
     webClientId: Platform.select({
       ios: '22965687108-k9uqgstoahao7bndat1lgbhmlektp2jb.apps.googleusercontent.com',
       default:
-        '22965687108-eb2r7krmmebfrd7ks8cl4pc073kek39g.apps.googleusercontent.com',
+        '77052254171-rskhn3sf5sban5s8kpbjsbgggdl5n2r2.apps.googleusercontent.com',
     }),
     adMobConfig: {
       adBannerSize: 'banner', // "largeBanner" | "mediumRectangle" || "fullBanner" || "leaderboard" || "smartBannerPortrait" || "smartBannerLandscape"
@@ -37,6 +37,21 @@ export const ConfigProvider = ({ children }) => {
         filters: 'real_estate_filters',
         reviews: 'real_estate_reviews',
         subrealestate: 'sub_real_estate',
+      },
+      categories: {
+        Real_estate: 'REMoOVjJ7MyghANZwqFQGH',
+        Land: 'aeqGqN6dPVzeZqwt1kIAK7',
+        Town_house: 'aaPdF5Dskd3DrHMWV3SwLs',
+        Apartments: 'ab0m6eozTA2SCZ6BrqF2La',
+        Commercial: 'af7UgYdE4l7Kr3dJjElAXi',
+        Villa: 'agwFb3cn4fpoqUmGmib5fA',
+      },
+      currency: {
+        USD: '$',
+        IDR: 'Rp',
+        INR: '₹',
+        EUR: '€',
+        GBP: '£',
       },
     },
     onboardingConfig: {
@@ -296,6 +311,28 @@ export const ConfigProvider = ({ children }) => {
       buttonLabel: localized('Reserve'),
       type: 'airbnb',
     },
+    currencyData: [
+      {
+        label: 'USD $',
+        value: '$',
+      },
+      {
+        label: 'IDR Rp',
+        value: 'Rp',
+      },
+      {
+        label: 'INR ₹',
+        value: '₹',
+      },
+      {
+        label: 'EUR €',
+        value: '€',
+      },
+      {
+        label: 'GBP £',
+        value: '£',
+      },
+    ],
   }
 
   return (

@@ -143,6 +143,10 @@ const dynamicStyles = (theme, colorScheme) => {
       marginLeft: 10,
       transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
     },
+    googleButtonStyle: {
+      alignSelf: 'center',
+      marginTop: 15,
+    },
   })
 }
 

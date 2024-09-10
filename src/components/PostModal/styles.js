@@ -185,6 +185,15 @@ const dynamicStyles = (theme, appearance) => {
       width: 30,
       height: 30,
     },
+    dropdown: {
+      borderColor: theme.colors[appearance].grey6,
+      flex: 1,
+      borderWidth: 0.5,
+      paddingLeft: 10,
+      paddingVertical: 8,
+      borderRadius: 4,
+      marginRight: 10,
+    },
   })
 }
 export default dynamicStyles

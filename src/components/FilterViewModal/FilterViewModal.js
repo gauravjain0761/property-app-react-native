@@ -23,11 +23,14 @@ function FilterViewModal(props) {
         updatedData.name = filter[updatedFilter.name]
       }
     })
-    setData(updatedData)
+    let newDatas = updatedData?.filter(
+      filters => filters?.name != props?.ignoreFilds,
+    )
+    setData(newDatas ? newDatas : updatedData)
   }
 
   useEffect(() => {
-    unsubscribe.current = filterAPI.subscribeFilters(
+    unsubscribe.current = filterAPI?.subscribeFilters(
       config.serverConfig.collections.filters,
       props.category?.id,
       onCollectionUpdate,
@@ -49,7 +52,7 @@ function FilterViewModal(props) {
   const renderItem = item => {
     let filter_key = item.name
 
-    var newData = item.options.map((option, index) => ({
+    var newData = item?.options?.map((option, index) => ({
       key: option,
       label: option,
     }))

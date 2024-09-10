@@ -250,12 +250,12 @@ function ListingsListScreen(props) {
         }}>
         <Image
           source={
-            listing?.categoryID == 'aeqGqN6dPVzeZqwt1kIAK7'
+            listing?.categoryID == config?.serverConfig?.categories?.Land
               ? theme?.icons?.land
               : theme?.icons?.house
           }
           resizeMode="cover"
-          style={{ width: 60, height: 60 }}
+          style={{ width: 40, height: 40 }}
         />
       </Marker>
     ))

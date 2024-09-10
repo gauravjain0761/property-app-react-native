@@ -15,6 +15,7 @@ function MapScreen(props) {
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
   const config = useConfig()
+  const mapRef = useRef(null)
 
   const favorites = useSelector(state => state.favorites.favoriteItems)
 
@@ -99,8 +100,9 @@ function MapScreen(props) {
   }, [])
 
   const onChangeLocation = location => {
-    setLongitude(location.longitude)
-    setLatitude(location.latitude)
+    setLongitude(location?.longitude)
+    setLatitude(location?.latitude)
+    animateToInitialRegion(location)
   }
 
   const onBackButtonPressAndroid = () => {
@@ -133,6 +135,25 @@ function MapScreen(props) {
       )
       setLongitudeDelta(
         Math.abs((max_longitude - (max_longitude + min_logitude) / 2) * 3),
+      )
+      animateToInitialRegion({
+        Latitude: (max_latitude + min_latitude) / 2,
+        Longitude: (max_longitude + min_logitude) / 2,
+      })
+    }
+  }
+
+  const animateToInitialRegion = center => {
+    if (mapRef.current) {
+      mapRef.current.animateCamera(
+        {
+          center: center,
+          pitch: 0,
+          heading: 0,
+          altitude: 1000,
+          zoom: 10,
+        },
+        { duration: 1000 },
       )
     }
   }
@@ -174,6 +195,7 @@ function MapScreen(props) {
     <MapView
       style={styles.mapView}
       showsUserLocation={true}
+      ref={mapRef}
       region={{
         latitude: latitude,
         longitude: longitude,

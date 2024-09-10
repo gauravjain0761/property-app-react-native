@@ -25,6 +25,7 @@ import { setUserData } from '../../redux/auth'
 import { localizedErrorMessage } from '../../api/ErrorCode'
 import { useOnboardingConfig } from '../../hooks/useOnboardingConfig'
 import { useAuth } from '../../hooks/useAuth'
+import { firestore } from '../../../firebase/config'
 
 const LoginScreen = () => {
   const navigation = useNavigation()
@@ -124,19 +125,33 @@ const LoginScreen = () => {
   }
 
   const onGoogleButtonPress = () => {
+    const usersRef = firestore().collection('users')
     setLoading(true)
     authManager
       .loginOrSignUpWithGoogle(config)
       .then(response => {
-        setLoading(false)
         if (response?.user) {
-          const user = response.user
-          dispatch(setUserData({ user }))
-          Keyboard.dismiss()
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'MainStack', params: { user } }],
-          })
+          const user = response?.user
+          usersRef
+            .doc(user?.userID)
+            .get()
+            .then(response => {
+              setLoading(false)
+              let user = response?.data()
+              dispatch(setUserData({ user }))
+              Keyboard.dismiss()
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'MainStack', params: { user } }],
+              })
+            })
+            .catch(error => {
+              setLoading(false)
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'MainStack', params: { user } }],
+              })
+            })
         } else {
           setLoading(false)
           Alert.alert(
@@ -262,6 +277,7 @@ const LoginScreen = () => {
           <IMGoogleSignInButton
             containerStyle={styles.googleButtonStyle}
             onPress={onGoogleButtonPress}
+            title="Login With Google"
           />
         )}
         {config.isAppleAuthEnabled && appleAuth.isSupported && (

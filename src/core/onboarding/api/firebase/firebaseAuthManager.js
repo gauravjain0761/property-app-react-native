@@ -139,9 +139,15 @@ const retrievePersistedAuthUser = () => {
 }
 
 const sendPasswordResetEmail = email => {
-  return new Promise(resolve => {
-    authAPI.sendPasswordResetEmail(email)
-    resolve()
+  return new Promise((resolve, reject) => {
+    authAPI
+      .sendPasswordResetEmail(email)
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -153,7 +159,6 @@ const logout = user => {
   updateUser(user.id || user.userID, userData)
   authAPI.logout()
 }
-
 
 const loginOrSignUpWithApple = appConfig => {
   return new Promise(async (resolve, _reject) => {
@@ -200,10 +205,11 @@ const loginOrSignUpWithGoogle = appConfig => {
   GoogleSignin.configure({
     webClientId: appConfig.webClientId,
     iosClientId: appConfig.webClientId,
+    androidClientId: appConfig.webClientId,
   })
   return new Promise(async (resolve, _reject) => {
     try {
-      const { idToken } = await GoogleSignin.signIn()
+      const { idToken, user } = await GoogleSignin.signIn()
       authAPI
         .loginWithGoogle(idToken, appConfig.appIdentifier)
         .then(async response => {
@@ -377,7 +383,6 @@ const registerWithPhoneNumber = (
     })
   })
 }
-
 
 const handleSuccessfulLogin = (user, accountCreated) => {
   // After a successful login, we fetch & store the device token for push notifications, location, online status, etc.

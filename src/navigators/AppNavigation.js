@@ -95,6 +95,7 @@ const MainHomeStack = () => {
       }}>
       <Main.Screen name="Home" component={HomeScreen} />
       <Main.Screen name="ListingsList" component={ListingsListScreen} />
+      <Main.Screen name="SubCategoriesScreen" component={SubCategoriesScreen} />
       <Main.Screen name="SingleListingScreen" component={SingleListingScreen} />
       <Main.Screen name="Map" component={MapScreen} />
       <Main.Screen name="ListingProfileModal" component={ListingProfileModal} />

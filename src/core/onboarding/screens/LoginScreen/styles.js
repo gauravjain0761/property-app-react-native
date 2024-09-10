@@ -66,8 +66,6 @@ const dynamicStyles = (theme, colorScheme) => {
     googleButtonStyle: {
       alignSelf: 'center',
       marginTop: 15,
-      padding: 5,
-      elevation: 0,
     },
     appleButtonContainer: {
       width: '70%',

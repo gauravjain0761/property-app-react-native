@@ -65,7 +65,7 @@ function SubCategoriesScreen(props) {
       headerTitleStyle: { color: currentTheme.primaryText },
       headerRight: () => (
         <View style={{ flexDirection: 'row' }}>
-          <HeaderButton
+          {/* <HeaderButton
             customStyle={styles.toggleButton}
             style={{
               tintColor: theme.colors[appearance].primaryForeground,
@@ -74,7 +74,7 @@ function SubCategoriesScreen(props) {
             onPress={() => {
               onChangeMode()
             }}
-          />
+          /> */}
           <HeaderButton
             customStyle={styles.filtersButton}
             style={{
@@ -93,6 +93,7 @@ function SubCategoriesScreen(props) {
   }, [mapMode])
 
   const onChangeLocation = location => {
+    console.log('location', location)
     setLatitude(location.latitude)
     setLongitude(location.longitude)
   }
@@ -128,7 +129,6 @@ function SubCategoriesScreen(props) {
     }
 
     tempListings = listings.filter(listing => listing.matched)
-
     setFilteredListings(tempListings)
   }, [filter, listings])
 
@@ -212,7 +212,7 @@ function SubCategoriesScreen(props) {
     if (shouldUseOwnLocation) {
       Geolocation.getCurrentPosition(
         position => {
-          onChangeLocation(position.coords)
+          onChangeLocation(position?.coords)
         },
         error => console.log(error.message),
       )
@@ -233,20 +233,25 @@ function SubCategoriesScreen(props) {
   }
 
   const markerArr = () => {
-    return filteredListings.map(listing => (
-      <Marker
-        key={listing.id}
-        title={listing.title}
-        description={listing.description}
-        onCalloutPress={() => {
-          onPress(listing)
-        }}
-        coordinate={{
-          latitude: listing?.latitude,
-          longitude: listing?.longitude,
-        }}
-      />
-    ))
+    return filteredListings?.map(
+      listing => (
+        console.log('tempListings tempListings', listing),
+        (
+          <Marker
+            key={listing.id}
+            title={listing.title}
+            description={listing.description}
+            onCalloutPress={() => {
+              onPress(listing)
+            }}
+            coordinate={{
+              latitude: listing?.latitude,
+              longitude: listing?.longitude,
+            }}
+          />
+        )
+      ),
+    )
   }
 
   const renderListing = ({ item, index }) => {

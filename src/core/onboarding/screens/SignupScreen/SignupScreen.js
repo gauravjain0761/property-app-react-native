@@ -23,6 +23,8 @@ import { localizedErrorMessage } from '../../api/ErrorCode'
 import TermsOfUseView from '../../components/TermsOfUseView'
 import { useOnboardingConfig } from '../../hooks/useOnboardingConfig'
 import { useAuth } from '../../hooks/useAuth'
+import IMGoogleSignInButton from '../../components/IMGoogleSignInButton/IMGoogleSignInButton'
+import { firestore } from '../../../firebase/config'
 
 const SignupScreen = () => {
   const navigation = useNavigation()
@@ -190,6 +192,58 @@ const SignupScreen = () => {
       </>
     )
   }
+  const onGoogleButtonPress = () => {
+    const usersRef = firestore().collection('users')
+    setLoading(true)
+    authManager
+      .loginOrSignUpWithGoogle(config)
+      .then(response => {
+        if (response?.user) {
+          const user = response?.user
+          usersRef
+            .doc(user?.userID)
+            .get()
+            .then(response => {
+              setLoading(false)
+              let user = response?.data()
+              dispatch(setUserData({ user }))
+              Keyboard.dismiss()
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'MainStack', params: { user } }],
+              })
+            })
+            .catch(error => {
+              setLoading(false)
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'MainStack', params: { user } }],
+              })
+            })
+        } else {
+          setLoading(false)
+          Alert.alert(
+            '',
+            localizedErrorMessage(response.error, localized),
+            [{ text: localized('OK') }],
+            {
+              cancelable: false,
+            },
+          )
+        }
+      })
+      .catch(error => {
+        setLoading(false)
+        Alert.alert(
+          '',
+          localizedErrorMessage(error, localized),
+          [{ text: localized('OK') }],
+          {
+            cancelable: false,
+          },
+        )
+      })
+  }
 
   return (
     <View style={styles.container}>
@@ -205,6 +259,13 @@ const SignupScreen = () => {
         {config.isSMSAuthEnabled && (
           <>
             <Text style={styles.orTextStyle}>{localized('OR')}</Text>
+            {config.isGoogleAuthEnabled && (
+              <IMGoogleSignInButton
+                containerStyle={styles.googleButtonStyle}
+                onPress={onGoogleButtonPress}
+                title="Sign Up with Google"
+              />
+            )}
             <TouchableOpacity
               style={styles.PhoneNumberContainer}
               onPress={() => navigation.navigate('Sms', { isSigningUp: true })}>

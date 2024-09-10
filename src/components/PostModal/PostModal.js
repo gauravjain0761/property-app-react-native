@@ -31,12 +31,15 @@ import { listingsAPI } from '../../core/listing/api'
 import dynamicStyles from './styles'
 import { useConfig } from '../../config'
 import { firebase } from '@react-native-firebase/firestore'
+import { Dropdown } from 'react-native-element-dropdown'
 
 function PostModal(props) {
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
   const config = useConfig()
+
+  let currencyData = config.currencyData
 
   const { selectedItem, categories } = props || {}
   const defaultState = {
@@ -49,7 +52,7 @@ function PostModal(props) {
     },
     localPhotos: [],
     photoUrls: [],
-    price: '$1000',
+    price: '1000',
     textInputValue: '',
     filter: {},
     filterValue: localized('Select...'),
@@ -101,6 +104,7 @@ function PostModal(props) {
   const [selectedCategory, setSelectedCategory] = useState(
     defaultState.subCategories,
   )
+  const [selectcurrency, setSelectcurrency] = useState(currencyData[0])
 
   const { showActionSheetWithOptions } = useActionSheet()
 
@@ -156,8 +160,7 @@ function PostModal(props) {
   const selectFilter = () => {
     if (!category?.id) {
       alert(localized('You must choose a category first.'))
-    }
-    if (category?.name == 'Real Estate' && !selectedCategory?.id) {
+    } else if (category?.name == 'Real Estate' && !selectedCategory?.id) {
       alert(localized('You must choose a subcategory first.'))
     } else {
       setFilterModalVisible(true)
@@ -247,6 +250,7 @@ function PostModal(props) {
           photo: photoUrls.length > 0 ? photoUrls[0] : null,
           photos: photoUrls,
           photoURLs: photoUrls,
+          currency: selectcurrency?.label,
         }
         listingsAPI.postListing(
           props.selectedItem,
@@ -465,6 +469,17 @@ function PostModal(props) {
           <View style={styles.section}>
             <View style={styles.row}>
               <Text style={styles.title}>{localized('Price')}</Text>
+              <Dropdown
+                labelField="label"
+                valueField="value"
+                value={selectcurrency}
+                placeholder="1"
+                data={config?.currencyData}
+                onChange={e => {
+                  setSelectcurrency(e)
+                }}
+                style={{ ...styles.dropdown }}
+              />
               <TextInput
                 style={styles.priceInput}
                 keyboardType="numeric"
@@ -566,6 +581,7 @@ function PostModal(props) {
               onDone={onSelectFilterDone}
               category={category}
               subCategories={selectedCategory}
+              ignoreFilds={'currency'}
             />
           )}
           {locationModalVisible && (
