@@ -107,6 +107,8 @@ export const registerWithEmail = (userDetails, appIdentifier) => {
           signUpLocation: signUpLocation || '',
           appIdentifier,
           createdAt: timestamp,
+          isEmailVerified: true,
+          isPhoneVerified: false,
         }
         usersRef
           .doc(uid)
@@ -135,8 +137,7 @@ export const loginWithEmailAndPassword = async (email, password) => {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(response => {
-        const uid = response.user.uid
-
+        const uid = response?.user?.uid
         const userData = {
           email,
           id: uid,
@@ -145,7 +146,7 @@ export const loginWithEmailAndPassword = async (email, password) => {
           .doc(uid)
           .get()
           .then(function (firestoreDocument) {
-            if (!firestoreDocument.exists) {
+            if (!firestoreDocument?.exists) {
               // User does not exist anymore in users collection, but it exists in Auth, so we create a new one
               usersRef.doc(uid).set(userData, { merge: true })
               resolve({
@@ -213,6 +214,8 @@ const signInWithCredential = (credential, appIdentifier, socialAuthType) => {
             userID: uid,
             appIdentifier,
             createdAt: timestamp,
+            isEmailVerified: true,
+            isPhoneVerified: phoneNumber ? true : false,
             ...(socialAuthType ? { socialAuthType } : {}),
           }
           usersRef
@@ -333,7 +336,10 @@ export const sendSMSToPhoneNumber = phoneNumber => {
 }
 
 export const loginWithSMSCode = (smsCode, verificationID) => {
-  const credential = auth.PhoneAuthProvider.credential(verificationID, smsCode)
+  const credential = auth?.PhoneAuthProvider?.credential(
+    verificationID,
+    smsCode,
+  )
   return new Promise(function (resolve, _reject) {
     auth()
       .signInWithCredential(credential)
@@ -345,7 +351,7 @@ export const loginWithSMSCode = (smsCode, verificationID) => {
           .then(function (firestoreDocument) {
             if (!firestoreDocument.exists) {
               // User does not exist anymore in users collection, but it exists in Auth, so we create a new one
-              usersRef.doc(user.uid).set({ id: user.uid }, { merge: true })
+              usersRef?.doc(user.uid)?.set({ id: user.uid }, { merge: true })
               resolve({
                 user: { id: user.uid },
                 warning:
@@ -353,7 +359,7 @@ export const loginWithSMSCode = (smsCode, verificationID) => {
               })
               return
             }
-            const userData = firestoreDocument.data()
+            const userData = firestoreDocument?.data()
             resolve({ user: userData })
           })
           .catch(function (_error) {
@@ -380,7 +386,7 @@ export const registerWithPhoneNumber = (
     profilePictureURL,
     location,
     signUpLocation,
-  } = userDetails
+  } = userDetails || {}
   const credential = auth.PhoneAuthProvider.credential(verificationID, smsCode)
   return new Promise(function (resolve, _reject) {
     auth()
@@ -412,6 +418,8 @@ export const registerWithPhoneNumber = (
           signUpLocation: signUpLocation || '',
           appIdentifier,
           createdAt: timestamp,
+          isPhoneVerified: true,
+          isEmailVerified: false,
         }
         usersRef
           .doc(uid)

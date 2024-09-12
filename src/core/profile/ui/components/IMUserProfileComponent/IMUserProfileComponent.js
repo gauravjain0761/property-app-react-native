@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, StatusBar } from 'react-native'
+import { Text, View, StatusBar, Image } from 'react-native'
 import { useTheme, useTranslations } from '../../../../dopebase'
 import dynamicStyles from './styles'
 import IMProfileItemView from '../IMProfileItemView/IMProfileItemView'
@@ -14,6 +14,7 @@ const IMUserProfileComponent = props => {
   const currentUser = useCurrentUser()
 
   const { profilePictureURL, id } = currentUser
+  const { isPhoneVerified, isEmailVerified } = currentUser || {}
 
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
@@ -89,7 +90,12 @@ const IMUserProfileComponent = props => {
               profilePictureURL={profilePicture}
             />
           </View>
-          <Text style={styles.userName}>{displayName()}</Text>
+          <View style={styles.namecontainer}>
+            <Text style={styles.userName}>{displayName()}</Text>
+            {isPhoneVerified && isEmailVerified ? (
+              <Image source={theme?.icons?.verify} style={styles.verifyicon} />
+            ) : null}
+          </View>
           {menuItems.map((menuItem, index) => {
             return renderMenuItem(menuItem, index)
           })}

@@ -41,6 +41,16 @@ const dynamicStyles = (theme, appearance) => {
       fontWeight: 'bold',
       color: colorSet.primaryText,
     },
+    namecontainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    icons: {
+      width: 16,
+      height: 16,
+      top: 1,
+    },
   })
 }
 

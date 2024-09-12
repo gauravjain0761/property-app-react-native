@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { useTheme, useTranslations } from '../../dopebase'
 import IMConversationIconView from './IMConversationIconView/IMConversationIconView'
 import { timeFormat } from '../../helpers/timeFormat'
@@ -8,7 +8,7 @@ import { formatMessage } from '../helpers/utils'
 import { IMRichTextView } from '../../mentions'
 
 const IMConversationView = memo(props => {
-  const { onChatItemPress, item, user } = props
+  const { onChatItemPress, item, user, isverified } = props
 
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
@@ -33,13 +33,18 @@ const IMConversationView = memo(props => {
         }
       />
       <View style={styles.chatItemContent}>
-        <Text
-          style={[
-            styles.chatFriendName,
-            !markedAsRead && styles.unReadmessage,
-          ]}>
-          {title}
-        </Text>
+        <View style={styles.namecontainer}>
+          <Text
+            style={[
+              styles.chatFriendName,
+              !markedAsRead && styles.unReadmessage,
+            ]}>
+            {title}
+          </Text>
+          {isverified && (
+            <Image style={styles?.icons} source={theme?.icons?.verify} />
+          )}
+        </View>
         <View style={styles.content}>
           <Text
             numberOfLines={1}

@@ -41,10 +41,8 @@ const dynamicStyles = (theme, appearance) => {
       height: 27,
     },
     userName: {
-      marginTop: 5,
       color: colorSet.primaryText,
       fontSize: 17,
-      marginBottom: 40,
     },
     logout: {
       width: '90%',
@@ -55,6 +53,17 @@ const dynamicStyles = (theme, appearance) => {
       borderColor: colorSet.grey3,
       borderRadius: 5,
       textAlign: 'center',
+    },
+    verifyicon: {
+      width: 18,
+      height: 18,
+      top: 1,
+    },
+    namecontainer: {
+      marginBottom: 40,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
     },
   })
 }

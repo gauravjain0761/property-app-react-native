@@ -49,6 +49,7 @@ const IMConversationListView = memo(props => {
   }, [pullToRefresh, onRefreshHeader])
 
   const pullToRefreshConfig = { refreshing, onRefresh: onPullToRefresh }
+  const { isEmailVerified, isPhoneVerified } = currentUser || {}
 
   return (
     <IMConversationList
@@ -61,6 +62,7 @@ const IMConversationListView = memo(props => {
       onListEndReached={onListEndReached}
       pullToRefreshConfig={pullToRefreshConfig}
       loadingBottom={loadingBottom}
+      // isverified={isEmailVerified && isPhoneVerified}
     />
   )
 })

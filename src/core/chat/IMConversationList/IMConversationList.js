@@ -15,6 +15,7 @@ const IMConversationList = memo(props => {
     headerComponent,
     onListEndReached,
     pullToRefreshConfig,
+    isverified,
   } = props
   const { refreshing, onRefresh } = pullToRefreshConfig
 
@@ -26,6 +27,7 @@ const IMConversationList = memo(props => {
       onChatItemPress={onConversationPress}
       item={item}
       user={user}
+      isverified={isverified}
     />
   )
 

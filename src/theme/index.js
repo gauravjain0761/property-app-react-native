@@ -61,6 +61,7 @@ const icons = {
   blockedUser: require('../assets/icons/blocked-user-64.png'),
   land: require('../assets/icons/land.png'),
   house: require('../assets/icons/house.png'),
+  verify: require('../assets/icons/verify.png'),
 }
 
 const lightColors = {
