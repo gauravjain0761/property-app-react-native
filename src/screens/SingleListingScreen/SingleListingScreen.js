@@ -324,7 +324,7 @@ function SingleListingScreen(props) {
             customStyle={styles.headerIconContainer}
             icon={saved ? theme.icons.heartFilled : theme.icons.heart}
             onPress={onPressSave}
-            iconStyle={styles.headerIcon}
+            iconStyle={{ ...styles.headerIcon, width: 30 }}
           />
         </View>
       ),

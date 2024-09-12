@@ -60,14 +60,20 @@ function PostModal(props) {
     subCategories: { name: localized('Select...') },
   }
 
-  // if (categories.length > 0) category = categories[0];
+  useEffect(() => {
+    if (selectedItem) {
+      onPresstoGetSubcategory({ key: selectedItem?.subCategoryID })
+    }
+  }, [])
+
   if (selectedItem) {
     const { title, latitude, longitude, photos, filters, place } =
       selectedItem || {}
-
-    defaultState.category = categories.find(
-      category => selectedItem?.categoryID === category?.id,
+    defaultState.category = categories?.find(
+      category => selectedItem?.subCategoryID === category?.id,
     )
+    defaultState.subCategories =
+      subCategories?.id == selectedItem?.subCategoryID && subCategories?.name
     defaultState.title = title
     defaultState.description = selectedItem.description
     defaultState.location = {
@@ -81,6 +87,7 @@ function PostModal(props) {
     defaultState.address = place
   }
 
+  // if (categories.length > 0) category = categories[0];
   const currentUser = useSelector(state => state.auth.user)
 
   const [category, setCategory] = useState(defaultState.category)
@@ -217,8 +224,8 @@ function PostModal(props) {
         uploadPromiseArray.push(
           new Promise((resolve, reject) => {
             storageAPI.processAndUploadMediaFile(file).then(response => {
-              if (response.downloadURL) {
-                photoUrls.push(response.downloadURL)
+              if (response?.downloadURL) {
+                photoUrls.push(response?.downloadURL)
               }
               resolve()
             })
@@ -251,6 +258,7 @@ function PostModal(props) {
           photos: photoUrls,
           photoURLs: photoUrls,
           currency: selectcurrency?.label,
+          subCategoryID: category?.id,
         }
         listingsAPI.postListing(
           props.selectedItem,
@@ -500,7 +508,7 @@ function PostModal(props) {
               selectedItemTextStyle={styles.selectedItemTextStyle}
               backdropPressToClose={true}
               cancelText={localized('Cancel')}
-              initValue={category.name}
+              initValue={category?.name}
               onChange={option => {
                 setCategory({ id: option.key, name: option.label })
                 setFilterValue(
@@ -515,10 +523,10 @@ function PostModal(props) {
               }}>
               <View style={styles.row}>
                 <Text style={styles.title}>{localized('Category')}</Text>
-                <Text style={styles.value}>{category.name}</Text>
+                <Text style={styles.value}>{category?.name}</Text>
               </View>
             </ModalSelector>
-            {category.name == 'Real Estate' && (
+            {category?.name == 'Real Estate' && (
               <ModalSelector
                 touchableActiveOpacity={0.9}
                 data={subCategoryData}
@@ -530,11 +538,11 @@ function PostModal(props) {
                 selectedItemTextStyle={styles.selectedItemTextStyle}
                 backdropPressToClose={true}
                 cancelText={localized('Cancel')}
-                initValue={category.name}
+                initValue={category?.name}
                 onChange={option => {
                   setSelectedCategory({ id: option.key, name: option.label })
                   setFilterValue(
-                    category.id === option.key
+                    category?.id === option.key
                       ? filterValue
                       : localized('Select...'),
                   )
@@ -542,7 +550,7 @@ function PostModal(props) {
                 }}>
                 <View style={styles.row}>
                   <Text style={styles.title}>{'Sub Category'}</Text>
-                  <Text style={styles.value}>{selectedCategory.name}</Text>
+                  <Text style={styles.value}>{selectedCategory?.name}</Text>
                 </View>
               </ModalSelector>
             )}

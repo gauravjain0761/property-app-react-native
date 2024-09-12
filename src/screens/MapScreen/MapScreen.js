@@ -167,29 +167,31 @@ function MapScreen(props) {
     })
   }
 
-  const markerArr = data.map((listing, index) => (
-    <Marker
-      key={index}
-      title={listing.title}
-      description={listing.description}
-      onCalloutPress={() => {
-        onPress(listing)
-      }}
-      coordinate={{
-        latitude: listing.latitude,
-        longitude: listing.longitude,
-      }}>
-      <Image
-        source={
-          listing?.categoryID == 'aeqGqN6dPVzeZqwt1kIAK7'
-            ? theme?.icons?.land
-            : theme?.icons?.house
-        }
-        resizeMode="cover"
-        style={{ width: 60, height: 60 }}
-      />
-    </Marker>
-  ))
+  const markerArr = data?.map((listing, index) => {
+    return (
+      <Marker
+        key={index}
+        title={listing.title}
+        description={listing.description}
+        onCalloutPress={() => {
+          onPress(listing)
+        }}
+        coordinate={{
+          latitude: listing.latitude,
+          longitude: listing.longitude,
+        }}>
+        <Image
+          source={
+            listing?.categoryID == config?.serverConfig?.categories?.Land
+              ? theme?.icons?.land
+              : theme?.icons?.house
+          }
+          resizeMode="cover"
+          style={{ width: 60, height: 60 }}
+        />
+      </Marker>
+    )
+  })
 
   return (
     <MapView

@@ -22,7 +22,11 @@ export default function HeaderButton(props) {
           color={theme.colors[appearance].primaryForeground}
         />
       ) : (
-        <Image style={[style, props.iconStyle]} source={props.icon} />
+        <Image
+          style={[style, props.iconStyle]}
+          resizeMode="cover"
+          source={props.icon}
+        />
       )}
     </TouchableOpacity>
   )

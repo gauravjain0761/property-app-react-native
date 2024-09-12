@@ -116,15 +116,26 @@ function SearchScreen(props) {
       searchedText.current !== null
         ? searchedText.current.toLowerCase().trim()
         : ''
-    originalData.forEach(listing => {
-      if (listing?.title) {
-        var index = listing.title.toLowerCase().search(text)
-        if (index !== -1) {
-          data.push(listing)
-        }
-      }
-    })
-    setData(data)
+    const results = originalData
+      ?.filter(listing => {
+        return (
+          (listing?.title && listing?.title.toLowerCase().includes(text)) ||
+          (listing?.place && listing?.place.toLowerCase().includes(text)) ||
+          (listing?.price && listing?.price.toLowerCase().includes(text)) ||
+          (listing?.filters?.Bedrooms &&
+            listing?.filters.Bedrooms.toString().includes(text)) ||
+          (listing?.filters?.['Year Built'] &&
+            listing?.filters?.['Year Built'].toString().includes(text)) ||
+          (listing?.filters?.['Price Range'] &&
+            listing?.filters?.['Price Range'].toLowerCase().includes(text)) ||
+          (listing?.filters?.['Square feet'] &&
+            listing?.filters?.['Square feet'].toString().includes(text)) ||
+          (listing?.filters?.Baths &&
+            listing?.filters?.Baths.toString().includes(text))
+        )
+      })
+      ?.sort((a, b) => Number(a?.price) - Number(b?.price))
+    setData(results)
   }
 
   const onListingsUpdate = listingsData => {
@@ -152,6 +163,7 @@ function SearchScreen(props) {
         listing={item}
         onPress={() => onListingPress(item)}
         index={index}
+        key={index}
       />
     )
   }

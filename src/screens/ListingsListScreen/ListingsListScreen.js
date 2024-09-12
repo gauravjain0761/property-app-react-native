@@ -50,6 +50,7 @@ function ListingsListScreen(props) {
   const [shouldUseOwnLocation, setShouldUseOwnLocation] = useState(false) // Set this to true to show the user's location
 
   const unsubscribe = useRef(null)
+  const mapRef = useRef(null)
 
   useEffect(() => {
     let currentTheme = theme.colors[appearance]
@@ -94,6 +95,7 @@ function ListingsListScreen(props) {
   const onChangeLocation = location => {
     setLatitude(location.latitude)
     setLongitude(location.longitude)
+    animateToInitialRegion(location)
   }
 
   const onSelectFilter = () => {
@@ -117,16 +119,16 @@ function ListingsListScreen(props) {
           if (
             filter[key] != 'Any' &&
             filter[key] != 'All' &&
-            listing.filters[key] != filter[key]
+            listing.filters[key] != filter[key] &&
+            listing[key] != filter[key]
           ) {
             matched = false
           }
         })
-
       listing.matched = matched
     }
 
-    tempListings = listings.filter(listing => listing.matched)
+    tempListings = listings?.filter(listing => listing.matched)
 
     setFilteredListings(tempListings)
   }, [filter, listings])
@@ -192,6 +194,10 @@ function ListingsListScreen(props) {
       setListings(listingsData)
       setLatitude((max_latitude + min_latitude) / 2)
       setLongitude((max_longitude + min_logitude) / 2)
+      animateToInitialRegion({
+        Latitude: (max_latitude + min_latitude) / 2,
+        Longitude: (max_longitude + min_logitude) / 2,
+      })
     } else {
       setListings(listingsData)
     }
@@ -275,6 +281,21 @@ function ListingsListScreen(props) {
     )
   }
 
+  const animateToInitialRegion = center => {
+    if (mapRef.current) {
+      mapRef.current.animateCamera(
+        {
+          center: center,
+          pitch: 0,
+          heading: 0,
+          altitude: 1000,
+          zoom: 10,
+        },
+        { duration: 1000 },
+      )
+    }
+  }
+
   const renderEmptyComponent = useMemo(() => {
     const emptyStateConfig = {
       title: localized('No Listings'),
@@ -296,12 +317,13 @@ function ListingsListScreen(props) {
       {mapMode && filteredListings && (
         <MapView
           style={styles.mapView}
+          ref={mapRef}
           showsUserLocation={shouldUseOwnLocation}
           region={{
             latitude: latitude,
-            latitudeDelta: 0.0422,
+            latitudeDelta: latitudeDelta,
             longitude: longitude,
-            longitudeDelta: 0.0221,
+            longitudeDelta: longitudeDelta,
           }}>
           {markerArr()}
         </MapView>

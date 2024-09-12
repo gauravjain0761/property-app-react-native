@@ -14,8 +14,8 @@ const dynamicStyles = (theme, appearance) => {
     },
     headerIcon: {
       tintColor: theme.colors[appearance].primaryForeground,
-      height: 24,
-      width: 24,
+      height: 26,
+      width: 26,
     },
     container: {
       backgroundColor: theme.colors[appearance].primaryBackground,

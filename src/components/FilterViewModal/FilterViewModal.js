@@ -18,7 +18,7 @@ function FilterViewModal(props) {
   const unsubscribe = useRef(null)
 
   const onCollectionUpdate = updatedData => {
-    updatedData.forEach(updatedFilter => {
+    updatedData?.forEach(updatedFilter => {
       if (filter[updatedFilter.name]) {
         updatedData.name = filter[updatedFilter.name]
       }
@@ -88,7 +88,7 @@ function FilterViewModal(props) {
     )
   }
 
-  const selectorArray = data.map(item => {
+  const selectorArray = data?.map(item => {
     return renderItem(item)
   })
 

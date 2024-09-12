@@ -153,7 +153,7 @@ function HomeScreen(props) {
       navigation.navigate('DelayedLogin')
       return
     }
-    if (item.authorID === currentUser?.id) {
+    if (item?.authorID === currentUser?.id) {
       await setSelectedItem(item)
       showActionSheetWithOptions(
         {
