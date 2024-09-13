@@ -19,6 +19,9 @@ const dynamicStyles = (theme, appearance) => {
       flex: 1,
       alignItems: 'center',
       marginTop: 15,
+      flexDirection: 'row',
+      alignSelf: 'center',
+      gap: 8,
     },
     cardName: {
       color: theme.colors[appearance].primaryText,
@@ -30,6 +33,11 @@ const dynamicStyles = (theme, appearance) => {
     },
     profileCardContainer: {
       flex: 3,
+    },
+    icons: {
+      width: 16,
+      height: 16,
+      top: 1,
     },
   })
 }

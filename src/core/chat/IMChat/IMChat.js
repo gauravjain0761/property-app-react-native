@@ -54,6 +54,7 @@ const IMChat = memo(props => {
     richTextInputRef,
     onChatUserItemPress,
     onReaction,
+    isVerify,
   } = props
 
   const { localized } = useTranslations()
@@ -71,17 +72,10 @@ const IMChat = memo(props => {
   const REPLY = localized('Reply')
   const DELETE = localized('Delete')
 
-  const mediaThreadItemSheetOptions = [
-    CANCEL,
-  ]
+  const mediaThreadItemSheetOptions = [CANCEL]
 
-  const inBoundThreadItemSheetOptions = [
-    REPLY,
-  ]
-  const outBoundThreadItemSheetOptions = [
-    REPLY,
-    DELETE,
-  ]
+  const inBoundThreadItemSheetOptions = [REPLY]
+  const outBoundThreadItemSheetOptions = [REPLY, DELETE]
 
   const markUserAsTyping = inputValue => {
     if (inputValue?.length > 0) {
@@ -163,14 +157,12 @@ const IMChat = memo(props => {
         return onReplyPress(index)
       }
 
-
       if (index === outBoundThreadItemSheetOptions.indexOf(DELETE)) {
         return onDeleteThreadItem && onDeleteThreadItem(temporaryInReplyToItem)
       }
     },
     [onDeleteThreadItem, onReplyPress],
   )
-
 
   const onThreadItemActionSheetDone = useCallback(
     index => {
@@ -184,7 +176,6 @@ const IMChat = memo(props => {
     },
     [threadItemActionSheet.inBound, handleInBoundThreadItemActionSheet],
   )
-
 
   const onReactionPress = async reaction => {
     // this was a reaction on the reactions tray, coming after a long press + one tap

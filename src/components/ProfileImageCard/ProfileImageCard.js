@@ -1,6 +1,5 @@
 import React, { memo, useState } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
-import { Image } from 'expo-image'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { useTheme } from '../../core/dopebase'
 import dynamicStyles from './styles'
 
@@ -16,6 +15,8 @@ const ProfileImageCard = memo(props => {
   const lastName = user.lastName ? user.lastName : ''
   const firstName = user.firstName ? user.firstName : user.fullname
   const fullName = `${firstName} ${lastName}`
+
+  const { isEmailVerified, isPhoneVerified } = user || {}
 
   const onImageError = () => {
     setImgErr(true)
@@ -40,6 +41,9 @@ const ProfileImageCard = memo(props => {
       </TouchableOpacity>
       <View style={styles.cardNameContainer}>
         <Text style={styles.cardName}>{fullName}</Text>
+        {isEmailVerified && isPhoneVerified && (
+          <Image source={theme?.icons?.verify} style={styles?.icons} />
+        )}
       </View>
     </View>
   )

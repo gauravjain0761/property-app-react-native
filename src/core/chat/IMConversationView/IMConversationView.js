@@ -21,7 +21,7 @@ const IMConversationView = memo(props => {
 
   return (
     <TouchableOpacity
-      onPress={() => onChatItemPress(item)}
+      onPress={() => onChatItemPress(item, isverified)}
       style={styles.chatItemContainer}>
       <IMConversationIconView
         participants={

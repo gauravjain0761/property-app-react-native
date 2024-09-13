@@ -38,6 +38,7 @@ const IMChatScreen = memo(props => {
   const { navigation, route } = props
   const openedFromPushNotification = route?.params?.openedFromPushNotification
   const isChatUserItemPress = route?.params?.isChatUserItemPress
+  const isVerify = route?.params?.isVerify
 
   const {
     messages,
@@ -259,7 +260,6 @@ const IMChatScreen = memo(props => {
       )
     return { ...channel, otherParticipants }
   }
-
 
   const onGroupSettingsActionDone = useCallback(
     (index, passedChannel) => {
@@ -543,6 +543,7 @@ const IMChatScreen = memo(props => {
       downloadObject,
       inReplyToItem,
     )
+    console.log('tempInputValue tempInputValue', newMessage)
     richTextInputRef.current?.clear()
     setInputValue('')
     setInReplyToItem(null)
@@ -874,6 +875,7 @@ const IMChatScreen = memo(props => {
       onChatUserItemPress={onChatUserItemPress}
       onReaction={onReaction}
       onForwardMessageActionPress={onForwardMessageActionPress}
+      isVerify={isVerify}
     />
   )
 })

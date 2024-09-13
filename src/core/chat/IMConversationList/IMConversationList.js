@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import { View, FlatList, ActivityIndicator } from 'react-native'
 import { useTheme, EmptyStateView } from '../../dopebase'
 import IMConversationView from '../IMConversationView'
@@ -15,21 +15,25 @@ const IMConversationList = memo(props => {
     headerComponent,
     onListEndReached,
     pullToRefreshConfig,
-    isverified,
+    userList,
+    isData,
   } = props
   const { refreshing, onRefresh } = pullToRefreshConfig
 
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
-  const renderConversationView = ({ item }) => (
-    <IMConversationView
-      onChatItemPress={onConversationPress}
-      item={item}
-      user={user}
-      isverified={isverified}
-    />
-  )
+  const renderConversationView = ({ item }) => {
+    let { isEmailVerified, isPhoneVerified } = item || {}
+    return (
+      <IMConversationView
+        onChatItemPress={onConversationPress}
+        item={item}
+        user={user}
+        isverified={isEmailVerified && isPhoneVerified}
+      />
+    )
+  }
 
   if (loading) {
     return (
@@ -39,7 +43,7 @@ const IMConversationList = memo(props => {
     )
   }
 
-  return (
+  return isData ? (
     <FlatList
       vertical={true}
       style={styles.container}
@@ -50,11 +54,6 @@ const IMConversationList = memo(props => {
       keyExtractor={item => `${item.id}`}
       removeClippedSubviews={false}
       ListHeaderComponent={headerComponent}
-      ListEmptyComponent={
-        <View style={styles.emptyViewContainer}>
-          <EmptyStateView emptyStateConfig={emptyStateConfig} />
-        </View>
-      }
       ListFooterComponent={
         loadingBottom && (
           <View style={styles.loadingFooter}>
@@ -67,6 +66,10 @@ const IMConversationList = memo(props => {
       onEndReached={onListEndReached}
       onEndReachedThreshold={0.3}
     />
+  ) : (
+    <View style={styles.emptyViewContainer}>
+      <EmptyStateView emptyStateConfig={emptyStateConfig} />
+    </View>
   )
 })
 

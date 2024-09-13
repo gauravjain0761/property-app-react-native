@@ -9,11 +9,13 @@ import {
   deleteGroup as deleteGroupAPI,
   markUserAsTypingInChannel as markUserAsTypingInChannelAPI,
 } from './firebaseChatClient'
+import { firestore } from '../../../firebase/config'
 
 export const useChatChannels = () => {
   const [channels, setChannels] = useState(null)
   const [refreshing, setRefreshing] = useState(false)
   const [loadingBottom, setLoadingBottom] = useState(false)
+  const [getList, setgetList] = useState([])
 
   const pagination = useRef({ page: 0, size: 25, exhausted: false })
   const realtimeChannelsRef = useRef(null)
@@ -50,6 +52,14 @@ export const useChatChannels = () => {
         deduplicatedChannels(oldChannels, newChannels, false),
       )
     })
+  }
+
+  const userList = async () => {
+    let list = await firestore()
+      .collection('users')
+      ?.get()
+      ?.then(async users => users.docs.map(doc => doc?.data()))
+    setgetList(list)
   }
 
   const pullToRefresh = async userID => {
@@ -123,7 +133,7 @@ export const useChatChannels = () => {
       : newChannels
     const deduplicatedChannels = all.reduce((acc, curr) => {
       if (!acc.some(friend => friend.id === curr.id)) {
-        acc.push(curr)
+        acc?.push(curr)
       }
       return acc
     }, [])
@@ -143,5 +153,7 @@ export const useChatChannels = () => {
     updateGroup,
     leaveGroup,
     deleteGroup,
+    userList,
+    getList,
   }
 }
