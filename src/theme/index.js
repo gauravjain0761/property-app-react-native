@@ -62,6 +62,7 @@ const icons = {
   land: require('../assets/icons/land.png'),
   house: require('../assets/icons/house.png'),
   verify: require('../assets/icons/verify.png'),
+  dots: require('../assets/icons/dots.png'),
 }
 
 const lightColors = {

@@ -23,11 +23,13 @@ const IMBlockedUsersScreen = props => {
   const onUserUnblock = useCallback(
     async userID => {
       setIsLoading(true)
-      await unblockUser(currentUser.id, userID)
-
+      const response = await unblockUser(currentUser.id, userID)
       setIsLoading(false)
+      if (!response?.error) {
+        navigation.goBack(null)
+      }
     },
-    [unblockUser, currentUser.id],
+    [unblockUser, currentUser?.id],
   )
 
   useLayoutEffect(() => {

@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+  useCallback,
+} from 'react'
 import {
   Dimensions,
   FlatList,
@@ -15,13 +21,16 @@ import { Image } from 'expo-image'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import MapView, { Marker } from 'react-native-maps'
 import StarRating from 'react-native-star-rating'
-import { useTheme, useTranslations } from '../../core/dopebase'
+import { useActionSheet, useTheme, useTranslations } from '../../core/dopebase'
 import { reviewAPI, listingsAPI } from '../../core/listing/api'
 import HeaderButton from '../../components/HeaderButton/HeaderButton'
 import IMAddReviewModal from '../../core/review/components/IMAddReviewModal/IMAddReviewModal'
 import { timeFormat } from '../../core/helpers/timeFormat'
 import dynamicStyles from './styles'
 import { useConfig } from '../../config'
+import { head } from 'lodash'
+import { useUserReportingMutations } from '../../core/user-reporting'
+import { ActivityIndicator as Activityindicator } from '../../core/dopebase'
 
 const defaultAvatar =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg'
@@ -36,6 +45,7 @@ function SingleListingScreen(props) {
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
   const config = useConfig()
+  const { markAbuse } = useUserReportingMutations()
 
   const { navigation, route } = props
 
@@ -50,6 +60,7 @@ function SingleListingScreen(props) {
   const [reviewModalVisible, setReviewModalVisible] = useState(false)
   const [saved, setSaved] = useState(false)
   const [didFinishAnimation, setDidFinishAnimation] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const currentUser = useSelector(state => state.auth.user)
 
@@ -62,6 +73,8 @@ function SingleListingScreen(props) {
       setWillBlur(false)
     }),
   )
+
+  const { showActionSheetWithOptions } = useActionSheet()
 
   const onBackButtonPressAndroid = () => {
     const customLeft = props?.route?.params?.customLeft
@@ -266,6 +279,73 @@ function SingleListingScreen(props) {
     })
   }
 
+  const onUserReportPress = useCallback(
+    otherid => {
+      reportAbuse(otherid, 'report')
+    },
+    [currentUser?.id, reportAbuse],
+  )
+  const onUserBlockPress = useCallback(
+    otherid => {
+      reportAbuse(otherid, 'block')
+    },
+    [currentUser?.id, reportAbuse],
+  )
+
+  const onSettingsActionDone = useCallback(
+    (index, otherid) => {
+      var message, actionCallback
+      if (index == 2) {
+        return
+      }
+      if (index == 0) {
+        ;(actionCallback = onUserReportPress),
+          (message = localized('Are you sure you want to report this user?'))
+      }
+      if (index == 1) {
+        actionCallback = onUserBlockPress
+        message = localized('Are you sure you want to block this user?')
+      }
+      Alert.alert(localized('Are you sure?'), message, [
+        {
+          text: localized('Yes'),
+          onPress: () => actionCallback(otherid),
+        },
+        {
+          text: localized('Cancel'),
+          style: 'cancel',
+        },
+      ])
+    },
+    [onUserBlockPress, onUserReportPress],
+  )
+
+  const reportAbuse = async (otherUser, type) => {
+    setLoading(true)
+    const myID = currentUser?.id
+    const otherUserID = otherUser
+    const response = await markAbuse(myID, otherUserID, type)
+    setLoading(false)
+    if (!response?.error) {
+      navigation.goBack(null)
+    }
+  }
+
+  const onSettingsPress = useCallback(() => {
+    showActionSheetWithOptions(
+      {
+        title: localized('Actions'),
+        options: [
+          localized('Report user'),
+          localized('Block user'),
+          localized('Cancel'),
+        ],
+        cancelButtonIndex: 2,
+      },
+      index => onSettingsActionDone(index, listing?.authorID),
+    )
+  }, [])
+
   useLayoutEffect(() => {
     if (!currentUser || !listing) {
       return
@@ -297,7 +377,7 @@ function SingleListingScreen(props) {
               icon={theme.icons.accountDetail}
               onPress={() => {
                 navigation.navigate('ListingProfileModal', {
-                  userID: listing.authorID,
+                  userID: listing?.authorID,
                 })
               }}
             />
@@ -325,6 +405,12 @@ function SingleListingScreen(props) {
             icon={saved ? theme.icons.heartFilled : theme.icons.heart}
             onPress={onPressSave}
             iconStyle={{ ...styles.headerIcon, width: 30 }}
+          />
+          <HeaderButton
+            customStyle={styles.headerIconContainer}
+            icon={theme?.icons?.dots}
+            iconStyle={{ ...styles.headerIcon, width: 25 }}
+            onPress={onSettingsPress}
           />
         </View>
       ),
@@ -470,6 +556,7 @@ function SingleListingScreen(props) {
           submitReview={(rating, review) => onAddReview(rating, review)}
         />
       )}
+      {loading && <Activityindicator />}
     </ScrollView>
   )
 }
