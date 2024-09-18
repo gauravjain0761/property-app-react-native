@@ -11,6 +11,7 @@ import ThreadMediaItem from './ThreadMediaItem'
 import { IMRichTextView } from '../../mentions'
 import FacePile from './FacePile'
 import dynamicStyles, { WINDOW_HEIGHT } from './styles'
+import moment from 'moment'
 
 const assets = {
   boederImgSend: require('../assets/borderImg1.png'),
@@ -71,6 +72,8 @@ const ThreadItem = memo(props => {
     }
     setSeenFacepilePhotoURLs(profilePhotos)
   }, [item?.readUserIDs, participants, user, outBound, isRecentItem])
+
+  const time = moment.unix(item?.createdAt).format('hh:mm:a')
 
   const didPressMediaChat = () => {
     if (isAudio) {
@@ -191,14 +194,14 @@ const ThreadItem = memo(props => {
   const handleOnPress = () => {}
 
   const handleOnLongPress = () => {
-    threadRef.current.measure((fx, fy, width, height, px, py) => {
+    threadRef.current.measure((x, y, width, height, pageX, pageY) => {
       let reactionsPosition = 0
-      if (py <= 0) {
-        reactionsPosition = py * -1 + WINDOW_HEIGHT * 0.05
-      } else if (py - WINDOW_HEIGHT * 0.2 < WINDOW_HEIGHT * 0.05) {
-        reactionsPosition = py - WINDOW_HEIGHT * 0.07
+      if (pageY <= 0) {
+        reactionsPosition = pageY * -1 + WINDOW_HEIGHT * 0.05
+      } else if (pageY - WINDOW_HEIGHT * 0.2 < WINDOW_HEIGHT * 0.05) {
+        reactionsPosition = pageY - WINDOW_HEIGHT * 0.07
       } else {
-        reactionsPosition = py - WINDOW_HEIGHT * 0.2
+        reactionsPosition = pageY - WINDOW_HEIGHT * 0.2
       }
       onMessageLongPress &&
         onMessageLongPress(
@@ -285,10 +288,7 @@ const ThreadItem = memo(props => {
         onPress={handleOnPress}
         onLongPress={handleOnLongPress}
         onPressOut={handleOnPressOut}>
-        <View
-          ref={ref => {
-            threadRef.current = ref
-          }}>
+        <View collapsable={false} ref={threadRef}>
           {/* user thread item */}
           {outBound && (
             <>
@@ -329,10 +329,12 @@ const ThreadItem = memo(props => {
                       ) : (
                         <IMRichTextView
                           onUserPress={onChatUserItemPress}
+                          createdAt={item?.createdAt}
                           defaultTextStyle={styles.sendTextMessage}>
                           {item?.content}
                         </IMRichTextView>
                       )}
+                      <Text style={styles.sendTextMessageTime}>{time}</Text>
                       {renderTextBoederImg()}
                       {renderReactionsContainer()}
                     </View>
@@ -414,6 +416,7 @@ const ThreadItem = memo(props => {
                     ) : (
                       <></>
                     )}
+                    <Text style={styles.receiveTextMessageTime}>{time}</Text>
                     {renderTextBoederImg()}
                     {renderReactionsContainer()}
                   </View>

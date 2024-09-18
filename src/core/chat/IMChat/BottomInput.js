@@ -177,6 +177,7 @@ const BottomInput = memo(props => {
               onChange={onChange}
               onPressOut={onTextPressOut}
               editable={!isAudioRecorderVisible}
+              placeholderTextColor={theme.colors[appearance].secondaryText}
               showEditor={true}
               toggleEditor={() => {}}
               editorStyles={editorStyles}

@@ -184,7 +184,6 @@ function SingleListingScreen(props) {
       alert(localized('Please enter a review before submitting.'))
       return
     }
-
     reviewAPI.postReview(
       currentUser,
       listing,
@@ -194,8 +193,9 @@ function SingleListingScreen(props) {
       config.serverConfig.collections.listings,
       ({ success }) => {
         if (success) {
-          setReviewModalVisible(false)
-          return
+          alert(localized('Review has been submitted successfully!'))
+          // setReviewModalVisible(false)
+          // return
         }
         alert(error)
       },
@@ -245,19 +245,21 @@ function SingleListingScreen(props) {
             </Text>
             <Text style={styles.reviewTime}>{timeFormat(item.createdAt)}</Text>
           </View>
-          <StarRating
-            containerStyle={styles.starRatingContainer}
-            disabled={true}
-            maxStars={5}
-            starSize={22}
-            starStyle={styles.starStyle}
-            emptyStar={theme.icons.starNoFilled}
-            fullStar={theme.icons.starFilled}
-            halfStarColor={theme.colors[appearance].primaryForeground}
-            rating={item.starCount}
-          />
+          <View style={styles.reviewcontainer}>
+            <StarRating
+              containerStyle={styles.starRatingContainer}
+              disabled={true}
+              maxStars={5}
+              starSize={22}
+              starStyle={styles.starStyle}
+              emptyStar={theme.icons.starNoFilled}
+              fullStar={theme.icons.starFilled}
+              halfStarColor={theme.colors[appearance].primaryForeground}
+              rating={item.starCount}
+            />
+            <Text style={styles.reviewContent}>{item.content}</Text>
+          </View>
         </View>
-        <Text style={styles.reviewContent}>{item.content}</Text>
       </View>
     )
   }

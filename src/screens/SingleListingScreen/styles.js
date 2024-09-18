@@ -86,6 +86,7 @@ const dynamicStyles = (theme, appearance) => {
     },
     info: {
       flexDirection: 'row',
+      alignItems: 'center',
     },
     userPhoto: {
       width: 44,
@@ -105,14 +106,17 @@ const dynamicStyles = (theme, appearance) => {
       fontSize: 12,
     },
     starRatingContainer: {
-      padding: 10,
+      // padding: 10,
     },
     starStyle: {
       tintColor: theme.colors[appearance].primaryForeground,
     },
     reviewContent: {
       color: theme.colors[appearance].primaryText,
-      marginTop: 10,
+      // marginTop: 10,
+    },
+    reviewcontainer: {
+      alignItems: 'center',
     },
   })
 }

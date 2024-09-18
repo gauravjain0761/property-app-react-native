@@ -110,7 +110,6 @@ const IMChat = memo(props => {
     (threadItem, isMedia, reactionsPosition) => {
       setTemporaryInReplyToItem(threadItem)
       setIsReactionsContainerVisible(true)
-
       if (isMedia) {
         setThreadItemActionSheet({
           options: mediaThreadItemSheetOptions,

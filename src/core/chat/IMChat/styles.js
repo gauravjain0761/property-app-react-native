@@ -31,27 +31,30 @@ const dynamicStyles = (theme, appearance, outBound) => {
       marginBottom: 16,
     },
     inputContainer: {
-      flex: 8,
+      flex: 4,
       borderRadius: 20,
       backgroundColor: colorSet.grey0,
       flexDirection: 'row',
       overflow: 'hidden',
-      marginLeft: 8,
+      marginLeft: 12,
       marginVertical: 16,
     },
     micIconContainer: {
       justifyContent: 'center',
       alignItems: 'center',
-      padding: 5,
+      paddingLeft: 10,
+      paddingRight: 8,
       backgroundColor: 'transparent',
     },
     leftIcons: {
       ...Platform.select({
         native: {
           width: 55,
+          gap: 8,
         },
       }),
       flexDirection: 'row',
+      marginRight: 8,
     },
     inputBar: {
       justifyContent: 'center',
@@ -443,6 +446,15 @@ const dynamicStyles = (theme, appearance, outBound) => {
     threadItemReactionsCountText: {
       color: colorSet.primaryText,
     },
+    sendTextMessageTime: {
+      fontSize: 10,
+      color: colorSet.primaryBackground,
+    },
+    receiveTextMessageTime: {
+      fontSize: 10,
+      color: colorSet.primaryText,
+    },
+
     // Bottom Audio Recorder
     recorderContainer: {
       backgroundColor: colorSet.primaryBackground,

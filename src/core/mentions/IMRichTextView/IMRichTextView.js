@@ -12,6 +12,7 @@ export default function IMRichTextView(props) {
     hashTagStyle,
     phoneStyle,
     emailStyle,
+    createdAt,
   } = props
 
   const onEmailPress = async (email, matchIndex) => {

@@ -14,15 +14,13 @@ const dynamicStyles = (theme, appearance) => {
       width: '100%',
       backgroundColor: colorSet.primaryBackground,
     },
-    starContainer: { flexDirection: 'row', alignSelf: 'flex-start' },
+    starContainer: { flexDirection: 'row', alignSelf: 'center' },
     starStyle: { marginVertical: 5 },
     actionButtonContainer: {
       padding: 16,
       width: '90%',
       alignSelf: 'center',
       borderRadius: 5,
-      position: 'absolute',
-      bottom: Platform.OS === 'ios' ? 0 : 24,
       backgroundColor: colorSet.primaryForeground,
     },
     actionButtonText: {
@@ -41,6 +39,7 @@ const dynamicStyles = (theme, appearance) => {
       color: colorSet.primaryText,
       marginTop: 10,
       minHeight: 200,
+      alignSelf: 'center',
     },
     headerTitle: {
       position: 'absolute',
