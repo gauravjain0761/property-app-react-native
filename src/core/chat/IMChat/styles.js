@@ -454,6 +454,25 @@ const dynamicStyles = (theme, appearance, outBound) => {
       fontSize: 10,
       color: colorSet.primaryText,
     },
+    sendmediaMessageTime: {
+      fontSize: 10,
+      color: colorSet.primaryText,
+      alignSelf: 'flex-end',
+      paddingHorizontal: 10,
+    },
+    mediacontainer: {},
+    datecontainer: {
+      backgroundColor: colorSet.grey6,
+      alignSelf: 'center',
+      paddingVertical: 5,
+      paddingHorizontal: 5,
+      borderRadius: 4,
+      marginVertical: 10,
+    },
+    date: {
+      color: colorSet.Text,
+      fontSize: 12,
+    },
 
     // Bottom Audio Recorder
     recorderContainer: {

@@ -5,6 +5,8 @@ import { memo } from 'react'
 import ThreadItem from './ThreadItem'
 import TypingIndicator from './TypingIndicator'
 import dynamicStyles from './styles'
+import { Text } from 'react-native'
+import moment from 'moment'
 
 const MessageThread = memo(props => {
   const {
@@ -19,6 +21,22 @@ const MessageThread = memo(props => {
   } = props
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
+
+  const groupedMessages = messages?.reduce((acc, message) => {
+    let date = new Date(message?.createdAt * 1000).toISOString('').split('T')[0]
+    if (!acc[date]) {
+      acc[date] = []
+    }
+    acc[date]?.push(message)
+    return acc
+  }, {})
+
+  const groupedArray = Object?.keys(groupedMessages || {})?.map(date => {
+    let data = groupedMessages[date]?.sort(
+      (a, b) => a?.createdAt - b?.createdAt,
+    )
+    return { date, messages: data }
+  })
 
   const [isParticipantTyping, setIsParticipantTyping] = useState(false)
 
@@ -80,27 +98,38 @@ const MessageThread = memo(props => {
     const isRecentItem = 0 === index
     const { participants } = channelItem
     return (
-      <ThreadItem
-        item={item}
-        participants={participants}
-        key={'chatitem' + (item.id || index)}
-        user={{ ...user, userID: user.id }}
-        onChatMediaPress={onChatMediaPress}
-        onSenderProfilePicturePress={onSenderProfilePicturePress}
-        onMessageLongPress={onMessageLongPress}
-        isRecentItem={isRecentItem}
-        onChatUserItemPress={onChatUserItemPress}
-      />
+      <View>
+        <View style={styles.datecontainer}>
+          <Text style={styles.date}>
+            {moment(item?.date).format('DD MMMM yyyy')}
+          </Text>
+        </View>
+        {item?.messages?.map(items => (
+          <ThreadItem
+            item={items}
+            date={item?.date}
+            participants={participants}
+            key={'chatitem' + (items.id || index)}
+            user={{ ...user, userID: user.id }}
+            onChatMediaPress={onChatMediaPress}
+            onSenderProfilePicturePress={onSenderProfilePicturePress}
+            onMessageLongPress={onMessageLongPress}
+            isRecentItem={isRecentItem}
+            onChatUserItemPress={onChatUserItemPress}
+          />
+        ))}
+      </View>
     )
   }
 
   return (
     <FlatList
-      inverted={true}
+      inverted
       vertical={true}
+      keyExtractor={(item, index) => index.toString()}
       style={styles.messageThreadContainer}
       showsVerticalScrollIndicator={false}
-      data={messages}
+      data={groupedArray}
       renderItem={renderChatItem}
       contentContainerStyle={styles.messageContentThreadContainer}
       removeClippedSubviews={true}

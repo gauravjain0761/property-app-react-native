@@ -294,24 +294,27 @@ const ThreadItem = memo(props => {
             <>
               <View style={styles.sendItemContainer}>
                 {item.media != null && (
-                  <TouchableOpacity
-                    onPress={didPressMediaChat}
-                    onLongPress={handleOnLongPress}
-                    activeOpacity={0.9}
-                    style={[
-                      styles.itemContent,
-                      styles.sendItemContent,
-                      { padding: 0, marginRight: isAudio || isFile ? 8 : -1 },
-                    ]}>
-                    <ThreadMediaItem
-                      outBound={outBound}
-                      videoRef={videoRef}
-                      dynamicStyles={styles}
-                      item={item}
-                    />
-                    {renderBoederImg()}
-                    {renderReactionsContainer()}
-                  </TouchableOpacity>
+                  <View style={styles.mediacontainer}>
+                    <TouchableOpacity
+                      onPress={didPressMediaChat}
+                      onLongPress={handleOnLongPress}
+                      activeOpacity={0.9}
+                      style={[
+                        styles.itemContent,
+                        styles.sendItemContent,
+                        { padding: 0, marginRight: isAudio || isFile ? 8 : -1 },
+                      ]}>
+                      <ThreadMediaItem
+                        outBound={outBound}
+                        videoRef={videoRef}
+                        dynamicStyles={styles}
+                        item={item}
+                      />
+                      {renderBoederImg()}
+                      {renderReactionsContainer()}
+                    </TouchableOpacity>
+                    <Text style={styles.sendmediaMessageTime}>{time}</Text>
+                  </View>
                 )}
                 {!item.media && (
                   <View style={[styles.myMessageBubbleContainerView]}>
@@ -372,23 +375,26 @@ const ThreadItem = memo(props => {
                 />
               </TouchableOpacity>
               {item.media != null && (
-                <TouchableOpacity
-                  activeOpacity={0.9}
-                  onLongPress={handleOnLongPress}
-                  style={[
-                    styles.itemContent,
-                    styles.receiveItemContent,
-                    { padding: 0, marginLeft: isAudio || isFile ? 8 : -1 },
-                  ]}
-                  onPress={didPressMediaChat}>
-                  <ThreadMediaItem
-                    videoRef={videoRef}
-                    dynamicStyles={styles}
-                    item={item}
-                  />
-                  {renderBoederImg()}
-                  {renderReactionsContainer()}
-                </TouchableOpacity>
+                <View>
+                  <TouchableOpacity
+                    activeOpacity={0.9}
+                    onLongPress={handleOnLongPress}
+                    style={[
+                      styles.itemContent,
+                      styles.receiveItemContent,
+                      { padding: 0, marginLeft: isAudio || isFile ? 8 : -1 },
+                    ]}
+                    onPress={didPressMediaChat}>
+                    <ThreadMediaItem
+                      videoRef={videoRef}
+                      dynamicStyles={styles}
+                      item={item}
+                    />
+                    {renderBoederImg()}
+                    {renderReactionsContainer()}
+                  </TouchableOpacity>
+                  <Text style={styles.sendmediaMessageTime}>{time}</Text>
+                </View>
               )}
               {!item.media && (
                 <View style={styles.theirMessageBubbleContainerView}>

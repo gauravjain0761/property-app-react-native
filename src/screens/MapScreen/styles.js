@@ -7,6 +7,9 @@ const dynamicStyles = (theme, appearance) => {
       height: '100%',
       backgroundColor: theme.colors[appearance].grey3,
     },
+    priceMarker: {
+      backgroundColor: theme.colors[appearance].primaryBackground,
+    },
   })
 }
 

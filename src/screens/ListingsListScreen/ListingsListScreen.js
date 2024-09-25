@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { FlatList, Image, View } from 'react-native'
+import { Dimensions, FlatList, Image, Text, View } from 'react-native'
 import Geolocation from '@react-native-community/geolocation'
 import {
   useTheme,
@@ -17,6 +17,9 @@ import { useSelector } from 'react-redux'
 import ListingView from '../../components/ListingView/ListingView'
 import { IMAdMobBanner } from '../../core/ads/google'
 import { useConfig } from '../../config'
+import { formatNumber } from '../../helpers/statics'
+import { TouchableOpacity } from 'react-native'
+import Carousel, { Pagination } from 'react-native-snap-carousel'
 
 function ListingsListScreen(props) {
   const { localized } = useTranslations()
@@ -30,6 +33,8 @@ function ListingsListScreen(props) {
   const favorites = useSelector(state => state.favorites.favoriteItems)
 
   const item = route?.params?.item
+  const { width: viewportWidth, height: viewportHeight } =
+    Dimensions.get('window')
 
   const [category, setCategory] = useState(item)
   const [filter, setFilter] = useState({})
@@ -41,6 +46,7 @@ function ListingsListScreen(props) {
   const [longitude, setLongitude] = useState(
     Configuration?.map?.origin?.longitude,
   )
+  const [activeSlide, setActiveSlide] = useState(0)
   const [latitudeDelta, setLatitudeDelta] = useState(
     Configuration?.map?.delta?.latitude,
   )
@@ -48,6 +54,7 @@ function ListingsListScreen(props) {
     Configuration?.map?.delta?.longitude,
   )
   const [shouldUseOwnLocation, setShouldUseOwnLocation] = useState(false) // Set this to true to show the user's location
+  const [selectItem, setSelectItem] = useState([])
 
   const unsubscribe = useRef(null)
   const mapRef = useRef(null)
@@ -128,7 +135,7 @@ function ListingsListScreen(props) {
       listing.matched = matched
     }
 
-    tempListings = listings?.filter(listing => listing.matched)
+    tempListings = listings?.filter(listing => listing?.matched)
 
     setFilteredListings(tempListings)
   }, [filter, listings])
@@ -169,10 +176,10 @@ function ListingsListScreen(props) {
       if (!matched) return
 
       let listing = listingsData[i]
-      if (max_latitude < listing.latitude) max_latitude = listing.latitude
-      if (min_latitude > listing.latitude) min_latitude = listing.latitude
-      if (max_longitude < listing.longitude) max_longitude = listing.longitude
-      if (min_logitude > listing.longitude) min_logitude = listing.longitude
+      if (max_latitude < listing.latitude) max_latitude = listing?.latitude
+      if (min_latitude > listing.latitude) min_latitude = listing?.latitude
+      if (max_longitude < listing.longitude) max_longitude = listing?.longitude
+      if (min_logitude > listing.longitude) min_logitude = listing?.longitude
     }
 
     console.log(min_latitude)
@@ -241,31 +248,41 @@ function ListingsListScreen(props) {
     })
   }
 
-  const markerArr = () => {
-    return filteredListings.map(listing => (
-      <Marker
-        key={listing.id}
-        title={listing.title}
-        description={listing.description}
-        onCalloutPress={() => {
-          onPress(listing)
-        }}
-        coordinate={{
-          latitude: listing.latitude,
-          longitude: listing.longitude,
-        }}>
-        <Image
-          source={
-            listing?.categoryID == config?.serverConfig?.categories?.Land
-              ? theme?.icons?.land
-              : theme?.icons?.house
-          }
-          resizeMode="cover"
-          style={{ width: 40, height: 40 }}
-        />
-      </Marker>
-    ))
+  const onPressMarker = item => {
+    setSelectItem(item)
   }
+
+  const markerArr = filteredListings?.map(listing => {
+    let currency = Object.values(config.serverConfig.currency)
+      ?.filter(item => item == listing?.currency?.split(' ')[1])
+      .toString()
+    return (
+      <Marker
+        key={listing?.id}
+        onPress={() => onPressMarker(listing)}
+        coordinate={{
+          latitude: listing?.latitude,
+          longitude: listing?.longitude,
+        }}>
+        <TouchableOpacity
+          style={[
+            selectItem?.id == listing?.id
+              ? styles.darkMarker
+              : styles.priceMarker,
+          ]}>
+          <Text
+            style={[
+              selectItem?.id == listing?.id
+                ? styles?.darkMarkerText
+                : styles.markerText,
+            ]}>
+            {currency}
+            {formatNumber(listing?.price)}
+          </Text>
+        </TouchableOpacity>
+      </Marker>
+    )
+  })
 
   const renderListing = ({ item, index }) => {
     return (
@@ -282,8 +299,8 @@ function ListingsListScreen(props) {
   }
 
   const animateToInitialRegion = center => {
-    if (mapRef.current) {
-      mapRef.current.animateCamera(
+    if (mapRef?.current) {
+      mapRef?.current?.animateCamera(
         {
           center: center,
           pitch: 0,
@@ -311,22 +328,82 @@ function ListingsListScreen(props) {
     )
   })
 
+  const renderItem = ({ item }) => {
+    if (!item) {
+      return null
+    }
+    return (
+      <TouchableOpacity>
+        {item.startsWith('https://') ? (
+          <Image
+            style={styles.photoItem}
+            contentFit={'cover'}
+            source={{ uri: item }}
+          />
+        ) : (
+          <Image
+            style={styles.photoItem}
+            contentFit={'cover'}
+            source={{ uri: 'https//:' }}
+          />
+        )}
+      </TouchableOpacity>
+    )
+  }
+
   return (
     <View style={styles.container}>
       {!filteredListings && <ActivityIndicator />}
       {mapMode && filteredListings && (
-        <MapView
-          style={styles.mapView}
-          ref={mapRef}
-          showsUserLocation={shouldUseOwnLocation}
-          region={{
-            latitude: latitude,
-            latitudeDelta: latitudeDelta,
-            longitude: longitude,
-            longitudeDelta: longitudeDelta,
-          }}>
-          {markerArr()}
-        </MapView>
+        <>
+          <MapView
+            style={styles.mapView}
+            ref={mapRef}
+            customMapStyle={appearance == 'dark' ? config?.mapDark : []}
+            showsUserLocation={shouldUseOwnLocation}
+            region={{
+              latitude: latitude,
+              latitudeDelta: latitudeDelta,
+              longitude: longitude,
+              longitudeDelta: longitudeDelta,
+            }}>
+            {markerArr}
+          </MapView>
+          {selectItem && (
+            <View style={styles.card}>
+              <Carousel
+                data={selectItem?.photoURLs}
+                renderItem={renderItem}
+                sliderWidth={viewportWidth * 0.9}
+                itemWidth={viewportWidth * 0.9}
+                // hasParallaxImages={true}
+                inactiveSlideScale={1}
+                inactiveSlideOpacity={1}
+                firstItem={0}
+                loop={false}
+                enableMomentum={true}
+                enableSnap
+                // loopClonesPerSide={2}
+                autoplay={false}
+                autoplayDelay={500}
+                autoplayInterval={3000}
+                onSnapToItem={index => setActiveSlide(index)}
+              />
+              <Pagination
+                dotsLength={
+                  selectItem?.photoURLs && selectItem?.photoURLs.length
+                }
+                activeDotIndex={activeSlide}
+                containerStyle={styles.paginationContainer}
+                dotColor={'rgba(255, 255, 255, 0.92)'}
+                dotStyle={styles.paginationDot}
+                inactiveDotColor="white"
+                inactiveDotOpacity={0.4}
+                inactiveDotScale={0.6}
+              />
+            </View>
+          )}
+        </>
       )}
       {!mapMode && filteredListings && (
         <FlatList

@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { ImageBackground, Modal, View } from 'react-native'
+import { ImageBackground, Modal, TouchableOpacity, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
-import { useTheme, useTranslations, Button, Text, Image } from '../../core/dopebase'
+import { useTheme, useTranslations, Button, Text } from '../../core/dopebase'
 import { Configuration } from '../../Configuration'
 import dynamicStyles from './styles'
 import * as Location from 'expo-location'
+import Geolocation from '@react-native-community/geolocation'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import { useConfig } from '../../config'
+import { Image } from 'react-native'
 
 function SelectLocationModal(props) {
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
+  const { reverseGeoCodingAPIKey, mapDark } = useConfig()
 
   const { location } = props
 
@@ -54,6 +59,17 @@ function SelectLocationModal(props) {
     onChangeLocation(region)
   }
 
+  const onPresscurrentLocation = () => {
+    Geolocation?.getCurrentPosition(
+      position => {
+        setLatitude(position?.coords?.latitude)
+        setLongitude(position?.coords?.longitude)
+        onChangeLocation(position?.coords)
+      },
+      error => console.log(error.message),
+    )
+  }
+
   const onChangeLocation = async location => {
     try {
       let json = await Location.reverseGeocodeAsync(location)
@@ -66,43 +82,94 @@ function SelectLocationModal(props) {
     }
   }
 
+  const onSelectSearch = location => {
+    setLatitude(location?.latitude)
+    setLongitude(location?.longitude)
+  }
+
   return (
-    <Modal animationType="slide" transparent={false} onRequestClose={onCancel}>
-      <View style={styles.body}>
-        <MapView
-          ref={map => (map = map)}
-          onPress={onPress}
-          style={styles.mapView}
-          onRegionChangeComplete={onRegionChange}
-          region={{
+    <View style={styles.body}>
+      <MapView
+        ref={map => (map = map)}
+        onPress={onPress}
+        customMapStyle={appearance == 'dark' ? mapDark : []}
+        style={styles.mapView}
+        onRegionChangeComplete={onRegionChange}
+        region={{
+          latitude: latitude,
+          longitude: longitude,
+          latitudeDelta: latitudeDelta,
+          longitudeDelta: longitudeDelta,
+        }}>
+        <Marker
+          draggable
+          coordinate={{
             latitude: latitude,
             longitude: longitude,
+          }}
+          onDragEnd={onPress}
+        />
+      </MapView>
+      <View style={[styles.bar, styles.topbar]}>
+        <Text style={[styles.locationValue, { marginLeft: 16 }]}>
+          {address}
+        </Text>
+        <Button
+          containerStyle={styles.rightButton}
+          textStyle={styles.rightButtonText}
+          onPress={onDone}
+          text={localized('Done')}
+        />
+      </View>
+      <GooglePlacesAutocomplete
+        placeholder={'Enter location address'}
+        minLength={2} // minimum length of text to search
+        autoFocus={false}
+        listViewDisplayed={false}
+        fetchDetails={true}
+        enablePoweredByContainer={false}
+        styles={{
+          textInputContainer: styles.textInputContainer,
+          container: styles.container,
+          textInput: styles.textInput,
+          listView: styles.listView,
+          description: styles.description,
+          row: styles.row,
+        }}
+        textInputProps={{
+          placeholderTextColor: theme.colors[appearance]?.secondaryText,
+        }}
+        renderLeftButton={() => (
+          <Image
+            style={styles.locationIcon}
+            resizeMode="cover"
+            source={theme.icons.search}
+          />
+        )}
+        onPress={(data, details = null) => {
+          onSelectSearch({
+            latitude: details?.geometry?.location?.lat,
+            longitude: details?.geometry?.location?.lng,
             latitudeDelta: latitudeDelta,
             longitudeDelta: longitudeDelta,
-          }}>
-          <Marker
-            draggable
-            coordinate={{
-              latitude: latitude,
-              longitude: longitude,
-            }}
-            onDragEnd={onPress}
-          />
-        </MapView>
-        <View style={[styles.bar, styles.topbar]}>
-          <Button
-            containerStyle={styles.rightButton}
-            textStyle={styles.rightButtonText}
-            onPress={onDone}
-            text={localized('Done')}
-          />
-        </View>
-        <View style={[styles.bottomBar]}>
-          <Image style={[styles.locationIcon]} source={theme.icons.pinpoint} />
-          <Text style={[styles.locationValue]}>{address}</Text>
-        </View>
-      </View>
-    </Modal>
+          })
+        }}
+        query={{
+          key: reverseGeoCodingAPIKey,
+          language: 'en',
+        }}
+        debounce={200}
+      />
+      <TouchableOpacity
+        onPress={() => onPresscurrentLocation()}
+        style={[styles.bottomBar]}>
+        <Image
+          style={[styles.locationIcon]}
+          source={theme.icons.current_location}
+        />
+        <Text style={[styles.locationValue]}>{'current location'}</Text>
+      </TouchableOpacity>
+    </View>
   )
 }
 

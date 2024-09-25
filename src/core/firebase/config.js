@@ -7,4 +7,4 @@ export const auth = fauth
 export const firestore = ffirestore
 export const functions = ffunctions
 export const uploadMediaFunctionURL =
-  'https://us-central1-development-69cdc.cloudfunctions.net/uploadMedia'
+  'https://us-central1-real-estate-rn-fb417.cloudfunctions.net/uploadMedia'

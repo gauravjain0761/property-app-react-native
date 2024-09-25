@@ -6,7 +6,7 @@ const styles = (theme, appearance) =>
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      backgroundColor: theme[appearance]?.primaryBackground,
       position: 'absolute',
       top: 0,
       right: 0,

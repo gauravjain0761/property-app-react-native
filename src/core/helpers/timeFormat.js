@@ -16,6 +16,12 @@ export const timeFormat = timeStamp => {
   return ' '
 }
 
+export const getTimeFormat = timeStamp => {
+  if (moment(timeStamp).isValid()) {
+    return moment.unix(timeStamp).format('YYYY-MM-DD')
+  }
+}
+
 export const getUnixTimeStamp = () => {
   return moment().unix()
 }

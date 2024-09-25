@@ -4,7 +4,7 @@ import { processMediaFile } from '../../mediaProcessor'
 
 const uploadFile = async file => {
   const uri = file?.uri
-  const type = file?.type ?? 'image'
+  const type = file?.mimeType ?? 'image'
   const fallbackName = Platform.select({
     native: uri.substring(uri?.lastIndexOf('/') + 1),
     default: 'webdefaultbase24',
@@ -77,6 +77,7 @@ const processAndUploadMediaFile = file => {
     processMediaFile(file, ({ processedUri, thumbnail }) => {
       uploadFile(file)
         .then(downloadURL => {
+          console.log()
           if (thumbnail) {
             uploadFile(thumbnail)
               .then(thumbnailURL => {

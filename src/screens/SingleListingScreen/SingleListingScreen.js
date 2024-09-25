@@ -257,7 +257,7 @@ function SingleListingScreen(props) {
               halfStarColor={theme.colors[appearance].primaryForeground}
               rating={item.starCount}
             />
-            <Text style={styles.reviewContent}>{item.content}</Text>
+            <Text style={styles.reviewContent}>{item?.content}</Text>
           </View>
         </View>
       </View>
@@ -271,7 +271,10 @@ function SingleListingScreen(props) {
       if (filters[key] != 'Any' && filters[key] != 'All') {
         return (
           <View style={styles.extraRow}>
-            <Text style={styles.extraKey}>{key}</Text>
+            <View style={styles.left}>
+              <Text style={styles.extraKey}>{key}</Text>
+              <View style={styles.line} />
+            </View>
             <Text style={styles.extraValue}>
               {filters[key]} {key == 'Price Range' && `(${item?.currency})`}
             </Text>
@@ -481,7 +484,10 @@ function SingleListingScreen(props) {
   }, [willBlur])
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      nestedScrollEnabled
+      showsVerticalScrollIndicator={false}>
       <View style={styles.carousel}>
         <Carousel
           data={listing.photos}
@@ -493,6 +499,8 @@ function SingleListingScreen(props) {
           inactiveSlideOpacity={1}
           firstItem={0}
           loop={false}
+          enableMomentum={true}
+          enableSnap
           // loopClonesPerSide={2}
           autoplay={false}
           autoplayDelay={500}

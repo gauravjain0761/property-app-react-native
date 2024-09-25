@@ -194,6 +194,9 @@ const dynamicStyles = (theme, appearance) => {
       borderRadius: 4,
       marginRight: 10,
     },
+    selectedText: {
+      color: theme.colors[appearance].secondaryText,
+    },
   })
 }
 export default dynamicStyles

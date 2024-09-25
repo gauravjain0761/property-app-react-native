@@ -63,6 +63,7 @@ const icons = {
   house: require('../assets/icons/house.png'),
   verify: require('../assets/icons/verify.png'),
   dots: require('../assets/icons/dots.png'),
+  current_location: require('../assets/icons/current_location.png'),
 }
 
 const lightColors = {
@@ -83,6 +84,7 @@ const lightColors = {
   primaryWhite: '#ffffff',
   primaryBlack: '#000000',
   Text: '#151723',
+  TextPrimary: '#ffffff',
 }
 
 const InstamobileTheme = {
@@ -107,6 +109,8 @@ const InstamobileTheme = {
       primaryWhite: '#ffffff',
       primaryBlack: '#000000',
       Text: '#151723',
+      black: '#ffffff',
+      TextPrimary: '#151723',
     },
   },
   spaces: {

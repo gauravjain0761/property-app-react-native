@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
-import { BackHandler, Image } from 'react-native'
+import { BackHandler, Image, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { useSelector } from 'react-redux'
 import Geolocation from '@react-native-community/geolocation'
@@ -168,27 +168,25 @@ function MapScreen(props) {
   }
 
   const markerArr = data?.map((listing, index) => {
+    let currency = Object.values(config.serverConfig.currency)
+      ?.filter(item => item == listing?.currency?.split(' ')[1])
+      .toString()
     return (
       <Marker
         key={index}
-        title={listing.title}
-        description={listing.description}
-        onCalloutPress={() => {
-          onPress(listing)
-        }}
         coordinate={{
           latitude: listing.latitude,
           longitude: listing.longitude,
         }}>
-        <Image
-          source={
-            listing?.categoryID == config?.serverConfig?.categories?.Land
-              ? theme?.icons?.land
-              : theme?.icons?.house
-          }
-          resizeMode="cover"
-          style={{ width: 60, height: 60 }}
-        />
+        <TouchableOpacity onPress={() => {}} style={styles.priceMarker}>
+          <Text style={styles.markerText}>
+            {currency}
+            {formatNumber(listing?.price)}
+          </Text>
+        </TouchableOpacity>
+        <View style={styles.priceMarker}>
+          <Text></Text>
+        </View>
       </Marker>
     )
   })

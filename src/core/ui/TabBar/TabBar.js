@@ -15,14 +15,14 @@ export function TabBarBuilder({ tabIcons, state, navigation, descriptors }) {
     descriptors[state?.routes[state?.index]?.key]?.options?.tabBarStyle?.display
 
   const containerStyle = useMemo(() => {
-    if (insets.bottom) {
+    if (insets?.bottom) {
       return {
         paddingBottom: insets.bottom,
         minHeight: 80,
       }
     }
     return {
-      paddingBottom: 16,
+      paddingBottom: 0,
       minHeight: 45,
     }
   }, [insets.bottom])

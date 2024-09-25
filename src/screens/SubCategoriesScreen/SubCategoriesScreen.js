@@ -60,7 +60,7 @@ function SubCategoriesScreen(props) {
         typeof route?.params == 'undefined' ||
         typeof route?.params.item == 'undefined'
           ? localized('Listings')
-          : route?.params?.item?.name || route?.params?.item?.title,
+          : 'Category' || route?.params?.item?.title,
       headerTintColor: currentTheme.primaryForeground,
       headerTitleStyle: { color: currentTheme.primaryText },
       headerRight: () => (
@@ -75,14 +75,14 @@ function SubCategoriesScreen(props) {
               onChangeMode()
             }}
           /> */}
-          <HeaderButton
+          {/* <HeaderButton
             customStyle={styles.filtersButton}
             style={{
               tintColor: theme.colors[appearance].primaryForeground,
             }}
             icon={theme.icons.filters}
             onPress={() => onSelectFilter()}
-          />
+          /> */}
         </View>
       ),
       headerStyle: {
@@ -94,8 +94,8 @@ function SubCategoriesScreen(props) {
 
   const onChangeLocation = location => {
     console.log('location', location)
-    setLatitude(location.latitude)
-    setLongitude(location.longitude)
+    setLatitude(location?.latitude)
+    setLongitude(location?.longitude)
   }
 
   const onSelectFilter = () => {

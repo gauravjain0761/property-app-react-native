@@ -61,7 +61,7 @@ const dynamicStyles = (theme, appearance) => {
       alignItems: 'center',
     },
     extra: {
-      padding: 30,
+      paddingLeft: 18,
       paddingTop: 10,
       paddingBottom: 0,
       marginBottom: 30,
@@ -71,9 +71,21 @@ const dynamicStyles = (theme, appearance) => {
       paddingBottom: 10,
     },
     extraKey: {
-      flex: 2,
       color: theme.colors[appearance].primaryText,
       fontWeight: 'bold',
+      bottom: 1,
+    },
+    line: {
+      flex: 1,
+      borderWidth: 0.3,
+      marginHorizontal: 10,
+      borderColor: '#bcbfc7',
+      top: 1,
+    },
+    left: {
+      flex: 2,
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     extraValue: {
       flex: 1,

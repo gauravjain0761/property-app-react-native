@@ -53,6 +53,17 @@ export const useChatMessages = () => {
     })
   }
 
+  const subscribenewMessages = channelID => {
+    return subscribeMessagesAPI(channelID, newMessages => {
+      setMessages(prevMessages =>
+        hydrateMessagesWithMyReactions(
+          deduplicatedMessages(prevMessages, newMessages, true),
+          currentUser?.id,
+        ),
+      )
+    })
+  }
+
   const optimisticSetMessage = (sender, message, media, inReplyToItem) => {
     const newMessage = getMessageObject(sender, message, media, inReplyToItem)
 
@@ -104,5 +115,6 @@ export const useChatMessages = () => {
     deleteMessage,
     addReaction,
     getMessageObject,
+    subscribenewMessages,
   }
 }

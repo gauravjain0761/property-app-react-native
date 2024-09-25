@@ -454,7 +454,7 @@ function PostModal(props) {
               style={styles.input}
               value={title}
               onChangeText={text => setTitle(text)}
-              placeholder="Start typing"
+              placeholder="Enter property name"
               placeholderTextColor={theme.colors[appearance].grey6}
               underlineColorAndroid="transparent"
             />
@@ -468,7 +468,7 @@ function PostModal(props) {
               style={styles.input}
               onChangeText={text => setDescription(text)}
               value={description}
-              placeholder="Start typing"
+              placeholder="Enter property description"
               placeholderTextColor={theme.colors[appearance].grey6}
               underlineColorAndroid="transparent"
             />
@@ -483,9 +483,17 @@ function PostModal(props) {
                 value={selectcurrency}
                 placeholder="1"
                 data={config?.currencyData}
+                containerStyle={{
+                  backgroundColor: theme.colors[appearance]?.primaryBackground,
+                }}
+                itemTextStyle={{
+                  color: theme.colors[appearance]?.grey6,
+                }}
+                selectedTextStyle={styles.selectedText}
                 onChange={e => {
                   setSelectcurrency(e)
                 }}
+                activeColor={theme.colors[appearance]?.secondaryBackground}
                 style={{ ...styles.dropdown }}
               />
               <TextInput
@@ -592,13 +600,6 @@ function PostModal(props) {
               ignoreFilds={'currency'}
             />
           )}
-          {locationModalVisible && (
-            <SelectLocationModal
-              location={location}
-              onCancel={onSelectLocationCancel}
-              onDone={onSelectLocationDone}
-            />
-          )}
         </ScrollView>
         {loading ? (
           <ActivityIndicator />
@@ -608,6 +609,13 @@ function PostModal(props) {
             onPress={onPost}
             textStyle={styles.addButtonText}
             text={localized('Add Listing')}
+          />
+        )}
+        {locationModalVisible && (
+          <SelectLocationModal
+            location={location}
+            onCancel={onSelectLocationCancel}
+            onDone={onSelectLocationDone}
           />
         )}
       </SafeAreaView>

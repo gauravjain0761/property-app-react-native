@@ -94,7 +94,6 @@ const createThumbnailFromVideo = videoUri => {
   })
 }
 
-
 const resizeImage = async ({ image }, callback) => {
   const imagePath = image?.path || image?.uri
 

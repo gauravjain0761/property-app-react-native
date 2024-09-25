@@ -49,6 +49,7 @@ const IMChatScreen = memo(props => {
     deleteMessage,
     addReaction,
     getMessageObject,
+    subscribenewMessages,
   } = useChatMessages()
 
   const [channel, setChannel] = useState(null)
@@ -543,7 +544,6 @@ const IMChatScreen = memo(props => {
       downloadObject,
       inReplyToItem,
     )
-    console.log('tempInputValue tempInputValue', newMessage)
     richTextInputRef.current?.clear()
     setInputValue('')
     setInReplyToItem(null)
@@ -657,10 +657,13 @@ const IMChatScreen = memo(props => {
 
   const startUpload = async uploadData => {
     setLoading(true)
-    const { type } = uploadData
+    const formatedData = { ...uploadData?.assets[0], ...uploadData }
+    delete formatedData['assets']
+
+    const { type } = formatedData
     if (!type) {
       console.log("Can't upload file without type")
-      console.log(uploadData)
+      console.log(formatedData)
       alert(
         localized(
           `Can\'t upload file without a media type. Please report this error with the full error logs`,
@@ -668,10 +671,11 @@ const IMChatScreen = memo(props => {
       )
     }
     const { downloadURL, thumbnailURL } =
-      await storageAPI.processAndUploadMediaFile(uploadData)
+      await storageAPI.processAndUploadMediaFile(formatedData)
+    console.log('upload upload', downloadURL)
     if (downloadURL) {
       setDownloadObject({
-        ...uploadData,
+        ...formatedData,
         source: downloadURL,
         uri: downloadURL,
         url: downloadURL,
@@ -763,6 +767,7 @@ const IMChatScreen = memo(props => {
   const onDeleteThreadItem = useCallback(
     message => {
       deleteMessage(channel, message?.id)
+      subscribenewMessages(channel?.channelID)
     },
     [channel, deleteMessage],
   )
