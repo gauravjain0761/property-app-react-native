@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { Dimensions, FlatList, Image, Text, View } from 'react-native'
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from 'react-native'
 import Geolocation from '@react-native-community/geolocation'
 import {
   useTheme,
@@ -18,8 +25,8 @@ import ListingView from '../../components/ListingView/ListingView'
 import { IMAdMobBanner } from '../../core/ads/google'
 import { useConfig } from '../../config'
 import { formatNumber } from '../../helpers/statics'
-import { TouchableOpacity } from 'react-native'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 function ListingsListScreen(props) {
   const { localized } = useTranslations()
@@ -54,7 +61,7 @@ function ListingsListScreen(props) {
     Configuration?.map?.delta?.longitude,
   )
   const [shouldUseOwnLocation, setShouldUseOwnLocation] = useState(false) // Set this to true to show the user's location
-  const [selectItem, setSelectItem] = useState([])
+  const [selectItem, setSelectItem] = useState({})
 
   const unsubscribe = useRef(null)
   const mapRef = useRef(null)
@@ -253,7 +260,7 @@ function ListingsListScreen(props) {
   }
 
   const markerArr = filteredListings?.map(listing => {
-    let currency = Object.values(config.serverConfig.currency)
+    let currency = Object.values(config?.serverConfig?.currency)
       ?.filter(item => item == listing?.currency?.split(' ')[1])
       .toString()
     return (
@@ -333,7 +340,7 @@ function ListingsListScreen(props) {
       return null
     }
     return (
-      <TouchableOpacity>
+      <View>
         {item.startsWith('https://') ? (
           <Image
             style={styles.photoItem}
@@ -347,7 +354,7 @@ function ListingsListScreen(props) {
             source={{ uri: 'https//:' }}
           />
         )}
-      </TouchableOpacity>
+      </View>
     )
   }
 
@@ -359,6 +366,7 @@ function ListingsListScreen(props) {
           <MapView
             style={styles.mapView}
             ref={mapRef}
+            toolbarEnabled={false}
             customMapStyle={appearance == 'dark' ? config?.mapDark : []}
             showsUserLocation={shouldUseOwnLocation}
             region={{
@@ -369,14 +377,17 @@ function ListingsListScreen(props) {
             }}>
             {markerArr}
           </MapView>
-          {selectItem && (
-            <View style={styles.card}>
+          {Object.values(selectItem)?.length > 0 && (
+            <TouchableOpacity
+              containerStyle={styles.card}
+              onPress={() => onPress(selectItem)}
+              activeOpacity={0.1}
+              style={styles.cardStyle}>
               <Carousel
                 data={selectItem?.photoURLs}
                 renderItem={renderItem}
                 sliderWidth={viewportWidth * 0.9}
                 itemWidth={viewportWidth * 0.9}
-                // hasParallaxImages={true}
                 inactiveSlideScale={1}
                 inactiveSlideOpacity={1}
                 firstItem={0}
@@ -401,7 +412,30 @@ function ListingsListScreen(props) {
                 inactiveDotOpacity={0.4}
                 inactiveDotScale={0.6}
               />
-            </View>
+              <View style={styles.bottompart}>
+                <View>
+                  <Text style={styles.title}>
+                    {selectItem?.title},{selectItem?.place?.split(',')[1]}
+                  </Text>
+                  <Text style={styles.price}>
+                    {Object.values(config?.serverConfig?.currency)
+                      ?.filter(
+                        items => items == selectItem?.currency?.split(' ')[1],
+                      )
+                      ?.toString()}
+                    {formatNumber(selectItem?.price)}
+                  </Text>
+                </View>
+                <View style={styles.rating}>
+                  <Image source={theme.icons?.starFilled} style={styles.star} />
+                  <Text style={styles.ratingText}>
+                    {selectItem?.starCount
+                      ? Number(selectItem?.starCount).toFixed(1)
+                      : '0.0'}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           )}
         </>
       )}

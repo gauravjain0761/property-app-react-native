@@ -14,6 +14,7 @@ function FilterViewModal(props) {
 
   const [data, setData] = useState([])
   const [filter, setFilter] = useState(props?.value)
+  const selectedCurren = props?.selectedCurren
 
   const unsubscribe = useRef(null)
 
@@ -50,15 +51,31 @@ function FilterViewModal(props) {
   }
 
   const renderItem = item => {
-    let filter_key = item.name
+    let filter_key = item?.name
 
-    var newData = item?.options?.map((option, index) => ({
-      key: option,
-      label: option,
-    }))
+    var newData = item?.options?.flatMap((option, index) => {
+      if (item?.name == 'Price Range') {
+        return option[selectedCurren?.label?.split(' ')[0]]?.map(
+          (items, index) => {
+            return {
+              key: items,
+              label: items,
+            }
+          },
+        )
+      } else {
+        return {
+          key: option,
+          label: option,
+        }
+      }
+    })
     newData.unshift({ key: 'section', label: item.name, section: true })
 
-    let initValue = item.options[0]
+    let initValue =
+      item?.name == 'Price Range'
+        ? item?.options[0]?.[selectedCurren?.label?.split(' ')[0]]?.[0]
+        : item.options[0]
     if (filter[filter_key]) {
       initValue = filter[filter_key]
     }
@@ -78,6 +95,7 @@ function FilterViewModal(props) {
         cancelText={'Cancel'}
         initValue={initValue}
         onChange={option => {
+          console.log()
           setFilter({ ...filter, [filter_key]: option.key })
         }}>
         <View style={styles.container}>

@@ -168,7 +168,7 @@ function MapScreen(props) {
   }
 
   const markerArr = data?.map((listing, index) => {
-    let currency = Object.values(config.serverConfig.currency)
+    let currency = Object.values(config?.serverConfig?.currency)
       ?.filter(item => item == listing?.currency?.split(' ')[1])
       .toString()
     return (

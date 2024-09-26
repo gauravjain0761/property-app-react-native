@@ -15,6 +15,6 @@ export const formatNumber = num => {
   } else if (num >= 1000) {
     return (num / 1000).toFixed(1) + 'K' // Converts to thousands with one decimal
   } else {
-    return num.toString() // Returns the number as is if it's less than 1000
+    return String(num) // Returns the number as is if it's less than 1000
   }
 }
