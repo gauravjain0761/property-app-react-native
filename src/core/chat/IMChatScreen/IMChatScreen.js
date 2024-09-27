@@ -50,6 +50,7 @@ const IMChatScreen = memo(props => {
     addReaction,
     getMessageObject,
     subscribenewMessages,
+    getNewMessage,
   } = useChatMessages()
 
   const [channel, setChannel] = useState(null)
@@ -766,8 +767,15 @@ const IMChatScreen = memo(props => {
 
   const onDeleteThreadItem = useCallback(
     message => {
+      setLoading(true)
       deleteMessage(channel, message?.id)
-      subscribenewMessages(channel?.channelID)
+      getNewMessage(channel?.channelID)
+        .then(data => {
+          setLoading(false)
+        })
+        .catch(err => {
+          setLoading(false)
+        })
     },
     [channel, deleteMessage],
   )

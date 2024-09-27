@@ -41,6 +41,7 @@ const ThreadItem = memo(props => {
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
+  const [selectedMessages, setSelectedMessages] = useState([])
 
   const senderProfilePictureURL = item.senderProfilePictureURL
   const [seenFacepilePhotoURLs, setSeenFacepilePhotoURLs] = useState([])
@@ -191,9 +192,19 @@ const ThreadItem = memo(props => {
     return null
   }
 
-  const handleOnPress = () => {}
+  const handleOnPress = id => {
+    setSelectedMessages(prevSelectedChats => {
+      if (!prevSelectedChats?.includes(id)) {
+        // Remove the item if it's already selected
+        return [...prevSelectedChats, id]
+      }
+      return prevSelectedChats
+    })
+  }
 
-  const handleOnLongPress = () => {
+  const isSelected = id => selectedMessages?.includes(id)
+
+  const handleOnLongPress = id => {
     threadRef.current.measure((x, y, width, height, pageX, pageY) => {
       let reactionsPosition = 0
       if (pageY <= 0) {
@@ -209,6 +220,13 @@ const ThreadItem = memo(props => {
           isAudio || isVideo || item.media,
           reactionsPosition,
         )
+      setSelectedMessages(prevSelectedChats => {
+        if (!prevSelectedChats?.includes(id)) {
+          // Add to selected if it's not already in the selected list
+          return [...prevSelectedChats, id]
+        }
+        return prevSelectedChats // No deselection on onPress
+      })
     })
   }
 
@@ -285,8 +303,8 @@ const ThreadItem = memo(props => {
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={handleOnPress}
-        onLongPress={handleOnLongPress}
+        onPress={() => handleOnPress(item?.id)}
+        onLongPress={() => handleOnLongPress(item?.id)}
         onPressOut={handleOnPressOut}>
         <View collapsable={false} ref={threadRef}>
           {/* user thread item */}
@@ -317,7 +335,11 @@ const ThreadItem = memo(props => {
                   </View>
                 )}
                 {!item.media && (
-                  <View style={[styles.myMessageBubbleContainerView]}>
+                  <View
+                    style={[
+                      styles.myMessageBubbleContainerView,
+                      isSelected(item?.id) && { backgroundColor: 'yellow' },
+                    ]}>
                     {renderInReplyToIfNeeded(item, true)}
                     {renderInReplyToStory(item, true)}
                     <View style={[styles.itemContent, styles.sendItemContent]}>

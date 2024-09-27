@@ -123,6 +123,7 @@ const dynamicStyles = (theme, appearance, outBound) => {
     nonkeyboardContainer: {},
     messageContentThreadContainer: {
       margin: 6,
+      justifyContent: 'flex-end',
     },
     messageThreadContainer: {
       marginBottom: 24,

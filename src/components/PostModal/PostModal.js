@@ -593,7 +593,7 @@ function PostModal(props) {
           {filterModalVisible && (
             <FilterViewModal
               value={filter}
-              selectedCurren={selectcurrency}
+              selectedCurren={selectcurrency?.label}
               onCancel={onSelectFilterCancel}
               onDone={onSelectFilterDone}
               category={category}

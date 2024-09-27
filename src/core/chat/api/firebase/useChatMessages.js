@@ -53,6 +53,21 @@ export const useChatMessages = () => {
     })
   }
 
+  const getNewMessage = channelID => {
+    return new Promise((resolve, reject) => {
+      subscribeMessagesAPI(channelID, newMessages => {
+        if (newMessages) {
+          return resolve(
+            setMessages(
+              hydrateMessagesWithMyReactions(newMessages, currentUser?.id),
+            ),
+          )
+        }
+        reject('no Datata')
+      })
+    })
+  }
+
   const subscribenewMessages = channelID => {
     return subscribeMessagesAPI(channelID, newMessages => {
       setMessages(prevMessages =>
@@ -95,7 +110,7 @@ export const useChatMessages = () => {
         ? [...oldList, ...newList]
         : [...newList, ...oldList]
       : newList
-    const deduplicatedMessages = all.reduce((acc, curr) => {
+    const deduplicatedMessages = all?.reduce((acc, curr) => {
       if (!acc.some(message => message.id === curr.id)) {
         acc.push(curr)
       }
@@ -116,5 +131,6 @@ export const useChatMessages = () => {
     addReaction,
     getMessageObject,
     subscribenewMessages,
+    getNewMessage,
   }
 }
