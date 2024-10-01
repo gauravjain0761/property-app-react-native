@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react'
+import React, { useState, useCallback, memo, useEffect } from 'react'
 import { Platform, Text, TouchableOpacity, View } from 'react-native'
 import {
   useTheme,
@@ -67,6 +67,8 @@ const IMChat = memo(props => {
   const [threadItemActionSheet, setThreadItemActionSheet] = useState({})
   const [isReactionsContainerVisible, setIsReactionsContainerVisible] =
     useState(false)
+  const [isBottomContainerVisible, setBottomContainerVisible] = useState(true)
+  const [selectedMessages, setSelectedMessages] = useState([])
 
   const CANCEL = localized('Cancel')
   const REPLY = localized('Reply')
@@ -76,6 +78,7 @@ const IMChat = memo(props => {
 
   const inBoundThreadItemSheetOptions = [REPLY]
   const outBoundThreadItemSheetOptions = [REPLY, DELETE]
+  const outBoundThreadItemDeletedOptions = [DELETE]
 
   const markUserAsTyping = inputValue => {
     if (inputValue?.length > 0) {
@@ -106,10 +109,62 @@ const IMChat = memo(props => {
     onSendInput()
   }, [onSendInput])
 
+  useEffect(() => {
+    if (selectedMessages?.length > 1) {
+      setIsReactionsContainerVisible(false)
+      setBottomContainerVisible(false)
+      setThreadItemActionSheet(prev => {
+        return {
+          ...prev,
+          inBound: false,
+          options: outBoundThreadItemDeletedOptions,
+        }
+      })
+    } else if (selectedMessages?.length == 1) {
+      setThreadItemActionSheet(prev => {
+        return {
+          ...prev,
+          inBound: false,
+          options: outBoundThreadItemSheetOptions,
+        }
+      })
+      setIsReactionsContainerVisible(true)
+      setBottomContainerVisible(false)
+    } else {
+      setIsReactionsContainerVisible(false)
+      setBottomContainerVisible(true)
+    }
+  }, [selectedMessages])
+
+  const onPressItem = useCallback(
+    id => {
+      if (selectedMessages?.length) {
+        setSelectedMessages(prev => {
+          if (!prev?.includes(id)) {
+            return [...prev, id]
+          }
+          return prev?.filter(item => item != id)
+        })
+      }
+    },
+    [selectedMessages],
+  )
+  const onLongPressItem = useCallback(
+    id => {
+      setSelectedMessages(prev => {
+        if (!prev?.includes(id)) {
+          return [...prev, id]
+        }
+        return prev?.filter(item => item != id)
+      })
+    },
+    [selectedMessages],
+  )
+
   const onMessageLongPress = useCallback(
     (threadItem, isMedia, reactionsPosition) => {
       setTemporaryInReplyToItem(threadItem)
-      setIsReactionsContainerVisible(true)
+      // setIsReactionsContainerVisible(true)
       if (isMedia) {
         setThreadItemActionSheet({
           options: mediaThreadItemSheetOptions,
@@ -152,10 +207,17 @@ const IMChat = memo(props => {
 
   const handleOutBoundThreadItemActionSheet = useCallback(
     index => {
+      if (index === outBoundThreadItemDeletedOptions.indexOf(DELETE)) {
+        let messagelist = selectedMessages
+          ?.map(messa => {
+            return messages?.filter(item => messa === item?.id)
+          })
+          ?.flat()
+        return onDeleteThreadItem && onDeleteThreadItem(messagelist)
+      }
       if (index === outBoundThreadItemSheetOptions.indexOf(REPLY)) {
         return onReplyPress(index)
       }
-
       if (index === outBoundThreadItemSheetOptions.indexOf(DELETE)) {
         return onDeleteThreadItem && onDeleteThreadItem(temporaryInReplyToItem)
       }
@@ -233,6 +295,8 @@ const IMChat = memo(props => {
               onPress={() => {
                 onThreadItemActionSheetDone(index)
                 setIsReactionsContainerVisible(false)
+                setBottomContainerVisible(true)
+                // setSelectedMessages([])
               }}>
               <Text style={styles.threadItemActionSheetOptionsText}>
                 {item}
@@ -258,9 +322,12 @@ const IMChat = memo(props => {
           channelItem={channelItem}
           onListEndReached={onListEndReached}
           onChatUserItemPress={onChatUserItemPress}
+          onPressItem={e => onPressItem(e)}
+          onLongPressItem={e => onLongPressItem(e)}
+          selectedMessages={selectedMessages}
         />
         {renderReactionsContainer()}
-        {!isReactionsContainerVisible && (
+        {isBottomContainerVisible && (
           <BottomInput
             richTextInputRef={richTextInputRef}
             onAudioRecordDone={onAudioRecordDone}
@@ -275,7 +342,8 @@ const IMChat = memo(props => {
             onChatUserItemPress={onChatUserItemPress}
           />
         )}
-        {isReactionsContainerVisible && renderThreadItemActionSheet()}
+        {(isReactionsContainerVisible || !isBottomContainerVisible) &&
+          renderThreadItemActionSheet()}
       </>
       <DialogInput
         isDialogVisible={isRenameDialogVisible}

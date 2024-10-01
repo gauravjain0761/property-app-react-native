@@ -769,12 +769,17 @@ const IMChatScreen = memo(props => {
     message => {
       setLoading(true)
       deleteMessage(channel, message?.id)
-      getNewMessage(channel?.channelID)
-        .then(data => {
-          setLoading(false)
+        .then(() => {
+          getNewMessage(channel?.channelID)
+            .then(data => {
+              setLoading(false)
+            })
+            .catch(err => {
+              setLoading(false)
+            })
         })
         .catch(err => {
-          setLoading(false)
+          console.log(err)
         })
     },
     [channel, deleteMessage],

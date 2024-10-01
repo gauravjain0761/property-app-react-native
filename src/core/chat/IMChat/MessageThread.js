@@ -18,6 +18,9 @@ const MessageThread = memo(props => {
     channelItem,
     onListEndReached,
     onChatUserItemPress,
+    selectedMessages,
+    onPressItem,
+    onLongPressItem,
   } = props
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
@@ -98,7 +101,7 @@ const MessageThread = memo(props => {
     const isRecentItem = 0 === index
     const { participants } = channelItem
     return (
-      <View>
+      <View style={styles.chatcontainer}>
         <View style={styles.datecontainer}>
           <Text style={styles.date}>
             {moment(item?.date).format('DD MMMM yyyy')}
@@ -116,6 +119,9 @@ const MessageThread = memo(props => {
             onMessageLongPress={onMessageLongPress}
             isRecentItem={isRecentItem}
             onChatUserItemPress={onChatUserItemPress}
+            onPress={e => onPressItem(e)}
+            onLongPress={e => onLongPressItem(e)}
+            selectedMessages={selectedMessages}
           />
         ))}
       </View>

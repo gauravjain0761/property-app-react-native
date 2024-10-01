@@ -122,7 +122,7 @@ const dynamicStyles = (theme, appearance, outBound) => {
     // Message Thread
     nonkeyboardContainer: {},
     messageContentThreadContainer: {
-      margin: 6,
+      // margin: 6,
       justifyContent: 'flex-end',
     },
     messageThreadContainer: {
@@ -133,7 +133,7 @@ const dynamicStyles = (theme, appearance, outBound) => {
       justifyContent: 'flex-end',
       alignItems: 'flex-end',
       flexDirection: 'row',
-      marginBottom: 25,
+      // marginBottom: 25,
     },
     itemContent: {
       padding: 10,
@@ -375,9 +375,10 @@ const dynamicStyles = (theme, appearance, outBound) => {
     },
     threadReactionContainer: {
       position: 'absolute',
-      height: '100%',
+      height: '0%',
       width: '100%',
       alignItems: 'center',
+      backgroundColor: 'yellow',
     },
     reactionContainer: {
       flexDirection: 'row',
@@ -683,6 +684,16 @@ const dynamicStyles = (theme, appearance, outBound) => {
     emptyViewContainer: {
       marginTop: WINDOW_HEIGHT / 6,
     },
+    selectedMessages: {
+      backgroundColor: colorSet?.grey3,
+      // marginBottom: 20,
+    },
+    messages: {
+      paddingHorizontal: 6,
+      marginBottom: 20,
+      paddingVertical: 10,
+    },
+    chatcontainer: {},
   })
 }
 

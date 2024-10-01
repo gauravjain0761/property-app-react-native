@@ -12,6 +12,7 @@ import { IMRichTextView } from '../../mentions'
 import FacePile from './FacePile'
 import dynamicStyles, { WINDOW_HEIGHT } from './styles'
 import moment from 'moment'
+import { includes } from 'lodash'
 
 const assets = {
   boederImgSend: require('../assets/borderImg1.png'),
@@ -37,11 +38,13 @@ const ThreadItem = memo(props => {
     onMessageLongPress,
     isRecentItem,
     onChatUserItemPress,
+    onPress,
+    onLongPress,
+    selectedMessages,
   } = props
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
-  const [selectedMessages, setSelectedMessages] = useState([])
 
   const senderProfilePictureURL = item.senderProfilePictureURL
   const [seenFacepilePhotoURLs, setSeenFacepilePhotoURLs] = useState([])
@@ -193,16 +196,8 @@ const ThreadItem = memo(props => {
   }
 
   const handleOnPress = id => {
-    setSelectedMessages(prevSelectedChats => {
-      if (!prevSelectedChats?.includes(id)) {
-        // Remove the item if it's already selected
-        return [...prevSelectedChats, id]
-      }
-      return prevSelectedChats
-    })
+    onPress(id)
   }
-
-  const isSelected = id => selectedMessages?.includes(id)
 
   const handleOnLongPress = id => {
     threadRef.current.measure((x, y, width, height, pageX, pageY) => {
@@ -220,15 +215,10 @@ const ThreadItem = memo(props => {
           isAudio || isVideo || item.media,
           reactionsPosition,
         )
-      setSelectedMessages(prevSelectedChats => {
-        if (!prevSelectedChats?.includes(id)) {
-          // Add to selected if it's not already in the selected list
-          return [...prevSelectedChats, id]
-        }
-        return prevSelectedChats // No deselection on onPress
-      })
+      onLongPress(id)
     })
   }
+  const isSelected = id => selectedMessages?.includes(id)
 
   const handleOnPressOut = () => {}
 
@@ -305,7 +295,11 @@ const ThreadItem = memo(props => {
         activeOpacity={1}
         onPress={() => handleOnPress(item?.id)}
         onLongPress={() => handleOnLongPress(item?.id)}
-        onPressOut={handleOnPressOut}>
+        onPressOut={handleOnPressOut}
+        style={[
+          styles.messages,
+          isSelected(item?.id) && styles?.selectedMessages,
+        ]}>
         <View collapsable={false} ref={threadRef}>
           {/* user thread item */}
           {outBound && (
@@ -335,11 +329,7 @@ const ThreadItem = memo(props => {
                   </View>
                 )}
                 {!item.media && (
-                  <View
-                    style={[
-                      styles.myMessageBubbleContainerView,
-                      isSelected(item?.id) && { backgroundColor: 'yellow' },
-                    ]}>
+                  <View style={[styles.myMessageBubbleContainerView]}>
                     {renderInReplyToIfNeeded(item, true)}
                     {renderInReplyToStory(item, true)}
                     <View style={[styles.itemContent, styles.sendItemContent]}>
