@@ -614,12 +614,12 @@ const IMChatScreen = memo(props => {
   const onLaunchCamera = useCallback(() => {
     ImagePicker.launchCameraAsync({})
       .then(result => {
-        if (result.canceled !== true) {
-          startUpload(result.assets[0])
+        if (result?.canceled !== true) {
+          startUpload(result?.assets[0])
         }
       })
-      .catch(function (error) {
-        console.log(error)
+      .catch(error => {
+        console.log('Error', error)
       })
   }, [startUpload])
 
@@ -657,7 +657,7 @@ const IMChatScreen = memo(props => {
   }, [startUpload])
 
   const startUpload = async uploadData => {
-    setLoading(true)
+    // setLoading(true)
     const formatedData = { ...uploadData?.assets[0], ...uploadData }
     delete formatedData['assets']
 
@@ -768,7 +768,7 @@ const IMChatScreen = memo(props => {
   const onDeleteThreadItem = useCallback(
     message => {
       setLoading(true)
-      deleteMessage(channel, message?.id)
+      deleteMessage(channel, message)
         .then(() => {
           getNewMessage(channel?.channelID)
             .then(data => {

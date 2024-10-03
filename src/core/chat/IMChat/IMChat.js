@@ -213,16 +213,20 @@ const IMChat = memo(props => {
             return messages?.filter(item => messa === item?.id)
           })
           ?.flat()
+        setSelectedMessages([])
         return onDeleteThreadItem && onDeleteThreadItem(messagelist)
       }
       if (index === outBoundThreadItemSheetOptions.indexOf(REPLY)) {
         return onReplyPress(index)
       }
       if (index === outBoundThreadItemSheetOptions.indexOf(DELETE)) {
-        return onDeleteThreadItem && onDeleteThreadItem(temporaryInReplyToItem)
+        setSelectedMessages([])
+        return (
+          onDeleteThreadItem && onDeleteThreadItem([temporaryInReplyToItem])
+        )
       }
     },
-    [onDeleteThreadItem, onReplyPress],
+    [onDeleteThreadItem, onReplyPress, selectedMessages],
   )
 
   const onThreadItemActionSheetDone = useCallback(
@@ -235,7 +239,11 @@ const IMChat = memo(props => {
         }
       }
     },
-    [threadItemActionSheet.inBound, handleInBoundThreadItemActionSheet],
+    [
+      threadItemActionSheet.inBound,
+      handleInBoundThreadItemActionSheet,
+      selectedMessages,
+    ],
   )
 
   const onReactionPress = async reaction => {
@@ -296,7 +304,6 @@ const IMChat = memo(props => {
                 onThreadItemActionSheetDone(index)
                 setIsReactionsContainerVisible(false)
                 setBottomContainerVisible(true)
-                // setSelectedMessages([])
               }}>
               <Text style={styles.threadItemActionSheetOptionsText}>
                 {item}

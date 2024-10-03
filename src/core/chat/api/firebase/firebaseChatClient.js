@@ -130,14 +130,17 @@ export const deleteMessage = async (channel, messageID) => {
   }
   const instance = ChatFunctions().deleteMessage
   try {
-    const res = instance({
-      channelID: channel?.id,
-      messageID: messageID,
+    let promises = messageID?.map(async item => {
+      let response = await instance({
+        channelID: channel?.id,
+        messageID: item?.id,
+      })
+      return response
     })
-
-    return res?.data
+    const dataArray = await Promise.all(promises)
+    return dataArray?.data
   } catch (error) {
-    console.log(error)
+    console.log('EErrr', error)
     return null
   }
 }

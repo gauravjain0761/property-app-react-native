@@ -77,7 +77,6 @@ const processAndUploadMediaFile = file => {
     processMediaFile(file, ({ processedUri, thumbnail }) => {
       uploadFile(file)
         .then(downloadURL => {
-          console.log()
           if (thumbnail) {
             uploadFile(thumbnail)
               .then(thumbnailURL => {
