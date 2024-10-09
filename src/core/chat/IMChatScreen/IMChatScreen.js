@@ -611,8 +611,8 @@ const IMChatScreen = memo(props => {
     [startUpload],
   )
 
-  const onLaunchCamera = useCallback(() => {
-    ImagePicker.launchCameraAsync({})
+  const onLaunchCamera = async () => {
+    await ImagePicker.launchCameraAsync({})
       .then(result => {
         if (result?.canceled !== true) {
           startUpload(result?.assets[0])
@@ -621,7 +621,7 @@ const IMChatScreen = memo(props => {
       .catch(error => {
         console.log('Error', error)
       })
-  }, [startUpload])
+  }
 
   const onOpenPhotos = useCallback(() => {
     ImagePicker.launchImageLibraryAsync({
@@ -658,35 +658,34 @@ const IMChatScreen = memo(props => {
 
   const startUpload = async uploadData => {
     // setLoading(true)
-    const formatedData = { ...uploadData?.assets[0], ...uploadData }
-    delete formatedData['assets']
-
-    const { type } = formatedData
+    const formatedData = { ...uploadData }
+    const { type } = formatedData || {}
     if (!type) {
       console.log("Can't upload file without type")
-      console.log(formatedData)
       alert(
         localized(
           `Can\'t upload file without a media type. Please report this error with the full error logs`,
         ),
       )
     }
+    console.log('formatedData, formatedData', formatedData)
+
     const { downloadURL, thumbnailURL } =
       await storageAPI.processAndUploadMediaFile(formatedData)
-    console.log('upload upload', downloadURL)
-    if (downloadURL) {
-      setDownloadObject({
-        ...formatedData,
-        source: downloadURL,
-        uri: downloadURL,
-        url: downloadURL,
-        urlKey: '',
-        type,
-        thumbnailURL,
-        thumbnailKey: '',
-      })
-    }
-    setLoading(false)
+    console.log('downloadURL, thumbnailURL', downloadURL, thumbnailURL)
+    // if (downloadURL) {
+    //   setDownloadObject({
+    //     ...formatedData,
+    //     source: downloadURL,
+    //     uri: downloadURL,
+    //     url: downloadURL,
+    //     urlKey: '',
+    //     type,
+    //     thumbnailURL,
+    //     thumbnailKey: '',
+    //   })
+    // }
+    // setLoading(false)
   }
 
   const images = useMemo(() => {
@@ -847,7 +846,7 @@ const IMChatScreen = memo(props => {
     if (newChannel) {
       const response = await sendMessageAPI(newMessage, newChannel)
       if (response?.error) {
-        alert(response.error)
+        alert(response?.error)
         return false
       } else {
         setInReplyToItem(null)

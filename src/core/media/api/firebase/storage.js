@@ -1,5 +1,5 @@
 import { Platform } from 'react-native'
-import { uploadMediaFunctionURL } from '../../../firebase/config'
+import { DEV_MediaURL, uploadMediaFunctionURL } from '../../../firebase/config'
 import { processMediaFile } from '../../mediaProcessor'
 
 const uploadFile = async file => {
@@ -37,6 +37,7 @@ const uploadFile = async file => {
     },
   })
 
+  console.log('this this this', fileData)
   // When in release mode, we need to explicitly remove all null values set by image/video pickers, otherwise the app will crash when on App Store
   Object.keys(fileData).forEach(k => fileData[k] == null && delete fileData[k])
 
@@ -44,11 +45,12 @@ const uploadFile = async file => {
   formData.append('file', fileData)
 
   console.log(fileData)
+  console.log('FormData FormData', fileData)
   try {
-    const res = await fetch(uploadMediaFunctionURL, {
+    const res = await fetch(DEV_MediaURL, {
       method: 'POST',
       body: formData,
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers: Platform.select({
         web: new Headers({
           Accept: 'application/json',
@@ -64,8 +66,11 @@ const uploadFile = async file => {
       }),
     })
 
-    const jsonData = await res.json()
-    return jsonData?.downloadURL
+    console.log('Resssss', res)
+    console.log('res?.url res?.url', await res?.json())
+    // const jsonData = await j
+    // console.log('jsonData jsonData', JSON.stringify(await res.json()))
+    // return jsonData?.downloadURL
   } catch (error) {
     console.log('error uploading file', error)
     return null
@@ -83,7 +88,6 @@ const processAndUploadMediaFile = file => {
                 resolve({ downloadURL, thumbnailURL })
               })
               .catch(e => resolve({ error: 'photoUploadFailed' }))
-
             return
           }
           resolve({ downloadURL })

@@ -191,6 +191,7 @@ const IMChat = memo(props => {
     index => {
       if (index === 0) {
         onReplyActionPress && onReplyActionPress(temporaryInReplyToItem)
+        setSelectedMessages([])
       }
     },
     [onReplyActionPress, temporaryInReplyToItem],
@@ -207,7 +208,15 @@ const IMChat = memo(props => {
 
   const handleOutBoundThreadItemActionSheet = useCallback(
     index => {
-      if (index === outBoundThreadItemDeletedOptions.indexOf(DELETE)) {
+      console.log(
+        '>>>>>>>>>>',
+        index === outBoundThreadItemDeletedOptions.indexOf(DELETE),
+        index === outBoundThreadItemSheetOptions.indexOf(REPLY),
+      )
+      if (
+        index === outBoundThreadItemDeletedOptions.indexOf(DELETE) &&
+        selectedMessages?.length > 1
+      ) {
         let messagelist = selectedMessages
           ?.map(messa => {
             return messages?.filter(item => messa === item?.id)

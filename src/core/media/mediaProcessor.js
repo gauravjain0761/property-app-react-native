@@ -5,7 +5,7 @@ import * as VideoThumbnails from 'expo-video-thumbnails'
 import { FFmpegKit } from 'ffmpeg-kit-react-native'
 import * as ImageManipulator from 'expo-image-manipulator'
 import 'react-native-get-random-values'
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuidv4'
 
 const BASE_DIR = `${FileSystem.cacheDirectory}expo-cache/`
 
