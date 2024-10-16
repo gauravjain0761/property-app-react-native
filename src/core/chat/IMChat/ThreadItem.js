@@ -45,6 +45,7 @@ const ThreadItem = memo(props => {
   const { localized } = useTranslations()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
+  const colorSet = theme?.colors[appearance]
 
   const senderProfilePictureURL = item.senderProfilePictureURL
   const [seenFacepilePhotoURLs, setSeenFacepilePhotoURLs] = useState([])
@@ -117,7 +118,13 @@ const ThreadItem = memo(props => {
     }
     if (item.senderID === user.userID) {
       return (
-        <Image source={assets.boederImgSend} style={styles.boederImgSend} />
+        <Image
+          source={assets.boederImgSend}
+          style={{
+            ...styles.boederImgSend,
+            tintColor: isSelected(item?.id) && colorSet?.grey3,
+          }}
+        />
       )
     }
 
@@ -125,7 +132,10 @@ const ThreadItem = memo(props => {
       return (
         <Image
           source={assets.boederImgReceive}
-          style={styles.boederImgReceive}
+          style={{
+            ...styles.boederImgReceive,
+            tintColor: isSelected(item?.id) && colorSet?.grey3,
+          }}
         />
       )
     }
@@ -309,7 +319,7 @@ const ThreadItem = memo(props => {
                   <View style={styles.mediacontainer}>
                     <TouchableOpacity
                       onPress={didPressMediaChat}
-                      onLongPress={handleOnLongPress}
+                      onLongPress={() => handleOnLongPress(item?.id)}
                       activeOpacity={0.9}
                       style={[
                         styles.itemContent,

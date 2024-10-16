@@ -69,6 +69,7 @@ const IMChat = memo(props => {
     useState(false)
   const [isBottomContainerVisible, setBottomContainerVisible] = useState(true)
   const [selectedMessages, setSelectedMessages] = useState([])
+  const [types, setTypes] = useState('')
 
   const CANCEL = localized('Cancel')
   const REPLY = localized('Reply')
@@ -110,9 +111,25 @@ const IMChat = memo(props => {
   }, [onSendInput])
 
   useEffect(() => {
-    if (selectedMessages?.length > 1) {
+    if (types && selectedMessages?.length == 1) {
+      setIsReactionsContainerVisible(true)
+      setBottomContainerVisible(false)
+      setThreadItemActionSheet(prev => {
+        return {
+          options: mediaThreadItemSheetOptions,
+          ...prev,
+        }
+      })
+    } else if (types && selectedMessages?.length > 1) {
       setIsReactionsContainerVisible(false)
       setBottomContainerVisible(false)
+      setThreadItemActionSheet(prev => {
+        return {
+          options: mediaThreadItemSheetOptions,
+          ...prev,
+        }
+      })
+    } else if (selectedMessages?.length > 1) {
       setThreadItemActionSheet(prev => {
         return {
           ...prev,
@@ -120,6 +137,8 @@ const IMChat = memo(props => {
           options: outBoundThreadItemDeletedOptions,
         }
       })
+      setBottomContainerVisible(false)
+      setIsReactionsContainerVisible(false)
     } else if (selectedMessages?.length == 1) {
       setThreadItemActionSheet(prev => {
         return {
@@ -166,6 +185,7 @@ const IMChat = memo(props => {
       setTemporaryInReplyToItem(threadItem)
       // setIsReactionsContainerVisible(true)
       if (isMedia) {
+        setTypes(isMedia)
         setThreadItemActionSheet({
           options: mediaThreadItemSheetOptions,
           reactionsPosition: reactionsPosition,
@@ -208,11 +228,6 @@ const IMChat = memo(props => {
 
   const handleOutBoundThreadItemActionSheet = useCallback(
     index => {
-      console.log(
-        '>>>>>>>>>>',
-        index === outBoundThreadItemDeletedOptions.indexOf(DELETE),
-        index === outBoundThreadItemSheetOptions.indexOf(REPLY),
-      )
       if (
         index === outBoundThreadItemDeletedOptions.indexOf(DELETE) &&
         selectedMessages?.length > 1

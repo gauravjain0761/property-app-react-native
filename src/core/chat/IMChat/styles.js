@@ -251,7 +251,8 @@ const dynamicStyles = (theme, appearance, outBound) => {
       width: size(300),
       height: size(250),
       resizeMode: 'stretch',
-      tintColor: chatBackgroundColor,
+      // tintColor: chatBackgroundColor,
+      tintColor: 'yellow',
     },
     receiveTextMessage: {
       color: colorSet.primaryText,
@@ -686,7 +687,6 @@ const dynamicStyles = (theme, appearance, outBound) => {
     },
     selectedMessages: {
       backgroundColor: colorSet?.grey3,
-      // marginBottom: 20,
     },
     messages: {
       paddingHorizontal: 6,

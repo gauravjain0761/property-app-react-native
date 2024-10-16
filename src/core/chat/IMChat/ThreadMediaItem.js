@@ -12,6 +12,8 @@ export default ThreadMediaItem = memo(props => {
   const { dynamicStyles, videoRef, item, outBound } = props
   const { theme } = useTheme()
 
+  // console.log('item item', item)
+
   const isValidUrl = item.media?.url && item.media?.url?.startsWith('http')
   const uri = isValidUrl ? item.media?.url || item.url : ''
 

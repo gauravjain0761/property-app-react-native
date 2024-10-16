@@ -256,6 +256,9 @@ export const ConfigProvider = ({ children }) => {
             },
           ],
         },
+        // {
+        //   title: localized('GENERAL'),
+        // },
         {
           title: '',
           fields: [

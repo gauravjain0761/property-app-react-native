@@ -4,7 +4,7 @@ import { processMediaFile } from '../../mediaProcessor'
 
 const uploadFile = async file => {
   const uri = file?.uri
-  const type = file?.mimeType ?? 'image'
+  const type = file?.type ?? 'image'
   const fallbackName = Platform.select({
     native: uri.substring(uri?.lastIndexOf('/') + 1),
     default: 'webdefaultbase24',
@@ -17,11 +17,11 @@ const uploadFile = async file => {
 
   var fileData = Platform.select({
     web: {
+      ...file,
       name: file?.name ?? file?.fileName ?? fallbackName,
       fileName: file?.name ?? file?.fileName ?? fallbackName,
-      ...file,
       uri: file?.uri,
-      type: 'image',
+      type: type,
     },
     android: {
       ...file,
@@ -33,10 +33,9 @@ const uploadFile = async file => {
       ...file,
       name: file?.name ?? file?.fileName ?? fallbackName,
       mimetype: file?.type ?? 'image/jpeg',
-      type: 'image',
+      type: type,
     },
   })
-
   console.log('this this this', fileData)
   // When in release mode, we need to explicitly remove all null values set by image/video pickers, otherwise the app will crash when on App Store
   Object.keys(fileData).forEach(k => fileData[k] == null && delete fileData[k])
@@ -47,10 +46,10 @@ const uploadFile = async file => {
   console.log(fileData)
   console.log('FormData FormData', fileData)
   try {
-    const res = await fetch(DEV_MediaURL, {
+    const res = await fetch(uploadMediaFunctionURL, {
       method: 'POST',
       body: formData,
-      // mode: 'no-cors',
+      mode: 'no-cors',
       headers: Platform.select({
         web: new Headers({
           Accept: 'application/json',
@@ -65,12 +64,8 @@ const uploadFile = async file => {
         }),
       }),
     })
-
-    console.log('Resssss', res)
-    console.log('res?.url res?.url', await res?.json())
-    // const jsonData = await j
-    // console.log('jsonData jsonData', JSON.stringify(await res.json()))
-    // return jsonData?.downloadURL
+    const jsonData = await res.json()
+    return jsonData?.downloadURL
   } catch (error) {
     console.log('error uploading file', error)
     return null

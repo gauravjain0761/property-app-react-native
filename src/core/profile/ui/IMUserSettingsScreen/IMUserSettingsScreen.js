@@ -18,7 +18,6 @@ export default function IMUserSettingsScreen(props) {
   const dispatch = useDispatch()
 
   const form = route?.params?.form
-  console.log('form form', form)
   const initialValuesDict = currentUser.settings || {}
 
   // const [form] = useState(props.form);

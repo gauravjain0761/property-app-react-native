@@ -646,9 +646,9 @@ const IMChatScreen = memo(props => {
       const res = await DocumentPicker.getDocumentAsync()
       if (res) {
         startUpload({
-          ...res,
           type: 'file',
-          fileID: +new Date() + res.name,
+          fileID: +Date.now() + res?.assets?.[0]?.name,
+          ...res?.assets?.[0],
         })
       }
     } catch (e) {
@@ -657,9 +657,8 @@ const IMChatScreen = memo(props => {
   }, [startUpload])
 
   const startUpload = async uploadData => {
-    // setLoading(true)
-    const formatedData = { ...uploadData }
-    const { type } = formatedData || {}
+    setLoading(true)
+    const { type } = uploadData
     if (!type) {
       console.log("Can't upload file without type")
       alert(
@@ -668,24 +667,23 @@ const IMChatScreen = memo(props => {
         ),
       )
     }
-    console.log('formatedData, formatedData', formatedData)
 
     const { downloadURL, thumbnailURL } =
-      await storageAPI.processAndUploadMediaFile(formatedData)
+      await storageAPI.processAndUploadMediaFile(uploadData)
     console.log('downloadURL, thumbnailURL', downloadURL, thumbnailURL)
-    // if (downloadURL) {
-    //   setDownloadObject({
-    //     ...formatedData,
-    //     source: downloadURL,
-    //     uri: downloadURL,
-    //     url: downloadURL,
-    //     urlKey: '',
-    //     type,
-    //     thumbnailURL,
-    //     thumbnailKey: '',
-    //   })
-    // }
-    // setLoading(false)
+    if (downloadURL) {
+      setDownloadObject({
+        ...uploadData,
+        source: downloadURL,
+        uri: downloadURL,
+        url: downloadURL,
+        urlKey: '',
+        type,
+        thumbnailURL,
+        thumbnailKey: '',
+      })
+    }
+    setLoading(false)
   }
 
   const images = useMemo(() => {

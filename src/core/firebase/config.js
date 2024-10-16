@@ -10,4 +10,4 @@ export const uploadMediaFunctionURL =
   'https://us-central1-real-estate-rn-fb417.cloudfunctions.net/uploadMedia'
 
 export const DEV_MediaURL =
-  'http://127.0.0.1:5001/real-estate-rn-fb417/us-central1/uploadMedia'
+  'http://10.0.2.2:5001/real-estate-rn-fb417/us-central1/uploadMedia'

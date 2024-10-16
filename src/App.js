@@ -16,37 +16,21 @@ import { AuthProvider } from './core/onboarding/hooks/useAuth'
 import { ProfileAuthProvider } from './core/profile/hooks/useProfileAuth'
 import { authManager } from './core/onboarding/api'
 import InstamobileTheme from './theme'
-import { firestore, functions } from './core/firebase/config'
+import { functions } from './core/firebase/config'
 
 const store = configureStore()
 
 const App = () => {
   const theme = extendTheme(InstamobileTheme)
 
-  if (__DEV__) {
-    functions().useEmulator('localhost', 5001)
-    functions().useFunctionsEmulator('http://localhost:5001')
-  }
+  // if (__DEV__) {
+  //   // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
+  //   functions().useEmulator('10.0.2.2', 5001)
+  // }
 
   useEffect(() => {
     SplashScreen.hide()
     LogBox.ignoreAllLogs(true)
-  }, [])
-
-  useEffect(() => {
-    functions()
-      .httpsCallable('uploadMedia')({
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => {
-        console.log('=>>>>>> response', response)
-        // some response
-      })
-      .catch(error => {
-        console.log('error uploading file', error)
-      })
   }, [])
 
   return (

@@ -139,7 +139,6 @@ export const processMediaFile = (file, callback) => {
     })
     return
   }
-
   const includesImage = type?.includes('image')
   if (includesImage) {
     resizeImage({ image: file }, processedUri => {

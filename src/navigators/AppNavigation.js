@@ -1,5 +1,5 @@
 import React from 'react'
-import { Animated, Easing, StyleSheet } from 'react-native'
+import { Animated, Easing, StyleSheet, Text } from 'react-native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
