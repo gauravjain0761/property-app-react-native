@@ -8,16 +8,16 @@ export const TranslationContext = React.createContext({})
 
 export const TranslationProvider = ({ children, translations }) => {
   const [locale, setLocale] = useState(Localization.locale)
-
-  console.log('setting up translations')
   console.log(`local locale: ${Localization.locale} `)
   console.log(`default locale: ${locale} `)
 
   const localized = useCallback(
-    (key, config) =>
-      I18n.t(key, { ...config, locale }).includes('missing')
+    (key, config) => {
+      console.log('???????????', I18n.t(key, { ...config, locale }), key)
+      return I18n.t(key, { ...config, locale }).includes('missing')
         ? key
-        : I18n.t(key, { ...config, locale }),
+        : I18n.t(key, { ...config, locale })
+    },
     [locale],
   )
 
@@ -52,6 +52,7 @@ export const TranslationProvider = ({ children, translations }) => {
   const value = {
     localized,
     setAppLocale: setLocale,
+    locale,
   }
 
   return (

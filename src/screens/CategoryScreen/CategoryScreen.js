@@ -36,7 +36,7 @@ function CategoryScreen(props) {
     let currentTheme = theme.colors[appearance]
 
     navigation.setOptions({
-      title: 'Categories',
+      title: localized('Categories'),
       headerStyle: {
         backgroundColor: currentTheme.primaryBackground,
         borderBottomColor: currentTheme.hairline,
@@ -77,6 +77,7 @@ function CategoryScreen(props) {
     if (item.name == 'Real Estate') {
       props.navigation.navigate('SubCategoriesScreen', { item: item })
     } else {
+      console.log('itemitemitemitem', item)
       props.navigation.navigate('ListingsList', { item: item })
     }
   }
@@ -87,7 +88,7 @@ function CategoryScreen(props) {
         <Image style={styles.photo} source={{ uri: item.photo }} />
         <View style={styles.overlay} />
         <Text numberOfLines={3} style={styles.title}>
-          {item.name || item.title}
+          {localized(item.name) || localized(item.title)}
         </Text>
       </View>
     </TouchableOpacity>

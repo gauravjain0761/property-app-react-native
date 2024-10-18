@@ -6,7 +6,7 @@ import dynamicStyles from './styles'
 function IMFormComponent(props) {
   const { form, initialValuesDict, onFormChange, onFormButtonPress } = props
 
-  const { localized } = useTranslations()
+  const { localized, setAppLocale } = useTranslations()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
@@ -78,8 +78,8 @@ function IMFormComponent(props) {
   }
 
   const onActionSheetValueSelected = (selectField, selectedIndex) => {
-    if (selectedIndex < selectField.options.length) {
-      const newValue = selectField.options[selectedIndex]
+    if (selectedIndex < selectField?.displayOptions?.length) {
+      const newValue = selectField?.displayOptions[selectedIndex]
       onFormFieldValueChange(selectField, newValue)
     }
   }
@@ -101,7 +101,7 @@ function IMFormComponent(props) {
           )
         }}
         style={[styles.settingsTypeContainer, styles.appSettingsTypeContainer]}>
-        <Text style={styles.text}>{selectField.displayName}</Text>
+        <Text style={styles.text}>{selectField?.displayName}</Text>
         <Text style={styles.text}>{computeValue(selectField)}</Text>
       </TouchableOpacity>
     )
@@ -152,10 +152,10 @@ function IMFormComponent(props) {
   }
 
   const computeValue = field => {
-    if (alteredFormDict[field.key] != null) {
+    if (alteredFormDict[field?.key] != null) {
       return displayValue(field, alteredFormDict[field.key])
     }
-    if (initialValuesDict[field.key] != null) {
+    if (initialValuesDict[field?.key] != null) {
       return displayValue(field, initialValuesDict[field.key])
     }
     return displayValue(field, field.value)

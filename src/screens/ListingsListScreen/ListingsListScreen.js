@@ -74,7 +74,8 @@ function ListingsListScreen(props) {
         typeof route?.params == 'undefined' ||
         typeof route?.params.item == 'undefined'
           ? localized('Listings')
-          : route?.params?.item?.name || route?.params?.item?.title,
+          : localized(route?.params?.item?.name) ||
+            localized(route?.params?.item?.title),
       headerTintColor: currentTheme.primaryForeground,
       headerTitleStyle: { color: currentTheme.primaryText },
       headerRight: () => (

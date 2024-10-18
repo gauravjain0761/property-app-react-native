@@ -26,7 +26,7 @@ function HomeScreen(props) {
   const currentUser = useSelector(state => state.auth.user)
   const favorites = useSelector(state => state.favorites.favoriteItems)
 
-  const { localized } = useTranslations()
+  const { localized, setAppLocale } = useTranslations()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
@@ -47,7 +47,6 @@ function HomeScreen(props) {
 
   useLayoutEffect(() => {
     Location.requestForegroundPermissionsAsync()
-
     let currentTheme = theme.colors[appearance]
 
     navigation.setOptions({
@@ -345,7 +344,9 @@ function HomeScreen(props) {
             keyExtractor={item => `${item.id}`}
           />
         </View>
-        <Text style={[styles.title, styles.listingTitle]}>{'Town house'}</Text>
+        <Text style={[styles.title, styles.listingTitle]}>
+          {localized('Town house')}
+        </Text>
       </>
     )
   }

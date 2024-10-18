@@ -8,6 +8,7 @@ import { Text } from '../Text'
 import { useSpacing } from '../../../hooks/useSpacing'
 import { useDopebase } from '../../../theming'
 import dynamicStyles from './styles'
+import { useTranslations } from '../../../hooks/useTranslations'
 
 const SearchBar = props => {
   const {
@@ -27,8 +28,11 @@ const SearchBar = props => {
     defaultValue,
   } = props
 
+  console.log('placeholder placeholder', placeholder)
+
   const spacingStyles = useSpacing(props)
   const [value, setValue] = React.useState(defaultValue ?? '')
+  const { localized } = useTranslations()
 
   const textInputStyles = [
     ...spacingStyles,
@@ -47,7 +51,7 @@ const SearchBar = props => {
     <SafeAreaView style={safeAreaVewStyle}>
       <RNTextInput
         style={textInputStyles}
-        placeholder={placeholder}
+        placeholder={localized(placeholder)}
         placeholderTextColor="#aaaaaa"
         onChangeText={text => {
           setValue(text)
@@ -66,7 +70,7 @@ const SearchBar = props => {
             onChangeText('')
             onCancelButtonPress()
           }}>
-          <Text style={cancelStyle}>{cancelButtonTitle}</Text>
+          <Text style={cancelStyle}>{localized(cancelButtonTitle)}</Text>
         </TouchableOpacity>
       )}
     </SafeAreaView>

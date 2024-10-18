@@ -57,10 +57,10 @@ function SubCategoriesScreen(props) {
 
     navigation.setOptions({
       title:
-        typeof route?.params == 'undefined' ||
-        typeof route?.params.item == 'undefined'
+        typeof route?.params == undefined ||
+        typeof route?.params.item == undefined
           ? localized('Listings')
-          : 'Category' || route?.params?.item?.title,
+          : localized('Category') || route?.params?.item?.title,
       headerTintColor: currentTheme.primaryForeground,
       headerTitleStyle: { color: currentTheme.primaryText },
       headerRight: () => (

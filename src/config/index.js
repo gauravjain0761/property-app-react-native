@@ -256,9 +256,19 @@ export const ConfigProvider = ({ children }) => {
             },
           ],
         },
-        // {
-        //   title: localized('GENERAL'),
-        // },
+        {
+          title: localized('LANGUAGE'),
+          fields: [
+            {
+              displayName: localized('Select Language'),
+              type: 'select',
+              editable: true,
+              key: 'select_language',
+              default: 'English',
+              displayOptions: ['English', 'Arabic'],
+            },
+          ],
+        },
         {
           title: '',
           fields: [
