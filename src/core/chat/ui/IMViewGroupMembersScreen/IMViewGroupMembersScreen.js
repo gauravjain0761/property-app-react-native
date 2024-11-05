@@ -168,7 +168,7 @@ const IMViewGroupMembersScreen = props => {
           localized('As a group admin, "') +
             channel?.participants[selectedMemberRef.current]?.firstName +
             localized(
-              ' " will be able to manage who can join and customise the conversation',
+              'will be able to manage who can join and customise the conversation',
             ),
           [
             {
@@ -192,11 +192,11 @@ const IMViewGroupMembersScreen = props => {
     index => {
       if (index === 0) {
         Alert.alert(
-          localized('Remove from being a group admin?'),
+          localized('Remove from being a group admin'),
           '"' +
             channel?.participants[selectedMemberRef.current]?.firstName +
             localized(
-              '" will no longer be able to manage who can join and customise this conversation.',
+              'will no longer be able to manage who can join and customise this conversation',
             ),
           [
             {

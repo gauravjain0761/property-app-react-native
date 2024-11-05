@@ -57,26 +57,26 @@ export const ConfigProvider = ({ children }) => {
     onboardingConfig: {
       welcomeTitle: localized('Welcome to Instahome'),
       welcomeCaption: localized(
-        'Use our app to find or sell the perfect home instantly.',
+        'Use our app to find or sell the perfect home instantly',
       ),
       walkthroughScreens: [
         {
           icon: require('../assets/icons/logo.png'),
           title: localized('Find your perfect home'),
-          description: localized('Find the perfect house in minutes.'),
+          description: localized('Find the perfect house in minutes'),
         },
         {
           icon: require('../assets/icons/map.png'),
           title: localized('Map View'),
           description: localized(
-            'Visualize houses on the map to make your search easier.',
+            'Visualize houses on the map to make your search easier',
           ),
         },
         {
           icon: require('../assets/icons/heart.png'),
           title: localized('Saved Places'),
           description: localized(
-            'Save your favorite places to come back to them later.',
+            'Save your favorite places to come back to them later',
           ),
         },
         {
@@ -138,7 +138,7 @@ export const ConfigProvider = ({ children }) => {
         editable: true,
         regex: regexForNames,
         key: 'firstName',
-        placeholder: 'First Name',
+        placeholder: localized('First Name'),
       },
       {
         displayName: localized('Last Name'),
@@ -146,7 +146,7 @@ export const ConfigProvider = ({ children }) => {
         editable: true,
         regex: regexForNames,
         key: 'lastName',
-        placeholder: 'Last Name',
+        placeholder: localized('Last Name'),
       },
     ],
     signupFields: [
@@ -156,7 +156,7 @@ export const ConfigProvider = ({ children }) => {
         editable: true,
         regex: regexForNames,
         key: 'firstName',
-        placeholder: 'First Name',
+        placeholder: localized('First Name'),
       },
       {
         displayName: localized('Last Name'),
@@ -164,15 +164,15 @@ export const ConfigProvider = ({ children }) => {
         editable: true,
         regex: regexForNames,
         key: 'lastName',
-        placeholder: 'Last Name',
+        placeholder: localized('Last Name'),
       },
       {
-        displayName: localized('E-mail Address'),
+        displayName: localized('Email Address'),
         type: 'email-address',
         editable: true,
         regex: regexForNames,
         key: 'email',
-        placeholder: 'E-mail Address',
+        placeholder: localized('Email Address'),
         autoCapitalize: 'none',
       },
       {
@@ -182,7 +182,7 @@ export const ConfigProvider = ({ children }) => {
         editable: true,
         regex: regexForNames,
         key: 'password',
-        placeholder: 'Password',
+        placeholder: localized('Password'),
         autoCapitalize: 'none',
       },
     ],
@@ -197,7 +197,7 @@ export const ConfigProvider = ({ children }) => {
               editable: true,
               regex: regexForNames,
               key: 'firstName',
-              placeholder: 'Your first name',
+              placeholder: localized('Your first name'),
             },
             {
               displayName: localized('Last Name'),
@@ -205,7 +205,7 @@ export const ConfigProvider = ({ children }) => {
               editable: true,
               regex: regexForNames,
               key: 'lastName',
-              placeholder: 'Your last name',
+              placeholder: localized('Your last name'),
             },
           ],
         },
@@ -213,11 +213,11 @@ export const ConfigProvider = ({ children }) => {
           title: localized('PRIVATE DETAILS'),
           fields: [
             {
-              displayName: localized('E-mail Address'),
+              displayName: localized('Email Address'),
               type: 'text',
               editable: true,
               key: 'email',
-              placeholder: 'Your email address',
+              placeholder: localized('Your email address'),
             },
             {
               displayName: localized('Phone Number'),
@@ -225,7 +225,7 @@ export const ConfigProvider = ({ children }) => {
               editable: true,
               regex: regexForPhoneNumber,
               key: 'phone',
-              placeholder: 'Your phone number',
+              placeholder: localized('Your phone number'),
             },
           ],
         },
@@ -246,7 +246,7 @@ export const ConfigProvider = ({ children }) => {
             {
               ...(Platform.OS === 'ios'
                 ? {
-                    displayName: localized('Enable Face ID / Touch ID'),
+                    displayName: localized('Enable Face ID_Touch ID'),
                     type: 'switch',
                     editable: true,
                     key: 'face_id_enabled',
@@ -265,7 +265,7 @@ export const ConfigProvider = ({ children }) => {
               editable: true,
               key: 'select_language',
               default: 'English',
-              displayOptions: ['English', 'Arabic'],
+              displayOptions: ['English', 'Indonesian', 'Russian', 'Balinese'],
             },
           ],
         },
@@ -294,7 +294,7 @@ export const ConfigProvider = ({ children }) => {
               value: '142 Steiner Street, San Francisco, CA, 94115',
             },
             {
-              displayName: localized('E-mail us'),
+              displayName: localized('Email us'),
               value: 'florian@instamobile.io',
               type: 'text',
               editable: false,

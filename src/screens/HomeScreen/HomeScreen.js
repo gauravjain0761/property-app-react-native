@@ -201,7 +201,7 @@ function HomeScreen(props) {
     if (index == 1) {
       Alert.alert(
         localized('Delete Listing'),
-        localized('Are you sure you want to remove this listing?'),
+        localized('Are you sure you want to remove this listing'),
         [
           {
             text: localized('Yes'),
@@ -224,7 +224,7 @@ function HomeScreen(props) {
         if (!success) {
           alert(
             localized(
-              'There was an error deleting the listing. Please try again',
+              'There was an error deleting the listing Please try again',
             ),
           )
         }
@@ -235,8 +235,8 @@ function HomeScreen(props) {
   const renderCategoryItem = ({ item }) => (
     <TouchableOpacity onPress={() => onPressCategoryItem(item)}>
       <View style={styles.categoryItemContainer}>
-        <Image style={styles.categoryItemPhoto} source={{ uri: item.photo }} />
-        <Text style={styles.categoryItemTitle}>{item.name}</Text>
+        <Image style={styles.categoryItemPhoto} source={{ uri: item?.photo }} />
+        <Text style={styles.categoryItemTitle}>{localized(item?.name)}</Text>
       </View>
     </TouchableOpacity>
   )

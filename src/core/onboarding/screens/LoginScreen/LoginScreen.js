@@ -229,7 +229,7 @@ const LoginScreen = () => {
         <Text style={styles.title}>{localized('Sign In')}</Text>
         <TextInput
           style={styles.InputContainer}
-          placeholder={localized('E-mail')}
+          placeholder={localized('Email')}
           keyboardType="email-address"
           placeholderTextColor="#aaaaaa"
           onChangeText={text => setEmail(text)}
@@ -251,7 +251,7 @@ const LoginScreen = () => {
           <View style={styles.forgotPasswordContainer}>
             <TouchableOpacity onPress={() => onForgotPassword()}>
               <Text style={styles.forgotPasswordText}>
-                {localized('Forgot password?')}
+                {localized('Forgot password')}
               </Text>
             </TouchableOpacity>
           </View>

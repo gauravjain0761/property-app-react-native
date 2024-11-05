@@ -79,7 +79,7 @@ const SignupScreen = () => {
     if (!validateEmail(inputFields?.email?.trim())) {
       Alert.alert(
         '',
-        localized('Please enter a valid email address.'),
+        localized('Please enter a valid email address'),
         [{ text: localized('OK') }],
         {
           cancelable: false,
@@ -91,7 +91,7 @@ const SignupScreen = () => {
     if (inputFields?.password?.trim() == '') {
       Alert.alert(
         '',
-        localized('Password cannot be empty.'),
+        localized('Password cannot be empty'),
         [{ text: localized('OK') }],
         {
           cancelable: false,
@@ -108,7 +108,7 @@ const SignupScreen = () => {
       Alert.alert(
         '',
         localized(
-          'Password is too short. Please use at least 6 characters for security reasons.',
+          'Password is too short Please use at least 6 characters for security reasons',
         ),
         [{ text: localized('OK') }],
         {

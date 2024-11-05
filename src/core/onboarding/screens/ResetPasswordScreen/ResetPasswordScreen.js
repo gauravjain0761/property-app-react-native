@@ -35,7 +35,7 @@ const ResetPasswordScreen = props => {
           Alert.alert(
             localized('Link sent successfully'),
             localized(
-              'Kindly check your email and follow the link to reset your password.',
+              'Kindly check your email and follow the link to reset your password',
             ),
             [
               {
@@ -66,7 +66,7 @@ const ResetPasswordScreen = props => {
     } else {
       Alert.alert(
         localized('Invalid email'),
-        localized('The email entered is invalid. Please try again'),
+        localized('The email entered is invalid Please try again'),
         [{ text: localized('OK') }],
         { cancelable: false },
       )
@@ -84,7 +84,7 @@ const ResetPasswordScreen = props => {
         <Text style={styles.title}>{localized('Reset Password')}</Text>
         <TextInput
           style={styles.InputContainer}
-          placeholder={localized('E-mail')}
+          placeholder={localized('Email')}
           placeholderTextColor="#aaaaaa"
           onChangeText={text => setEmail(text)}
           value={email}

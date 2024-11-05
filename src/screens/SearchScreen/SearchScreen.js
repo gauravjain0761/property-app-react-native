@@ -38,7 +38,7 @@ function SearchScreen(props) {
                 onSearchButtonPress={onSearch}
                 containerStyle={styles.searchContainer}
                 searchRef={searchRef}
-                placeholder={localized('Search listings...')}
+                placeholder={localized('Search listings')}
               />
             </View>
           ),
@@ -51,7 +51,7 @@ function SearchScreen(props) {
               containerStyle={styles.searchContainer}
               onSearchButtonPress={onSearch}
               searchRef={searchRef}
-              placeholder={localized('Search listings...')}
+              placeholder={localized('Search listings')}
             />
           ),
         },

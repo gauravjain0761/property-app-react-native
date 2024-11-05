@@ -62,7 +62,7 @@ export const ProfilePictureSelector = props => {
   const onImageError = () => {
     console.log('Error loading profile photo at url ' + profilePictureURL)
     alert(
-      'There was an error in uploading your profile photo. Please try a different image',
+      'There was an error in uploading your profile photo Please try a different image',
     )
 
     // Back to original photo after erroring out
@@ -80,9 +80,7 @@ export const ProfilePictureSelector = props => {
 
       if (permissionResult.granted === false) {
         alert(
-          localized(
-            'Sorry, we need camera roll permissions to make this work.',
-          ),
+          localized('Sorry we need camera roll permissions to make this work'),
         )
       }
     }

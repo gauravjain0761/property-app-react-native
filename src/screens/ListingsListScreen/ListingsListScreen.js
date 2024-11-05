@@ -325,7 +325,7 @@ function ListingsListScreen(props) {
     const emptyStateConfig = {
       title: localized('No Listings'),
       description: localized(
-        'There are currently no listings available in this category. All listings from this category will show up here.',
+        'There are currently no listings available in this category All listings from this category will show up here',
       ),
     }
     return (

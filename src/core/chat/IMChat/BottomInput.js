@@ -77,7 +77,7 @@ const BottomInput = memo(props => {
       Alert.alert(
         localized('Audio permission denied'),
         localized(
-          'You must enable audio recording permissions in order to send a voice note.',
+          'You must enable audio recording permissions in order to send a voice note',
         ),
       )
     } else {
@@ -173,7 +173,7 @@ const BottomInput = memo(props => {
               richTextInputRef={richTextInputRef}
               initialValue={''}
               multiline={Platform.OS !== 'web'}
-              placeholder={localized('Start typing...')}
+              placeholder={localized('Start typing')}
               onChange={onChange}
               onPressOut={onTextPressOut}
               editable={!isAudioRecorderVisible}

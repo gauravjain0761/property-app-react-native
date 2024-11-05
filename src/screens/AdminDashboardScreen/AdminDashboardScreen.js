@@ -170,7 +170,7 @@ function AdminDashboardScreen(props) {
         if (success) {
           return
         }
-        alert(localized('There was an error deleting listing!'))
+        alert(localized('There was an error deleting listing'))
       },
     )
   }
@@ -261,7 +261,7 @@ function AdminDashboardScreen(props) {
       ) : (
         <View style={styles.container}>
           <Text style={styles.noMessage}>
-            {localized('There are no listings awaiting approval.')}
+            {localized('There are no listings awaiting approval')}
           </Text>
         </View>
       )}

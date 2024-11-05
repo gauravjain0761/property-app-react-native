@@ -300,15 +300,15 @@ const IMChatScreen = memo(props => {
       if (index == 0) {
         actionCallback = onUserBlockPress
         message = localized(
-          "Are you sure you want to block this user? You won't see their messages again.",
+          'Are you sure you want to block this user You wont see their messages again',
         )
       } else if (index == 1) {
         actionCallback = onUserReportPress
         message = localized(
-          "Are you sure you want to report this user? You won't see their messages again.",
+          'Are you sure you want to report this user You wont see their messages again',
         )
       }
-      Alert.alert(localized('Are you sure?'), message, [
+      Alert.alert(localized('Are you sure'), message, [
         {
           text: localized('Yes'),
           onPress: () => actionCallback(passedChannel),
@@ -412,7 +412,7 @@ const IMChatScreen = memo(props => {
       } else {
         Alert.alert(
           localized(`Leave ${passedChannel?.name ?? 'group'}`),
-          localized('Are you sure you want to leave this group?'),
+          localized('Are you sure you want to leave this group'),
           [
             {
               text: 'Yes',
@@ -433,7 +433,7 @@ const IMChatScreen = memo(props => {
       if (passedChannel?.admins?.includes(currentUser?.id)) {
         Alert.alert(
           localized('Delete Group'),
-          localized('Are you sure you want to delete this group?'),
+          localized('Are you sure you want to delete this group'),
           [
             {
               text: 'Delete Group',
@@ -663,7 +663,7 @@ const IMChatScreen = memo(props => {
       console.log("Can't upload file without type")
       alert(
         localized(
-          `Can\'t upload file without a media type. Please report this error with the full error logs`,
+          `Cant upload file without a media type Please report this error with the full error logs`,
         ),
       )
     }

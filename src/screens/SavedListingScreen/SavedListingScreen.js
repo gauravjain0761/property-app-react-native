@@ -167,7 +167,7 @@ function SavedListingScreen(props) {
   const emptyStateConfig = {
     title: localized('No Listings'),
     description: localized(
-      'You did not save any listings yet. Tap the heart icon to favorite a listing and they will show up here.',
+      'You did not save any listings yet Tap the heart icon to favorite a listing and they will show up here',
     ),
     callToAction: localized('Save Listings'),
     onPress: onEmptyStatePress,

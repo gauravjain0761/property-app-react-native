@@ -2,13 +2,13 @@ const formatMessage = (message, localized) => {
   const type = message?.media?.type
   if (type) {
     if (type.includes('video')) {
-      return localized('Someone sent a video.')
+      return localized('Someone sent a video')
     } else if (type.includes('audio')) {
-      return localized('Someone sent an audio.')
+      return localized('Someone sent an audio')
     } else if (type.includes('image')) {
-      return localized('Someone sent a photo.')
+      return localized('Someone sent a photo')
     } else if (type.includes('file')) {
-      return localized('Someone sent a file.')
+      return localized('Someone sent a file')
     }
   }
   if (message?.content && message?.content?.length > 0) {

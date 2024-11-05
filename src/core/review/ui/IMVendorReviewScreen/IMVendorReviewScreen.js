@@ -36,7 +36,7 @@ function IMVendorReview({ navigation, route }) {
   var emptyStateConfig = useMemo(() => {
     var emptyStateConfig = {
       title: localized('No reviews'),
-      description: localized('There are currently no reviews for this vendor.'),
+      description: localized('There are currently no reviews for this vendor'),
     }
 
     if (!isVendorAdmin) {

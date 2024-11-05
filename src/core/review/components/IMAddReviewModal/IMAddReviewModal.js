@@ -25,7 +25,7 @@ export default function AddReviewModal({ submitReview, close, isVisible }) {
 
   const onSubmit = () => {
     if (review.length === 0) {
-      alert(localized('Please write your review before submitting.'))
+      alert(localized('Please write your review before submitting'))
       return
     }
     submitReview(rating, review)

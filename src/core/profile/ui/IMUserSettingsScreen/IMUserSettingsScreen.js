@@ -12,13 +12,13 @@ export default function IMUserSettingsScreen(props) {
   const { navigation, route } = props
   let screenTitle = route?.params?.screenTitle || localized('Settings')
 
-  const { localized, setAppLocale, locale } = useTranslations()
+  const { localized, setAppLocale, locale, getLanguageName } = useTranslations()
   const { theme, appearance } = useTheme()
   const currentUser = useCurrentUser()
   const dispatch = useDispatch()
 
   const form = route?.params?.form
-  const languages = locale == 'ar' ? 'Arabic' : 'English'
+  const languages = getLanguageName()
   const initialValuesDict = currentUser?.settings || {
     select_language: languages,
   }
@@ -61,8 +61,15 @@ export default function IMUserSettingsScreen(props) {
     if (alteredFormDict?.select_language == 'English') {
       setAppLocale('en')
     }
-    if (alteredFormDict?.select_language == 'Arabic') {
-      setAppLocale('ar')
+    if (alteredFormDict?.select_language == 'Indonesian') {
+      setAppLocale('idn')
+    }
+    if (alteredFormDict?.select_language == 'Russian') {
+      setAppLocale('rus')
+    }
+    if (alteredFormDict?.select_language == 'Balinese') {
+      console.log('bannnnnnn')
+      setAppLocale('ban')
     }
     var newSettings = currentUser?.settings || {}
 

@@ -47,7 +47,7 @@ const IMBlockedUsersScreen = props => {
   const emptyStateConfig = {
     title: localized('No Blocked Users'),
     description: localized(
-      "You haven't blocked nor reported anyone yet. The users that you block or report will show up here.",
+      'You havent blocked or reported anyone yet The users that you block or report will show up here.',
     ),
   }
 

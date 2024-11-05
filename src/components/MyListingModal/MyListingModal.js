@@ -130,8 +130,8 @@ function MyListingModal(props) {
 
     if (index == 1) {
       Alert.alert(
-        localized('Delete listing?'),
-        localized('Are you sure you want to remove this listing?'),
+        localized('Delete listing'),
+        localized('Are you sure you want to remove this listing'),
         [
           {
             text: localized('Yes'),
@@ -166,7 +166,7 @@ function MyListingModal(props) {
         console.log('Error deleting listing: ', error)
         alert(
           localized(
-            'Oops! an error while deleting listing. Please try again later.',
+            'Oops an error while deleting listing Please try again later',
           ),
         )
       })
@@ -254,7 +254,7 @@ function MyListingModal(props) {
   const emptyStateConfig = {
     title: localized('No Listings'),
     description: localized(
-      'You did not add any listings yet. Add some listings and they will show up here.',
+      'You did not add any listings yet Add some listings and they will show up here',
     ),
     callToAction: localized('Add Listing'),
     onPress: onEmptyStatePress,

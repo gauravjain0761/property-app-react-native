@@ -13,7 +13,6 @@ export const TranslationProvider = ({ children, translations }) => {
 
   const localized = useCallback(
     (key, config) => {
-      console.log('???????????', I18n.t(key, { ...config, locale }), key)
       return I18n.t(key, { ...config, locale }).includes('missing')
         ? key
         : I18n.t(key, { ...config, locale })
@@ -49,10 +48,30 @@ export const TranslationProvider = ({ children, translations }) => {
     I18nManager.forceRTL(Localization.isRTL)
   }
 
+  const getLanguageName = () => {
+    switch (locale) {
+      case 'en':
+        return 'English'
+
+      case 'idn':
+        return 'Indonesian'
+
+      case 'rus':
+        return 'Russian'
+
+      case 'ban':
+        return 'Balinese'
+
+      default:
+        return 'English'
+    }
+  }
+
   const value = {
     localized,
     setAppLocale: setLocale,
     locale,
+    getLanguageName,
   }
 
   return (

@@ -107,7 +107,7 @@ export default function IMEditProfileScreen(props) {
     } else {
       alert(
         localized(
-          'An error occurred while trying to update your account. Please make sure all fields are valid.',
+          'An error occurred while trying to update your account Please make sure all fields are valid',
         ),
       )
     }
@@ -121,7 +121,7 @@ export default function IMEditProfileScreen(props) {
     Alert.alert(
       localized('Confirmation'),
       localized(
-        'Are you sure you want to remove your account? This will delete all your data and the action is not reversible.',
+        'Are you sure you want to remove your account This will delete all your data and the action is not reversible',
       ),
       [
         {

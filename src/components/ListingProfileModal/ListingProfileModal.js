@@ -66,7 +66,9 @@ function ListingProfileModal(props) {
   const onGetUserError = async () => {
     await setLoading(false)
     alert(
-      '0ops! an error occured  while loading profile. This user profile may be incomplete.',
+      localized(
+        'oops an error occured  while loading profile This user profile may be incomplete',
+      ),
     )
     props.navigation.goBack()
   }
@@ -179,7 +181,7 @@ function ListingProfileModal(props) {
         </View>
         <View style={styles.profileItemContainer}>
           <View style={styles.detailContainer}>
-            <Text style={styles.profileInfo}>{'Profile Info'}</Text>
+            <Text style={styles.profileInfo}>{localized('Profile Info')}</Text>
             <View style={styles.profileInfoContainer}>
               <View style={styles.profileInfoTitleContainer}>
                 <Text style={styles.profileInfoTitle}>{'Phone Number :'}</Text>
@@ -192,7 +194,7 @@ function ListingProfileModal(props) {
             </View>
           </View>
           <View style={styles.gridContainer}>
-            <Text style={styles.myListings}>{'Listings'}</Text>
+            <Text style={styles.myListings}>{localized('Listings')}</Text>
             <FlatList
               vertical
               showsVerticalScrollIndicator={false}

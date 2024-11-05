@@ -43,7 +43,7 @@ function PostModal(props) {
 
   const { selectedItem, categories } = props || {}
   const defaultState = {
-    category: { name: localized('Select...') },
+    category: { name: localized('Select_') },
     title: '',
     description: '',
     location: {
@@ -55,9 +55,9 @@ function PostModal(props) {
     price: '1000',
     textInputValue: '',
     filter: {},
-    filterValue: localized('Select...'),
-    address: 'Checking...',
-    subCategories: { name: localized('Select...') },
+    filterValue: localized('Select_'),
+    address: localized('Checking_'),
+    subCategories: { name: localized('Select_') },
   }
 
   useEffect(() => {
@@ -147,7 +147,7 @@ function PostModal(props) {
       if (Object.keys(value).length > 0) {
         newFilterValue = 'Any'
       } else {
-        newFilterValue = localized('Select...')
+        newFilterValue = localized('Select_')
       }
     }
 
@@ -166,9 +166,9 @@ function PostModal(props) {
 
   const selectFilter = () => {
     if (!category?.id) {
-      alert(localized('You must choose a category first.'))
+      alert(localized('You must choose a category first'))
     } else if (category?.name == 'Real Estate' && !selectedCategory?.id) {
-      alert(localized('You must choose a subcategory first.'))
+      alert(localized('You must choose a subcategory first'))
     } else {
       setFilterModalVisible(true)
     }
@@ -190,24 +190,24 @@ function PostModal(props) {
 
   const onPost = () => {
     if (!title) {
-      alert(localized('Title was not provided.'))
+      alert(localized('Title was not provided'))
       return
     }
     if (!description) {
-      alert(localized('Description was not set.'))
+      alert(localized('Description was not set'))
       return
     }
     if (!price) {
-      alert(localized('Price is empty.'))
+      alert(localized('Price is empty'))
       return
     }
     if (localPhotos.length == 0) {
-      alert(localized('Please choose at least one photo.'))
+      alert(localized('Please choose at least one photo'))
       return
     }
 
     if (Object.keys(filter).length == 0) {
-      alert(localized('Please set the filters.'))
+      alert(localized('Please set the filters'))
       return
     }
     setLoading(true)
@@ -287,7 +287,7 @@ function PostModal(props) {
     await setSelectedPhotoIndex(index)
     showActionSheetWithOptions(
       {
-        title: localized('Confirm to delete?'),
+        title: localized('Confirm to delete'),
         options: [localized('Confirm'), localized('Cancel')],
         cancelButtonIndex: 1,
         destructiveButtonIndex: 0,
@@ -313,8 +313,8 @@ function PostModal(props) {
         {
           title: localized('Select a photo'),
           options: [
-            localized('Take Photo...'),
-            localized('Choose from Library...'),
+            localized('Take Photo'),
+            localized('Choose from Library'),
             localized('Cancel'),
           ],
           cancelButtonIndex: 2,
@@ -334,7 +334,7 @@ function PostModal(props) {
         if (permissionResult.granted === false) {
           alert(
             localized(
-              'Sorry, we need photo library permissions to make this work.',
+              'Sorry we need photo library permissions to make this work',
             ),
           )
           return
@@ -356,7 +356,7 @@ function PostModal(props) {
 
     if (permissionResult.granted === false) {
       alert(
-        localized('Sorry, we need camera roll permissions to make this work.'),
+        localized('Sorry we need camera roll permissions to make this work'),
       )
       return
     }
@@ -454,7 +454,7 @@ function PostModal(props) {
               style={styles.input}
               value={title}
               onChangeText={text => setTitle(text)}
-              placeholder="Enter property name"
+              placeholder={localized('Enter property name')}
               placeholderTextColor={theme.colors[appearance].grey6}
               underlineColorAndroid="transparent"
             />
@@ -468,7 +468,7 @@ function PostModal(props) {
               style={styles.input}
               onChangeText={text => setDescription(text)}
               value={description}
-              placeholder="Enter property description"
+              placeholder={localized('Enter property description')}
               placeholderTextColor={theme.colors[appearance].grey6}
               underlineColorAndroid="transparent"
             />
@@ -522,7 +522,7 @@ function PostModal(props) {
                 setFilterValue(
                   category.id === option.key
                     ? filterValue
-                    : localized('Select...'),
+                    : localized('Select_'),
                 )
                 setFilter(category.id === option.key ? filter : {})
                 option.label == 'Real Estate'
@@ -552,12 +552,12 @@ function PostModal(props) {
                   setFilterValue(
                     category?.id === option.key
                       ? filterValue
-                      : localized('Select...'),
+                      : localized('Select_'),
                   )
                   setFilter(category.id === option.key ? filter : {})
                 }}>
                 <View style={styles.row}>
-                  <Text style={styles.title}>{'Sub Category'}</Text>
+                  <Text style={styles.title}>{localized('Sub Category')}</Text>
                   <Text style={styles.value}>{selectedCategory?.name}</Text>
                 </View>
               </ModalSelector>

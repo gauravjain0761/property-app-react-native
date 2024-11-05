@@ -124,8 +124,8 @@ function SingleListingScreen(props) {
 
   const onDelete = () => {
     Alert.alert(
-      localized('Delete listing?'),
-      localized('Are you sure you want to remove this listing?'),
+      localized('Delete listing'),
+      localized('Are you sure you want to remove this listing'),
       [
         {
           text: localized('Yes'),
@@ -148,7 +148,7 @@ function SingleListingScreen(props) {
       config.serverConfig.collections.savedListings,
       ({ success }) => {
         if (success) {
-          alert(localized('The listing was successfully deleted.'))
+          alert(localized('The listing was successfully deleted'))
           if (customLeft) {
             props.navigation.navigate(routeName)
           } else {
@@ -156,7 +156,7 @@ function SingleListingScreen(props) {
           }
           return
         }
-        alert(localized('There was an error deleting listing!'))
+        alert(localized('There was an error deleting listing'))
       },
     )
   }
@@ -181,7 +181,7 @@ function SingleListingScreen(props) {
 
   const onAddReview = (rating, review) => {
     if (!review) {
-      alert(localized('Please enter a review before submitting.'))
+      alert(localized('Please enter a review before submitting'))
       return
     }
     reviewAPI.postReview(
@@ -193,7 +193,7 @@ function SingleListingScreen(props) {
       config.serverConfig.collections.listings,
       ({ success }) => {
         if (success) {
-          alert(localized('Review has been submitted successfully!'))
+          alert(localized('Review has been submitted successfully'))
           // setReviewModalVisible(false)
           // return
         }
@@ -305,13 +305,13 @@ function SingleListingScreen(props) {
       }
       if (index == 0) {
         ;(actionCallback = onUserReportPress),
-          (message = localized('Are you sure you want to report this user?'))
+          (message = localized('Are you sure you want to report this user'))
       }
       if (index == 1) {
         actionCallback = onUserBlockPress
-        message = localized('Are you sure you want to block this user?')
+        message = localized('Are you sure you want to block this user')
       }
-      Alert.alert(localized('Are you sure?'), message, [
+      Alert.alert(localized('Are you sure'), message, [
         {
           text: localized('Yes'),
           onPress: () => actionCallback(otherid),

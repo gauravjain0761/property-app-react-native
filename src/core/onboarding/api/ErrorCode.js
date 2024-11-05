@@ -26,41 +26,37 @@ export const localizedErrorMessage = (errorCode, localized) => {
       )
     case ErrorCode.badEmailFormat:
       return localized(
-        'Email address is invalid. Please use a valid e-mail address.',
+        'Email address is invalid Please use a valid email address',
       )
     case ErrorCode.emailInUse:
-      return localized(
-        'The email address is already in use by another account.',
-      )
+      return localized('The email address is already in use by another account')
     case ErrorCode.phoneInUse:
       return localized(
-        'The phone number is already registered. Please try to log in instead of signing up.',
+        'The phone number is already registered Please try to log in instead of signing up',
       )
     case ErrorCode.usernameInUse:
       return localized('The username is already taken')
     case ErrorCode.invalidPassword:
       return localized(
-        'The password is invalid. Make sure it has at least 6 characters.',
+        'The password is invalid Make sure it has at least 6 characters',
       )
     case ErrorCode.noUser:
       return localized(
-        'There is no user record corresponding to this identifier. The user may have been deleted.',
+        'There is no user record corresponding to this identifier The user may have been deleted',
       )
     case ErrorCode.rateLimited:
       return localized('Too many unsuccessful login attempts')
     case ErrorCode.photoUploadFailed:
       return localized('Profile photo failed to upload')
     case ErrorCode.smsNotSent:
-      return localized(
-        'The SMS was not sent due to an error. Please try again.',
-      )
+      return localized('The SMS was not sent due to an error Please try again')
     case ErrorCode.invalidSMSCode:
-      return localized('The verification code is invalid. Please try again.')
+      return localized('The verification code is invalid Please try again')
     case ErrorCode.googleSigninFailed:
       return localized('Google Sign In Failed')
     case ErrorCode.requiresRecentLogin:
       return localized('You may need to log out and login again')
     default:
-      return localized('An error came up. Please try again. ' + errorCode)
+      return localized('An error came up Please try again ' + errorCode)
   }
 }

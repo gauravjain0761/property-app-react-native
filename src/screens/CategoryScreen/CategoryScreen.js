@@ -97,7 +97,7 @@ function CategoryScreen(props) {
   const emptyStateConfig = {
     title: localized('No Category Available'),
     description: localized(
-      'There are currently no categories available. All types of categories will show up here.',
+      'There are currently no categories available All types of categories will show up here',
     ),
   }
 

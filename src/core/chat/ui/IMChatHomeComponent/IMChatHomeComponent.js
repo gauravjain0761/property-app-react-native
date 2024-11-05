@@ -27,7 +27,7 @@ const IMChatHomeComponent = memo(props => {
   const defaultEmptyStateConfig = {
     title: localized('No Conversations'),
     description: localized(
-      'Add some friends and start chatting with them. Your conversations will show up here.',
+      'Add some friends and start chatting with them Your conversations will show up here',
     ),
     callToAction: localized('Add friends'),
     onPress: onEmptyStatePress,

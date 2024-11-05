@@ -48,9 +48,9 @@ function IMCreateGroupComponent(props) {
   )
 
   const emptyStateConfig = {
-    title: localized("You can't create groups"),
+    title: localized('You cant create groups'),
     description: localized(
-      "You don't have enough friends to create groups. Add at least 2 friends to be able to create groups.",
+      'You dont have enough friends to create groups Add at least 2 friends to be able to create groups',
     ),
     callToAction: localized('Go back'),
     onPress: onEmptyStatePress,

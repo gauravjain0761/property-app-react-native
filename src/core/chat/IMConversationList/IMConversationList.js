@@ -25,6 +25,7 @@ const IMConversationList = memo(props => {
 
   const renderConversationView = ({ item }) => {
     let { isEmailVerified, isPhoneVerified } = item || {}
+    console.log('item item item', item?.id)
     return (
       <IMConversationView
         onChatItemPress={onConversationPress}
@@ -51,7 +52,7 @@ const IMConversationList = memo(props => {
       showsVerticalScrollIndicator={false}
       data={conversations}
       renderItem={renderConversationView}
-      keyExtractor={item => `${item.id}`}
+      keyExtractor={item => `${item?.id}`}
       removeClippedSubviews={false}
       ListHeaderComponent={headerComponent}
       ListFooterComponent={

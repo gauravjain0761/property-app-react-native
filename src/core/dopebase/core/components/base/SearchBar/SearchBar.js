@@ -28,8 +28,6 @@ const SearchBar = props => {
     defaultValue,
   } = props
 
-  console.log('placeholder placeholder', placeholder)
-
   const spacingStyles = useSpacing(props)
   const [value, setValue] = React.useState(defaultValue ?? '')
   const { localized } = useTranslations()

@@ -49,13 +49,12 @@ const IMNotificationScreen = props => {
       ...notification,
       seen: true,
     })
-
   }
 
   const emptyStateConfig = {
     title: localized('No Notifications'),
     description: localized(
-      'You currently do not have any notifications. Your notifications will show up here.',
+      'You currently do not have any notifications Your notifications will show up here',
     ),
   }
 

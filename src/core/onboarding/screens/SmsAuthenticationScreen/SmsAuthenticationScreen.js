@@ -237,7 +237,6 @@ const SmsAuthenticationScreen = () => {
       })
   }
 
-
   const onPressSend = async () => {
     if (phoneRef.current.isValidNumber()) {
       const userValidPhoneNumber = phoneRef.current.getValue()
@@ -266,7 +265,7 @@ const SmsAuthenticationScreen = () => {
     } else {
       Alert.alert(
         '',
-        localized('Please enter a valid phone number.'),
+        localized('Please enter a valid phone number'),
         [{ text: localized('OK') }],
         {
           cancelable: false,
@@ -420,7 +419,7 @@ const SmsAuthenticationScreen = () => {
         {isPhoneVisible ? renderPhoneInput() : renderCodeInput()}
         {isConfirmSignUpCode && (
           <Text style={styles.orTextStyle}>
-            {localized('Please check your e-mail for a confirmation code.')}
+            {localized('Please check your email for a confirmation code')}
           </Text>
         )}
         {!isConfirmSignUpCode && (
@@ -429,7 +428,7 @@ const SmsAuthenticationScreen = () => {
             <TouchableOpacity
               style={styles.signWithEmailContainer}
               onPress={() => navigation.navigate('Signup')}>
-              <Text>{localized('Sign up with E-mail')}</Text>
+              <Text>{localized('Sign up with Email')}</Text>
             </TouchableOpacity>
           </>
         )}
@@ -456,7 +455,7 @@ const SmsAuthenticationScreen = () => {
         {isPhoneVisible ? renderPhoneInput() : renderCodeInput()}
         {isConfirmResetPasswordCode && (
           <Text style={styles.orTextStyle}>
-            {localized('Please check your e-mail for a confirmation code.')}
+            {localized('Please check your email for a confirmation code')}
           </Text>
         )}
         {config.isFacebookAuthEnabled && (
@@ -490,7 +489,7 @@ const SmsAuthenticationScreen = () => {
           style={styles.signWithEmailContainer}
           onPress={() => navigation.navigate('Login')}>
           <Text style={styles.signWithEmailText}>
-            {localized('Sign in with E-mail')}
+            {localized('Sign in with Email')}
           </Text>
         </TouchableOpacity>
       </>

@@ -35,7 +35,7 @@ function ConversationsScreen(props) {
   const emptyStateConfig = {
     title: localized('No Messages'),
     description: localized(
-      'You can contact vendors by messaging them on the listings page. Your conversations with them will show up here.',
+      'You can contact vendors by messaging them on the listings page Your conversations with them will show up here',
     ),
     callToAction: localized('Browse Listings'),
     onPress: () => {
