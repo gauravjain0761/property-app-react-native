@@ -93,11 +93,11 @@ const MainHomeStack = () => {
         headerTitleAlign: 'center',
         headerMode: 'float',
       }}>
+      <Main.Screen name="Map" component={MapScreen} />
       <Main.Screen name="Home" component={HomeScreen} />
       <Main.Screen name="ListingsList" component={ListingsListScreen} />
       <Main.Screen name="SubCategoriesScreen" component={SubCategoriesScreen} />
       <Main.Screen name="SingleListingScreen" component={SingleListingScreen} />
-      <Main.Screen name="Map" component={MapScreen} />
       <Main.Screen name="ListingProfileModal" component={ListingProfileModal} />
       <Main.Screen
         name="ListingProfileModalDetailsScreen"
@@ -110,6 +110,7 @@ const Home = createStackNavigator()
 const HomeStack = () => {
   return (
     <Home.Navigator screenOptions={{ headerMode: 'float' }}>
+      <Home.Screen name="Map" component={MapScreen} />
       <Home.Screen
         options={{ headerShown: false }}
         name="Home"
@@ -117,7 +118,6 @@ const HomeStack = () => {
       />
       <Home.Screen name="MyProfile" component={MyProfileScreen} />
       <Home.Screen name="MyListingModal" component={MyListingModal} />
-      <Home.Screen name="Map" component={MapScreen} />
       <Home.Screen name="ListingProfileModal" component={ListingProfileModal} />
       <Home.Screen name="SavedListingModal" component={SavedListingScreen} />
       <Home.Screen

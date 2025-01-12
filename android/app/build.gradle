@@ -103,6 +103,8 @@ android {
         jumboMode true
     }
 
+    namespace "io.instamobile.rnrealestate"
+
     defaultConfig {
         applicationId "io.instamobile.rnrealestate"
         minSdkVersion rootProject.ext.minSdkVersion

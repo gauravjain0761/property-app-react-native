@@ -64,6 +64,7 @@ const icons = {
   verify: require('../assets/icons/verify.png'),
   dots: require('../assets/icons/dots.png'),
   current_location: require('../assets/icons/current_location.png'),
+  menu: require('../assets/icons/menu.png'),
 }
 
 const lightColors = {

@@ -18,20 +18,68 @@ function MapScreen(props) {
   const mapRef = useRef(null)
 
   const favorites = useSelector(state => state.favorites.favoriteItems)
+  const currentUser = useSelector(state => state.auth.user)
 
   useLayoutEffect(() => {
+    Location.requestForegroundPermissionsAsync()
     let currentTheme = theme.colors[appearance]
 
     navigation.setOptions({
-      title: localized('Map View'),
-      headerTintColor: currentTheme.primaryForeground,
-      headerTitleStyle: { color: currentTheme.primaryText },
+      title: localized('Home'),
+      headerLeft: () => {
+        return (
+          <TouchableOpacity
+            onPress={() => {
+              if (!currentUser?.id) {
+                navigation.navigate('DelayedLogin')
+                return
+              }
+              navigation.navigate('MyProfile')
+            }}>
+            {currentUser?.profilePictureURL ? (
+              <Image
+                style={styles.userPhoto}
+                contentFit={'cover'}
+                source={{ uri: currentUser?.profilePictureURL }}
+              />
+            ) : (
+              <Image
+                style={styles.userPhoto}
+                contentFit={'cover'}
+                source={theme.icons.userAvatar}
+              />
+            )}
+          </TouchableOpacity>
+        )
+      },
+      headerRight: () => (
+        <View style={{ flexDirection: 'row', marginTop: 12 }}>
+          <HeaderButton
+            customStyle={styles.composeButton}
+            icon={theme.icons.compose}
+            onPress={() => {
+              if (!currentUser?.id) {
+                navigation.navigate('DelayedLogin')
+                return
+              }
+              onPressPost()
+            }}
+          />
+          <HeaderButton
+            customStyle={styles.mapButton}
+            icon={theme.icons.menu}
+            onPress={() => {
+              navigation.navigate('Home')
+            }}
+          />
+        </View>
+      ),
       headerStyle: {
         backgroundColor: currentTheme.primaryBackground,
         borderBottomColor: currentTheme.hairline,
       },
     })
-  }, [])
+  }, [currentUser])
 
   const item = route?.params?.item
 
