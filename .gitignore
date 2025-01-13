@@ -20,7 +20,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-ios/.xcode.env.local
+**/.xcode.env.local
 project.xcworkspace
 
 package-lock.json
@@ -61,7 +61,7 @@ buck-out/
 *.jsbundle
 
 # CocoaPods
-/ios/Pods/
+**/Pods/
 /vendor/bundle/
 
 iOS-certificates/
@@ -86,3 +86,14 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 #amplify-do-not-edit-end
+
+# testing
+/coverage
+ 
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
