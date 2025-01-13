@@ -11,6 +11,10 @@
     },
     "ios": {
       "googleServicesFile": "./ios/Instamobile/GoogleService-Info.plist"
-    }
+    },
+    "plugins": [
+      "expo-localization",
+      "expo-tracking-transparency"
+    ]
   }
 }
